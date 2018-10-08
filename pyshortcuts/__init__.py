@@ -1,3 +1,5 @@
+#!/usr/bin/env python
 
-from .homedir import get_homedir
-from .pyshortcuts import make_shortcut
+from .main import make_shortcut, shortcut_cli
+
+__version__ = '1.0'
