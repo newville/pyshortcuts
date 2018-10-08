@@ -66,3 +66,13 @@ def get_homedir():
     if home is None:
         home = os.path.abspath('.')
     return nativepath(home)
+
+
+def get_paths(scriptname, icon_path=None):
+    "get paths for desktop, script, and icon_path"
+    desktop = os.path.join(get_homedir(), 'Desktop')
+    script = os.path.abspath(script)
+    spath, sname =  os.path.split(script)
+    if icon_path is None:
+        icon_path = spath
+    return desktop, scriptname, icon_path
