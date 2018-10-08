@@ -42,14 +42,11 @@ def shortcut_cli():
     (options, args) = parser.parse_args()
 
 
-    print(options, args)
-    print(options.icon, options.name, options.terminal)
 
     if len(args) != 1:
         print("pyshortcuts: must provide script.  try 'pyshortcuts -h'")
         sys.exit()
 
-    print("create shortcut ", options, args)
     name = desc = scriptname = args[0]
 
     if options.name  is not None:
@@ -57,7 +54,7 @@ def shortcut_cli():
 
     _, osname = make_shortcut.__module__.split('.')
 
-    print("creating shortcut for %s for script %s" % (osname, scriptname))
+    print("creating %s shortcut for script %s" % (osname, scriptname))
 
     make_shortcut(scriptname, name, terminal=options.terminal,
                   icon_path=options.icon_path, icon=options.icon)

@@ -32,5 +32,5 @@ setup(name='pyshortcuts',
           'Operating System :: POSIX',
           'Programming Language :: Python',
           ],
-      entry_points = {'console_scripts' : ['pyshortcuts = pyshortcuts.main:shortcut_cli']}
+      entry_points = {'console_scripts' : ['pyshortcuts = pyshortcuts:shortcut_cli']}
       )
