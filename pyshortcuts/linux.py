@@ -6,7 +6,7 @@ from __future__ import print_function
 import os
 import sys
 
-from .homedir import get_path
+from .homedir import get_paths
 
 def make_shortcut(script, name, description=None, terminal=False,
                   icon_path=None, icon=None):
