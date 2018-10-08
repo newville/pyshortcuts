@@ -75,4 +75,4 @@ def get_paths(scriptname, icon_path=None):
     spath, sname =  os.path.split(scriptname)
     if icon_path is None:
         icon_path = spath
-    return desktop, scriptname, icon_path
+    return desktop, scriptname, os.path.abspath(icon_path)
