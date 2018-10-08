@@ -7,7 +7,7 @@ import os
 import sys
 import shutil
 
-from .homedir import get_paths
+from .utils import get_paths
 
 def fix_anacondapy_pythonw(fname):
     """fix shebang line for scripts using anaconda python
