@@ -33,7 +33,7 @@ def make_shortcut(script, name, description=None, icon=None, terminal=False):
         description = name
 
     desktop = os.path.join(get_homedir(), 'Desktop')
-    script = os.path.abspath(script)`
+    script = os.path.abspath(script)
 
     pyexe = sys.executable
     if 'Anaconda' in sys.version:
