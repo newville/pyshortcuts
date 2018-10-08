@@ -6,9 +6,10 @@ from __future__ import print_function
 import os
 import sys
 
-from .homedir import get_homedir
+from .homedir import get_homedir, get_paths
 
-def make_shortcut(script, name, description=None, icon=None, terminal=False):
+def make_shortcut(script, name, description=None, terminal=False,
+                  icon_path=None, icon=None):
     """create windows shortcut"""
     from win32com.client import Dispatch
 
@@ -16,12 +17,11 @@ def make_shortcut(script, name, description=None, icon=None, terminal=False):
         description = name
 
     homedir = get_homedir()
-    desktop = os.path.join(homedir, 'Desktop')
+    desktop, target, icon_path = get_paths(script, icon_path)
 
     pyexe = os.path.join(sys.prefix, 'pythonw.exe')
     if terminal:
         pyexe = os.path.join(sys.prefix, 'python.exe')
-    target = script
 
     # add several checks for valid ways to run each script, including
     # accounting for Anaconda's automagic renaming and creation of exes.
@@ -50,5 +50,5 @@ def make_shortcut(script, name, description=None, icon=None, terminal=False):
     shortcut.WindowStyle = 0
     shortcut.Description = description
     if icon is not None:
-        shortcut.IconLocation = icon
+        shortcut.IconLocation = os.path.join(icon_path, icon + '.ico')
     shortcut.save()

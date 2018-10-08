@@ -71,8 +71,8 @@ def get_homedir():
 def get_paths(scriptname, icon_path=None):
     "get paths for desktop, script, and icon_path"
     desktop = os.path.join(get_homedir(), 'Desktop')
-    script = os.path.abspath(script)
-    spath, sname =  os.path.split(script)
+    scriptname = os.path.abspath(scriptname)
+    spath, sname =  os.path.split(scriptname)
     if icon_path is None:
         icon_path = spath
     return desktop, scriptname, icon_path

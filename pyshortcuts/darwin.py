@@ -7,7 +7,7 @@ import os
 import sys
 import shutil
 
-from .homedir import get_homedir
+from .homedir import get_paths
 
 def fix_anacondapy_pythonw(fname):
     """fix shebang line for scripts using anaconda python
@@ -27,13 +27,13 @@ def fix_anacondapy_pythonw(fname):
         fh.write("".join(lines[1:]))
         fh.close()
 
-def make_shortcut(script, name, description=None, icon=None, terminal=False):
+def make_shortcut(script, name, description=None, terminal=False,
+                  icon_path=None, icon=None):
     """create minimal Mac App to run script"""
     if description is None:
         description = name
 
-    desktop = os.path.join(get_homedir(), 'Desktop')
-    script = os.path.abspath(script)
+    desktop, script, icon_path = get_paths(script, icon_path)
 
     pyexe = sys.executable
     if 'Anaconda' in sys.version:
@@ -87,4 +87,5 @@ osascript -e 'tell application "Terminal" to do script "'${{PY}}\ ${{SCRIPT}}'"'
     os.chmod(ascript_name, 493) ## = octal 755 / rwxr-xr-x
     if icon is not None:
         icon_dest = os.path.join(dest, 'Contents', 'Resources', name + '.icns')
-        shutil.copy(icon, icon_dest)
+        icon_src = os.path.join(icon_path, icon + '.icns')
+        shutil.copy(icon_src, icon_dest)

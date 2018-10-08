@@ -30,8 +30,11 @@ def shortcut_cli():
     parser.add_option("-n", "--name", dest="name", metavar='link_name',
                       default=None, help="name for shortcut link")
 
-    parser.add_option("-i", "--icon", dest="icon", metavar='iconname',
+    parser.add_option("-i", "--icon", dest="icon", metavar='icon_name',
                       default=None, help="name of icon file")
+
+    parser.add_option("-p", "--path", dest="icon_path", metavar='icon_path',
+                      default=None, help="path to icon resource folder")
 
     parser.add_option("-t", "--terminal", dest="terminal", action="store_true",
                       default=False, help="run in a Terminal")
@@ -56,5 +59,5 @@ def shortcut_cli():
 
     print("creating shortcut for %s for script %s" % (osname, scriptname))
 
-    make_shortcut(scriptname, name, icon=options.icon,
-                  terminal=options.terminal)
+    make_shortcut(scriptname, name, terminal=options.terminal,
+                  icon_path=options.icon_path, icon=options.icon)

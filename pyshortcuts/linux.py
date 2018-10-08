@@ -6,15 +6,15 @@ from __future__ import print_function
 import os
 import sys
 
-from .homedir import get_homedir
+from .homedir import get_path
 
-def make_shortcut(script, name, description=None, icon=None, terminal=False):
+def make_shortcut(script, name, description=None, terminal=False,
+                  icon_path=None, icon=None):
     """create linux .desktop file"""
     if description is None:
         description = name
 
-    desktop = os.path.join(get_homedir(), 'Desktop')
-    script = os.path.abspath(script)
+    desktop, script, icon_path = get_paths(script, icon_path)
 
     buff = ['[Desktop Entry]']
     buff.append('Name=%s' % name)
@@ -25,7 +25,7 @@ def make_shortcut(script, name, description=None, icon=None, terminal=False):
     else:
         buff.append('Terminal=false')
     if icon:
-        buff.append('Icon=%s' % icon)
+        buff.append('Icon=%s' % os.path.join(icon_path, '%s.ico' % icon))
 
     buff.append('Exec=%s' % script)
     buff.append('')
