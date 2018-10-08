@@ -17,8 +17,8 @@ python script (say as part of a setup.py installation) as with
 
 from pyshortcuts import make_shortcut
 
-make_shortcut('MyApp', 'application_script.py', 'My Application',
-	'path/to/my_icon')
+make_shortcut('/home/user/bin/myapp.py', 'MyApp',
+	      icon_path='/home/user/icons', icon='myicon')
 
 ```
 
@@ -26,6 +26,16 @@ or by using  the `pyshortcut` command-line application, as with:
 
 
 ```
-~> pyshortcut -n MyApp -i /home/icon.ico /home/bin/myapp.py
+~> pyshortcut -n MyApp -i myicon -p /home/user/icons  /home/user/bin/myapp.py
 
 ```
+
+
+or, to make a shortcut for an application to run in a Terminal, use:
+
+
+```
+~> pyshortcuts -n Timer  -p icons -i stopwatch -t  console_scripts/timer.py
+
+```
+
