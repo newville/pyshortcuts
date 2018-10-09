@@ -27,7 +27,7 @@ def make_shortcut(script, name, description=None, terminal=False,
     if icon:
         buff.append('Icon=%s' % os.path.join(icon_path, '%s.ico' % icon))
 
-    buff.append('Exec=%s' % script)
+    buff.append('Exec=%s %s' % (sys.executable, script))
     buff.append('')
 
     with open(os.path.join(desktop, '%s.desktop' % name), 'w') as fout:
