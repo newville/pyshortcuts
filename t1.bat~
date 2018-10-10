@@ -1,0 +1,2 @@
+
+pyshortcuts -n Timer -p examples\icons -i stopwatch -t  examples\\console_scripts\\timer.py
