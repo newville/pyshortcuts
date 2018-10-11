@@ -20,11 +20,9 @@ python script (say as part of a installation or post-installation process)
 as with
 
 ```
-
 from pyshortcuts import make_shortcut
 
 make_shortcut('/home/user/bin/myapp.py', 'MyApp', icon='/home/user/icons/myicon.ico')
-
 ```
 
 or by using  the `pyshortcut` for a command-line application as with:
@@ -32,7 +30,6 @@ or by using  the `pyshortcut` for a command-line application as with:
 
 ```
 ~> pyshortcut -n MyApp -i /home/user/icons/myicon.icns -t "/home/user/bin/myapp.py -a"
-
 ```
 
 The `pyshortcut` command line program has the following optional arguments:
