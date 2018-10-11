@@ -6,29 +6,29 @@ from __future__ import print_function
 import os
 import sys
 
-from .utils import get_paths
+from .shortcut import Shortcut
 
 def make_shortcut(script, name, description=None, terminal=False,
-                  icon_path=None, icon=None):
+                  folder=None, icon=None):
     """create linux .desktop file"""
     if description is None:
         description = name
 
-    desktop, script, icon_path = get_paths(script, icon_path)
+    scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
 
     buff = ['[Desktop Entry]']
-    buff.append('Name=%s' % name)
+    buff.append('Name=%s' % scut.name)
     buff.append('Type=Application')
     buff.append('Comment=%s' % description)
     if terminal:
         buff.append('Terminal=true')
     else:
         buff.append('Terminal=false')
-    if icon:
-        buff.append('Icon=%s' % os.path.join(icon_path, '%s.ico' % icon))
 
-    buff.append('Exec=%s %s' % (sys.executable, script))
+    buff.append('Icon=%s' % scut.icon)
+
+    buff.append('Exec=%s %s %s' % (sys.executable, scut.full_script, scut.args))
     buff.append('')
 
-    with open(os.path.join(desktop, '%s.desktop' % name), 'w') as fout:
+    with open(scut.target, 'w') as fout:
         fout.write("\n".join(buff))
