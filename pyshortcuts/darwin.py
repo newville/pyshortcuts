@@ -7,7 +7,7 @@ import os
 import sys
 import shutil
 
-from .utils import get_paths
+from .shortcut import Shortcut
 
 def fix_anacondapy_pythonw(fname):
     """fix shebang line for scripts using anaconda python
@@ -27,27 +27,35 @@ def fix_anacondapy_pythonw(fname):
         fh.write("".join(lines[1:]))
         fh.close()
 
-def make_shortcut(script, name, description=None, terminal=False,
-                  icon_path=None, icon=None):
+def make_shortcut(script, name=None, description=None, terminal=False,
+                  folder=None, icon=None):
     """create minimal Mac App to run script"""
-    if description is None:
-        description = name
+    scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
 
-    desktop, script, icon_path = get_paths(script, icon_path)
+    # script, folder, icon = fix_paths(script, folder, icon_path, icon)
+    osascript = '%s %s' % (scut.full_script, scut.args)
+    osascript = osascript.replace(' ', '\\ ')
 
     pyexe = sys.executable
     if 'Anaconda' in sys.version:
         pyexe = "{prefix:s}/python.app/Contents/MacOS/python".format(prefix=sys.prefix)
-        fix_anacondapy_pythonw(script)
-    dest = os.path.join(desktop, name + '.app')
+        fix_anacondapy_pythonw(scut.full_script)
+
+
+    dest = scut.target
     if os.path.exists(dest):
         shutil.rmtree(dest)
     os.mkdir(dest)
     os.mkdir(os.path.join(dest, 'Contents'))
     os.mkdir(os.path.join(dest, 'Contents', 'MacOS'))
     os.mkdir(os.path.join(dest, 'Contents', 'Resources'))
-    opts = dict(name=name, desc=description, script=script,
-                prefix=sys.prefix, pyexe=pyexe)
+    opts = dict(name=scut.name,
+                desc=scut.description,
+                script=scut.full_script,
+                args=scut.args,
+                prefix=sys.prefix,
+                pyexe=pyexe,
+                osascript=osascript)
 
     info = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
@@ -68,11 +76,15 @@ def make_shortcut(script, name, description=None, terminal=False,
 export PYTHONEXECUTABLE={prefix:s}/bin/python
 export PY={pyexe:s}
 export SCRIPT={script:s}
+export ARGS='{args:s}'
 """
-    text = "$PY $SCRIPT"
+    text = "$PY $SCRIPT $ARGS"
     if terminal:
         text = """
-osascript -e 'tell application "Terminal" to do script "'${{PY}}\ ${{SCRIPT}}'"'
+osascript -e 'tell application "Terminal"
+   do script "'${{PY}}\ {osascript:s}'"
+end tell
+'
 """
 
     with open(os.path.join(dest, 'Contents', 'Info.plist'), 'w') as fout:
@@ -85,7 +97,5 @@ osascript -e 'tell application "Terminal" to do script "'${{PY}}\ ${{SCRIPT}}'"'
         fout.write("\n")
 
     os.chmod(ascript_name, 493) ## = octal 755 / rwxr-xr-x
-    if icon is not None:
-        icon_dest = os.path.join(dest, 'Contents', 'Resources', name + '.icns')
-        icon_src = os.path.join(icon_path, icon + '.icns')
-        shutil.copy(icon_src, icon_dest)
+    icon_dest = os.path.join(dest, 'Contents', 'Resources', name + '.icns')
+    shutil.copy(scut.icon, icon_dest)
