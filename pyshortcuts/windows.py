@@ -18,7 +18,6 @@ def make_shortcut(script, name, description=None, terminal=False,
                     folder=folder, icon=icon)
 
     homedir = get_homedir()
-    desktop, sname, icon_path = get_paths(script, icon_path)
 
     pyexe = os.path.join(sys.prefix, 'pythonw.exe')
     if terminal:
@@ -34,7 +33,7 @@ def make_shortcut(script, name, description=None, terminal=False,
 
     wscript = Dispatch('WScript.Shell').CreateShortCut(scut.target)
     wscript.Targetpath = '"%s"' % pyexe
-    wscript.Arguments = ' ' % (scut.full_script, scut.args)
+    wscript.Arguments = '%s %s' % (scut.full_script, scut.args)
     wscript.WorkingDirectory = homedir
     wscript.WindowStyle = 0
     wscript.Description = scut.description
