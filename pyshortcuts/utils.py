@@ -1,9 +1,18 @@
 #!/usr/bin/env python
 """
-get home directory
-"""
+utilities for pyshortcuts
+  get_homedir()  get home directory
+  get_paths()
 
+"""
 import os
+import sys
+
+
+platform = sys.platform
+if os.name == 'nt':
+    platform = 'win'
+
 
 def unixpath(d):
     "unix path"
@@ -17,7 +26,7 @@ def winpath(d):
     return d
 
 nativepath = unixpath
-if os.name == 'nt':
+if platform == 'win':
     nativepath = winpath
 
 HAS_PWD = True
@@ -68,11 +77,30 @@ def get_homedir():
     return nativepath(home)
 
 
-def get_paths(scriptname, icon_path=None):
-    "get paths for desktop, script, and icon_path"
-    desktop = os.path.join(get_homedir(), 'Desktop')
-    scriptname = os.path.abspath(scriptname)
-    spath, sname =  os.path.split(scriptname)
+def fix_paths(script, folder=None, icon_path=None, icon=None):
+    """get absolute paths to
+
+    1.  script
+    2.  desktop folder or subfolder (creating if needed)
+    3.  icon
+
+    """
+    scriptname = os.path.abspath(script)
+
+    dest = os.path.join(get_homedir(), 'Desktop')
+    if folder is not None:
+        dest = os.path.join(dest, folder)
+        if not os.path.exists(dest):
+            os.mkdir(dest)
+
     if icon_path is None:
-        icon_path = spath
-    return desktop, scriptname, os.path.abspath(icon_path)
+        _path, _fname = os.path.split(__file__)
+        icon_path = os.path.join(_path, 'icons')
+    if icon is None:
+        icon = 'py'
+    ext = '.ico'
+    if platform.startswith('darwin'):
+        ext = '.icns'
+    iconfile = os.path.abspath(os.path.join(icon_path, icon + ext))
+
+    return scriptname, dest, iconfile
