@@ -37,12 +37,6 @@ or by using  the `pyshortcut` for a command-line application as with:
 
 The `pyshortcut` command line program has the following optional arguments:
 
-
-  *  `-n NAME` or `--name=NAME` name to show for the shortcut.
-  *  `-i ICON` or `--icon=ICON` name of icon  (file with `.ico` or `.icns`  extension).
-  *  `-p PATH` or `--path=PATH` path to icon file.
-  *  `-t`            run in terminal mode instead of GUI mode.
-
   * `--version`           show program's version number and exit
   * `-h`, `--help`        show help message and exit
   * `-n link_name`, `--name=link_name`  name for shortcut link
