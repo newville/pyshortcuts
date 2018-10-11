@@ -32,7 +32,6 @@ def make_shortcut(script, name=None, description=None, terminal=False,
     """create minimal Mac App to run script"""
     scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
 
-    # script, folder, icon = fix_paths(script, folder, icon_path, icon)
     osascript = '%s %s' % (scut.full_script, scut.args)
     osascript = osascript.replace(' ', '\\ ')
 

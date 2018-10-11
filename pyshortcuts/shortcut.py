@@ -40,11 +40,12 @@ class Shortcut():
       icon          name of icon file (full path) for shortcut (`None` for default)
 
     Contains:
+      name          name for shortcut
       script        name of python script to be run
       full_script   full name of python script to be run
       args          command line arguments
       target        full name of shortcut to create
-      icon          full name of icon to use.
+      icon          full name of icon to use
     """
     def __init__(self, script, name=None, description=None,
                  folder=None, icon=None):
@@ -57,9 +58,10 @@ class Shortcut():
         self.full_script = os.path.abspath(self.script)
 
         if name is None:
-            name = fix_filename(self.script)
-            if name.endswith('.py'):
-                name = name[:-3]
+            name = self.script
+        name = fix_filename(name)
+        if name.endswith('.py'):
+            name = name[:-3]
 
         self.name = name
         self.description = description
