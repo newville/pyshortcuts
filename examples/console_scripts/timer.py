@@ -1,3 +1,4 @@
+import sys
 from time import sleep, time
 from datetime import datetime
 
@@ -24,7 +25,7 @@ t0 = time()
 while True:
     sleep(update)
     print("%s : %.3f " % (datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'), time()-t0))
-
+    sys.stdout.flush()
     if maxtime is not None and (time()-t0 > maxtime):
         break
 
