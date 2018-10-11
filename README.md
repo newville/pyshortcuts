@@ -15,7 +15,6 @@ move, or delete the shortcut.
 The shortcuts created by pyshortcuts can have custom icons (`.ico` files on
 Windows or Linux, or `.icns` files on MacOS), defaulting to a Python icon.
 
-
 Pyshortcuts has a small footprint and is very easy to use either from a
 python script (say as part of a installation or post-installation process)
 as with
@@ -32,15 +31,25 @@ or by using  the `pyshortcut` for a command-line application as with:
 
 
 ```
-~> pyshortcut -n MyApp -i myicon -p /home/user/icons -t "/home/user/bin/myapp.py -a"
+~> pyshortcut -n MyApp -i /home/user/icons/myicon.icns -t "/home/user/bin/myapp.py -a"
 
 ```
 
-
-The `pyshortcut` command-line program has the following optional arguments:
+The `pyshortcut` command line program has the following optional arguments:
 
 
   *  `-n NAME` or `--name=NAME` name to show for the shortcut.
   *  `-i ICON` or `--icon=ICON` name of icon  (file with `.ico` or `.icns`  extension).
   *  `-p PATH` or `--path=PATH` path to icon file.
   *  `-t`            run in terminal mode instead of GUI mode.
+
+  * `--version`           show program's version number and exit
+  * `-h`, `--help`        show help message and exit
+  * `-n link_name`, `--name=link_name`  name for shortcut link
+  * `-i icon_name`, `--icon=icon_name`  name of icon file
+  * `-f subfolder`, `--folder=subfolder` subfolder on desktop to put icon
+  * `-t`, `--terminal`   run in a Terminal [False]
+
+
+Note that running in the Terminal or command window is not set by default.
+Many command-line tools will need this.
