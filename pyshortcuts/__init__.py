@@ -2,6 +2,10 @@
 
 __version__ = '1.0'
 
+import os
+import sys
+from optparse import OptionParser
+
 from .utils import platform
 
 make_shortcut = None
