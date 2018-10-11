@@ -32,5 +32,6 @@ setup(name='pyshortcuts',
           'Operating System :: POSIX',
           'Programming Language :: Python',
           ],
-      entry_points = {'console_scripts' : ['pyshortcuts = pyshortcuts:shortcut_cli']}
+      package_data={'pyshortcuts': ['icons/*']},
+      entry_points={'console_scripts' : ['pyshortcuts = pyshortcuts:shortcut_cli']}
       )
