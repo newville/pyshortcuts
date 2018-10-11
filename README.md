@@ -24,8 +24,7 @@ as with
 
 from pyshortcuts import make_shortcut
 
-make_shortcut('/home/user/bin/myapp.py', 'MyApp',
-	      icon_path='/home/user/icons', icon='myicon')
+make_shortcut('/home/user/bin/myapp.py', 'MyApp', icon='/home/user/icons/myicon.ico')
 
 ```
 

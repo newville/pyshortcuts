@@ -1,3 +1,3 @@
 # Examples
 
-pyshortcuts -n Timer -p icons -i stopwatch -t  'console_scripts/timer.py -u 0.1 -t 300'
+pyshortcut -n Timer  -i icons/stopwatch -t  'console_scripts/timer.py -u 0.5 -t 30'
