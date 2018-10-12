@@ -8,7 +8,7 @@ import sys
 
 from .shortcut import Shortcut
 
-def make_shortcut(script, name, description=None, terminal=True,
+def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
     """create linux .desktop file"""
     if description is None:
