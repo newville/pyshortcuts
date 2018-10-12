@@ -35,8 +35,10 @@ or
 conda install -c gsecars pyshortcuts
 ```
 
-Pyshortcut requires the pywin32 package on Windows.  In order to use the
-pyshortcut GUI, the wxPython package is required.
+Pyshortcut requires the pywin32 package on Windows. This should be
+installed automatically with either of the above install methods.
+
+In order to use the pyshortcut GUI, the wxPython package is required.
 
 ## usage from Python
 
@@ -53,11 +55,11 @@ make_shortcut('/home/user/bin/myapp.py', name='MyApp',
 The arguments to `make_shortcut` are:
 
   * `script`   (str)  path to script to run.  This can include  command-line arguments
-  * `name`   (str or None)  name to use for shortcut (defaults to script name)
-  * `description`   (str or None)  longer description of script (defaults to `name`)
-  * `icon`   (str or None) path to icon file (defaults to python icon)
-  * `folder`   (str or None) folder on Desktop to put shortcut
-  * `terminal`   (True or False) whether to run in a Terminal
+  * `name`   (str or None)  name to use for shortcut [defaults to script name]
+  * `description`   (str or None)  longer description of script [defaults to `name`]
+  * `icon`   (str or None) path to icon file [defaults to python icon]
+  * `folder`   (str or None) folder on Desktop to put shortcut   [defaults to Desktop]
+  * `terminal`   (True or False) whether to run in a Terminal [True]
 
 ##  `pyshortcut` command-line program
 
@@ -111,8 +113,12 @@ the `examples` folder) will create a shortcut for the pyshortcut GUI:
 #!/usr/bin/env python
 import os
 import sys
-from pyshortcuts import make_shortcut
+from pyshortcuts import make_shortcut, platform
 
-make_shortcut("%s --wxgui" % os.path.join(sys.exec_prefix, 'bin', 'pyshortcut'),
+bindir = 'bin'
+if platform.startswith('win'):
+    bindir = 'Scripts'
+
+make_shortcut("%s --wxgui" % os.path.join(sys.prefix, bindir, 'pyshortcut'),
               name='PyShortcut', terminal=False)
 ```
