@@ -59,6 +59,8 @@ class Shortcut():
 
         if name is None:
             name = self.script
+
+        _, name = os.path.split(name)
         name = fix_filename(name)
         if name.endswith('.py'):
             name = name[:-3]
@@ -68,20 +70,21 @@ class Shortcut():
         if self.description is None:
             description = name
 
-        dest = os.path.join(get_homedir(), 'Desktop')
-        if folder is not None:
-            dest = os.path.join(dest, folder)
-            if not os.path.exists(dest):
-                os.mkdir(dest)
+        desktop = dest = os.path.join(get_homedir(), 'Desktop')
+        if folder is not None and folder.startswith(desktop):
+            folder = folder[len(desktop)+1:]
+            dest = os.path.join(desktop, folder)
+
+        if not os.path.exists(dest):
+            os.mkdir(dest)
         suffix = {'linux': 'desktop', 'darwin': 'app', 'win': 'lnk'}[platform]
-
         target = '%s.%s' % (name, suffix)
-        self.target = os.path.abspath(os.path.join(dest, target))
-
+        self.folder = dest
+        self.target = os.path.join(self.folder, target)
+        self.folder = self.folder[len(desktop)+1:]
 
         self.icon = icon
         if self.icon is None:
-
             _path, _fname = os.path.split(__file__)
             _path = os.path.join(_path, 'icons')
             suffix = 'ico'
