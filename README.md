@@ -32,7 +32,7 @@ or by using  the `pyshortcut` for a command-line application as with:
 ~> pyshortcut -n MyApp -i /home/user/icons/myicon.icns  /home/user/bin/myapp.py
 ```
 
-To include command-line options, include them in double quotes
+To include command-line options to the script, put them in double quotes
 
 ```
 ~> pyshortcut -n MyApp -i /home/user/icons/myicon.icns "/home/user/bin/myapp.py  -t 10"
@@ -52,21 +52,24 @@ The `pyshortcut` command line program has the following optional arguments:
 Note that running in the Terminal is True by default, but that for GUI
 applications the extra Terminal or Command Window may be unwanted.
 
-![PyShortcut Screenshot](PyshortcutGUI.png)
 
 In addition to the command line `pyshortcut` program there is a Pyshorcut
 GUI providing a simple form to help the user browse for script, icons, and
 set options before creating a shortcut or generating a Python script to
-create the shortcut.    This can be launched with
+create the shortcut.
+
+![PyShortcut Screenshot](PyshortcutGUI.png)
+
+This can be launched with
 
 ```
 ~> pyshortcut --wxgui
 ```
 
-But, of course you might want to create a desktop shortcut for this, as
+Of course you might want to create a desktop shortcut for this, as
 with this script (`gui_bootstrap.py` in the distribution):
 
-```
+```python
 #!/usr/bin/env python
 import os
 import sys
