@@ -20,13 +20,16 @@ ALL_FILES = "All files (*.*)|*.*"
 ICO_FILES = "Icon files (*.ico)|*.ico"
 ICNS_FILES = "Mac Icon files (*.icns)|*.icns"
 
-
 CEN = wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL
 LEFT = wx.ALIGN_LEFT|wx.ALIGN_CENTER_VERTICAL
 RIGHT = wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL
 ALL_CEN =  wx.ALL|CEN
 ALL_LEFT =  wx.ALL|LEFT
 ALL_RIGHT =  wx.ALL|RIGHT
+
+FONTSIZE = 11
+if platform == 'linux':
+    FONTSIZE = 10
 
 class ShortcutFrame(wx.Frame):
     def __init__(self):
@@ -35,7 +38,7 @@ class ShortcutFrame(wx.Frame):
                           style=wx.DEFAULT_FRAME_STYLE|wx.RESIZE_BORDER|wx.TAB_TRAVERSAL)
         self.SetTitle('Pyshortcuts Creator')
 
-        self.SetFont(wx.Font(12, wx.SWISS, wx.NORMAL, wx.BOLD, False))
+        self.SetFont(wx.Font(FONTSIZE, wx.SWISS, wx.NORMAL, wx.BOLD, False))
         menu = wx.Menu()
         menu_exit = menu.Append(-1, "Q&uit", "Exit")
 
@@ -123,10 +126,10 @@ class ShortcutFrame(wx.Frame):
         irow += 1
         sizer.Add(wx.StaticLine(self, size=(650, 4)), (irow, 0), (1, 3), ALL_CEN)
 
-        btn_create = wx.Button(panel, label='Create Shortcut',  size=(150, -1))
+        btn_create = wx.Button(panel, label='Create Shortcut',  size=(175, -1))
         btn_create.Bind(wx.EVT_BUTTON, self.onCreate)
 
-        btn_savepy = wx.Button(panel, label='Save Python Code', size=(150, -1))
+        btn_savepy = wx.Button(panel, label='Save Python Code', size=(175, -1))
         btn_savepy.Bind(wx.EVT_BUTTON, self.onSavePy)
 
 
