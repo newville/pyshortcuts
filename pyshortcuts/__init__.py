@@ -18,6 +18,12 @@ elif platform.startswith('darwin'):
 elif platform.startswith('linux'):
     from .linux import make_shortcut
 
+try:
+    import wx
+    from .wxgui import ShortcutFrame
+    HAS_WX = True
+except ImportError:
+    HAS_WX = False
 
 def shortcut_cli():
     '''
@@ -40,17 +46,23 @@ def shortcut_cli():
     parser.add_option('-t', '--terminal', dest='terminal', action='store_true',
                       default=False, help='run in a Terminal [False]')
 
+    if HAS_WX:
+        parser.add_option('-g', '--gui', dest='gui', action='store_true',
+                          default=False, help='run GUI version')
+
     (options, args) = parser.parse_args()
 
+    if options.gui:
+        app = wx.App()
+        ShortcutFrame().Show(True)
+        app.MainLoop()
+    else:
+        if len(args) != 1:
+            print("pyshortcut: must provide script.  try 'pyshortcuts -h'")
+            sys.exit()
 
-    if len(args) != 1:
-        print("pyshortcut: must provide script.  try 'pyshortcuts -h'")
-        sys.exit()
-
-    desc = scriptname = args[0]
-
-    print('creating %s shortcut for script %s' % (platform, scriptname))
-
-    make_shortcut(scriptname, name=options.name, description=desc,
-                  terminal=options.terminal, folder=options.folder,
-                  icon=options.icon)
+        desc = scriptname = args[0]
+        print('creating %s shortcut for script %s' % (platform, scriptname))
+        make_shortcut(scriptname, name=options.name, description=desc,
+                      terminal=options.terminal, folder=options.folder,
+                      icon=options.icon)
