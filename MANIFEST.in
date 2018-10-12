@@ -1,0 +1,4 @@
+include README.md LICENSE MANIFEST.in setup.py
+include PyshortcutGUI.png
+recursive-include pyshortcuts
+recursive-include examples
