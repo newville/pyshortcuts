@@ -9,7 +9,7 @@ import sys
 from .utils import get_homedir
 from .shortcut import Shortcut
 
-def make_shortcut(script, name, description=None, terminal=True,
+def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
     """create windows shortcut"""
     from win32com.client import Dispatch
