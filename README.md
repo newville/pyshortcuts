@@ -60,7 +60,7 @@ The arguments to `make_shortcut` are:
 
 ##  `pyshortcut` command-line program
 
-pyshorcuts installs a `pyshortcut` command-line program for creating shortcuts from a shell.
+pyshortcuts installs a `pyshortcut` command-line program for creating shortcuts from a shell.
 
 ```
 ~> pyshortcut -n MyApp -i /home/user/icons/myicon.icns  /home/user/bin/myapp.py
@@ -96,7 +96,7 @@ the shortcut.
 
 ![PyShortcut Screenshot](PyshortcutGUI.png)
 
-This can be launched from the commad line with
+This can be launched from the command line with
 
 ```
 ~> pyshortcut --wxgui
