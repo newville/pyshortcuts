@@ -27,7 +27,7 @@ def fix_anacondapy_pythonw(fname):
         fh.write("".join(lines[1:]))
         fh.close()
 
-def make_shortcut(script, name=None, description=None, terminal=False,
+def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
     """create minimal Mac App to run script"""
     scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
