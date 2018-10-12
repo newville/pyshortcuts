@@ -34,12 +34,12 @@ def make_shortcut(script, name=None, description=None, terminal=True,
         pyexe = os.path.join(sys.prefix, 'python.exe')
 
     # check for other valid ways to run each script, allowing
-    # for Anaconda's automagic renaming and creation of exes.
+    # for Python's automagic creation of Windows exes.
     if not os.path.exists(scut.full_script):
-        for suffix in ('.exe', '-script.py'):
-            tname = scut.full_script + suffix
-            if os.path.exists(tname):
-                scut.full_script = tname
+        tname = scut.full_script + '.exe'
+        if os.path.exists(tname):
+            pyexe = tname
+            scut.full_script = ''
 
     wscript = Dispatch('WScript.Shell').CreateShortCut(scut.target)
     wscript.Targetpath = '"%s"' % pyexe
