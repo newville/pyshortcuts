@@ -68,7 +68,7 @@ class Shortcut():
         self.name = name
         self.description = description
         if self.description is None:
-            description = name
+            self.description = name
 
         desktop = dest = os.path.join(get_homedir(), 'Desktop')
         if folder is not None and folder.startswith(desktop):
