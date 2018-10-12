@@ -35,6 +35,8 @@ or
 conda install -c gsecars pyshortcuts
 ```
 
+Pyshortcut requires the pywin32 package on Windows.  In order to use the
+pyshortcut GUI, the wxPython package is required.
 
 ## usage from Python
 
@@ -50,9 +52,8 @@ make_shortcut('/home/user/bin/myapp.py', name='MyApp',
 
 The arguments to `make_shortcut` are:
 
-
   * `script`   (str)  path to script to run.  This can include  command-line arguments
-  * `name`   (str or None)  name of script to use for shortcut (defaults to script name)
+  * `name`   (str or None)  name to use for shortcut (defaults to script name)
   * `description`   (str or None)  longer description of script (defaults to `name`)
   * `icon`   (str or None) path to icon file (defaults to python icon)
   * `folder`   (str or None) folder on Desktop to put shortcut
@@ -104,7 +105,7 @@ This can be launched from the command line with
 
 Of course you might want to create a desktop shortcut for this script, and
 we have just the tool to do that.  This script (`gui_bootstrap.py` in
-the distribution) will create a shortcut for the pyshortcut GUI:
+the `examples` folder) will create a shortcut for the pyshortcut GUI:
 
 ```python
 #!/usr/bin/env python

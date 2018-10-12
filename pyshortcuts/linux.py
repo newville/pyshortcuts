@@ -10,7 +10,17 @@ from .shortcut import Shortcut
 
 def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
-    """create linux .desktop file"""
+    """create linux .desktop file
+
+    Arguments
+    ---------
+    script      (str)  path to script to run.  This can include  command-line arguments
+    name        (str or None) name to use for shortcut [defaults to script name]
+    description (str or None) longer description of script [defaults to `name`]
+    icon        (str or None) path to icon file [defaults to python icon]
+    folder      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
+    terminal    (True or False) whether to run in a Terminal  [True]
+    """
     if description is None:
         description = name
 
