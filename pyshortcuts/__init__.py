@@ -44,25 +44,31 @@ def shortcut_cli():
                       default=None, help='subfolder on desktop to put icon')
 
     parser.add_option('-t', '--terminal', dest='terminal', action='store_true',
-                      default=False, help='run in a Terminal [False]')
+                      default=True, help='run in a Terminal [True]')
 
-    if HAS_WX:
-        parser.add_option('-g', '--gui', dest='gui', action='store_true',
-                          default=False, help='run GUI version')
+    parser.add_option('-g', '--gui', dest='gui', action='store_true',
+                      default=False, help='run as GUI, with no Terminal [False]')
+
+    parser.add_option('-w', '--wxgui', dest='wxgui', action='store_true',
+                      default=False, help='run GUI version of pyshortcut')
 
     (options, args) = parser.parse_args()
 
-    if options.gui:
+    if HAS_WX and options.wxgui:
         app = wx.App()
         ShortcutFrame().Show(True)
         app.MainLoop()
-    else:
-        if len(args) != 1:
-            print("pyshortcut: must provide script.  try 'pyshortcuts -h'")
-            sys.exit()
+        sys.exit()
 
-        desc = scriptname = args[0]
-        print('creating %s shortcut for script %s' % (platform, scriptname))
-        make_shortcut(scriptname, name=options.name, description=desc,
-                      terminal=options.terminal, folder=options.folder,
-                      icon=options.icon)
+    if options.gui:
+        options.terminal = False
+
+    if len(args) != 1:
+        print("pyshortcut: must provide script.  try 'pyshortcuts -h'")
+        sys.exit()
+
+    desc = scriptname = args[0]
+    print('creating %s shortcut for script %s' % (platform, scriptname))
+    make_shortcut(scriptname, name=options.name, description=desc,
+                  terminal=options.terminal, folder=options.folder,
+                  icon=options.icon)
