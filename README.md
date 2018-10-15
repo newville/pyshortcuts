@@ -4,16 +4,13 @@
 Pyshortcuts helps developers and Python users create desktop shortcuts
 that will run python scripts and applications.
 
-Pyshortcuts is cross-platform, supporting Windows, MacOS, and Linux each in
-the way most natural for the OS.  On Windows, a Shortcut or Link is created.  
-On Linux a ".desktop" file is created.  On MacOS, a minimal Application is 
-created. For all OSes, the shortcut is put either directly on the Desktop or 
-in a folder on the Desktop of the current user. This means that there is no 
-need for elevated permission and no writing to system-level files (registry,
-/Applications, /usr/bin).  After the shortcut has been created, the user has
-complete control to rename, move, or delete it.  Shortcuts can have a custom
-icon (`.ico` files on Windows or Linux, or `.icns` files on MacOS) specified, 
-defaulting to a Python icon included with pyshortcuts.
+Pyshortcuts is cross-platform, supporting Windows, MacOS, and Linux each in the way most natural for the OS. 
+On Windows, a Shortcut or Link is created. On MacOS, a minimal but compplete Application is  created. On Linux a ".desktop" file is created.  
+For all OSes, the shortcut is put either directly on the Desktop or in a folder on the Desktop of the current user. 
+This means that there is no  need for elevated permission and no writing to system-level files 
+(registry, /Applications, /usr/bin).  After the shortcut has been created, the user has complete 
+control to rename, move, or delete it.  Shortcuts can have a custom icon (`.ico` files on Windows or 
+Linux, or `.icns` files on MacOS) specified, defaulting to a Python icon included with pyshortcuts.
 
 Pyshortcuts is pure python, has a small footprint and is very easy to install 
 and use either from a python script.  That is to say, it can easily be part of 
