@@ -26,19 +26,18 @@ def make_shortcut(script, name=None, description=None, terminal=True,
 
     scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
 
-    buff = ['[Desktop Entry]']
-    buff.append('Name=%s' % scut.name)
-    buff.append('Type=Application')
-    buff.append('Comment=%s' % description)
+    term = 'false'
     if terminal:
-        buff.append('Terminal=true')
-    else:
-        buff.append('Terminal=false')
-
-    buff.append('Icon=%s' % scut.icon)
-
-    buff.append('Exec=%s %s %s' % (sys.executable, scut.full_script, scut.args))
-    buff.append('')
+        term = 'true'
 
     with open(scut.target, 'w') as fout:
-        fout.write("\n".join(buff))
+        fout.write("""[Desktop Entry]
+Name={name:s}
+Type=Application
+Comment={desc:s}
+Terminal={term:s}
+Icon={icon:s}
+Exec={exe:s} {script:s} {args:s}
+""".format(name=scut.name, desc=description, exe=sys.executable,
+           icon=scut.icon, script=scut.full_script, args=scut.args,
+           term=term)
