@@ -24,7 +24,7 @@ be part of a installation (or post-installation process) process for larger
 packages.
 '''
 
-install_reqs = []
+install_reqs = ['six']
 if sys.platform.startswith('win'):
     install_reqs.append['pywin32']
 
@@ -33,7 +33,7 @@ setup(name='pyshortcuts',
       author='Matthew Newville',
       author_email='newville@cars.uchicago.edu',
       url='http://github.com/newville/pyshortcuts',
-      license='BSD',
+      license = 'OSI Approved :: MIT License',
       python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
       description='create desktop shortcuts for python scripts',
       long_description=long_description,
