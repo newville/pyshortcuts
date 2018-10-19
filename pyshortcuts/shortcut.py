@@ -11,7 +11,7 @@ if six.PY3:
 else:
     from string import maketrans
 
-BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n (){}[]<>'
+BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
 
 def fix_filename(s):
@@ -71,12 +71,15 @@ class Shortcut():
             self.description = name
 
         desktop = dest = os.path.join(get_homedir(), 'Desktop')
-        if folder is not None and folder.startswith(desktop):
-            folder = folder[len(desktop)+1:]
+        if folder is not None:
+            if folder.startswith(desktop):
+                folder = folder[len(desktop)+1:]
             dest = os.path.join(desktop, folder)
+
 
         if not os.path.exists(dest):
             os.mkdir(dest)
+
         suffix = {'linux': 'desktop', 'darwin': 'app', 'win': 'lnk'}[platform]
         target = '%s.%s' % (name, suffix)
         self.folder = dest
