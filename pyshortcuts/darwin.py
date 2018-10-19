@@ -99,12 +99,12 @@ end tell
     with open(os.path.join(dest, 'Contents', 'Info.plist'), 'w') as fout:
         fout.write(info.format(**opts))
 
-    ascript_name = os.path.join(dest, 'Contents', 'MacOS', name)
+    ascript_name = os.path.join(dest, 'Contents', 'MacOS', scut.name)
     with open(ascript_name, 'w') as fout:
         fout.write(header.format(**opts))
         fout.write(text.format(**opts))
         fout.write("\n")
 
     os.chmod(ascript_name, 493) ## = octal 755 / rwxr-xr-x
-    icon_dest = os.path.join(dest, 'Contents', 'Resources', name + '.icns')
+    icon_dest = os.path.join(dest, 'Contents', 'Resources', scut.name + '.icns')
     shutil.copy(scut.icon, icon_dest)
