@@ -29,7 +29,7 @@ if sys.platform.startswith('win'):
     install_reqs.append['pywin32']
 
 setup(name='pyshortcuts',
-      version='1.0',
+      version='1.1',
       author='Matthew Newville',
       author_email='newville@cars.uchicago.edu',
       url='http://github.com/newville/pyshortcuts',
