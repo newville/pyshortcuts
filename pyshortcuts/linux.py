@@ -40,4 +40,6 @@ Icon={icon:s}
 Exec={exe:s} {script:s} {args:s}
 """.format(name=scut.name, desc=description, exe=sys.executable,
            icon=scut.icon, script=scut.full_script, args=scut.args,
-           term=term)
+           term=term))
+
+
