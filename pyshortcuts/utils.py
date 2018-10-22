@@ -12,7 +12,8 @@ import sys
 platform = sys.platform
 if os.name == 'nt':
     platform = 'win'
-
+if platform == 'linux2':
+    platform = 'linux'
 
 def unixpath(d):
     "unix path"
