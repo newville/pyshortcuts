@@ -26,7 +26,7 @@ packages.
 
 install_reqs = ['six']
 if sys.platform.startswith('win'):
-    install_reqs.append['pywin32']
+    install_reqs.append('pywin32')
 
 setup(name='pyshortcuts',
       version='1.1',
