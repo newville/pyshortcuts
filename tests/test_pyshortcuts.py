@@ -3,7 +3,7 @@ import os
 from pyshortcuts import make_shortcut, platform
 
 def test_shortcut():
-    script = os.path.join('..', 'examples', 'console_scripts', 'timer.py')
+    script = os.path.join('..', 'examples', 'console_scripts', 'timer.py') + ' -u 0.25 -t 10'
     icon  = os.path.join('..', 'examples', 'icons', 'stopwatch')
 
     iext = 'ico'
@@ -11,7 +11,6 @@ def test_shortcut():
         iext = 'icns'
 
     icon = "%s.%s" % (icon, iext)
-    print("script : ", script )
     make_shortcut(script, name='Timer', icon=icon)
 
 if __name__ == '__main__':
