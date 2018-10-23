@@ -15,4 +15,4 @@ build: off
 
 test_script:
     - cd tests
-    - pytest
+    - "%PYTHON%\\python.exe -m pytest"
