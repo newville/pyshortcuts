@@ -99,7 +99,7 @@ In addition to the `pyshortcut` command-line program, there is a GUI that provid
 a simple form to help the user browse for script, icons, and set options before
 creating a shortcut or generating an example Python script to create the shortcut.
 
-![PyShortcut Screenshot](PyshortcutGUI.png)
+![PyShortcut Screenshot](doc/pyshortcutgui_screenshot.png)
 
 This can be launched from the command line with
 
