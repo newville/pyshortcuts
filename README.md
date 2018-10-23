@@ -1,21 +1,23 @@
+[![Build Status](https://travis-ci.com/newville/pyshortcuts.svg?branch=master)](https://travis-ci.com/newville/pyshortcuts)
+
 # pyshortcuts
 
 
 Pyshortcuts helps developers and Python users create desktop shortcuts
 that will run python scripts and applications.
 
-Pyshortcuts is cross-platform, supporting Windows, MacOS, and Linux each in the way that 
+Pyshortcuts is cross-platform, supporting Windows, MacOS, and Linux each in the way that
 is most natural for the OS. On Windows, a Shortcut or Link is created. On MacOS, a minimal
 but compplete Application is created. On Linux a ".desktop" file is created. For all OSes,
-the shortcut is put either directly on the Desktop or in a folder on the Desktop of the 
-current user. This means that there is no  need for elevated permission and no writing to 
-system-level files (registry, /Applications, /usr/bin).  After the shortcut has been created, 
-the user has complete control to rename, move, or delete it.  Shortcuts can have a custom 
-icon (`.ico` files on Windows or Linux, or `.icns` files on MacOS) specified, defaulting to 
+the shortcut is put either directly on the Desktop or in a folder on the Desktop of the
+current user. This means that there is no  need for elevated permission and no writing to
+system-level files (registry, /Applications, /usr/bin).  After the shortcut has been created,
+the user has complete control to rename, move, or delete it.  Shortcuts can have a custom
+icon (`.ico` files on Windows or Linux, or `.icns` files on MacOS) specified, defaulting to
 a Python icon included with pyshortcuts.
 
-Pyshortcuts is pure python, has a small footprint and is very easy to install 
-and use either from a python script.  That is to say, it can easily be part of 
+Pyshortcuts is pure python, has a small footprint and is very easy to install
+and use either from a python script.  That is to say, it can easily be part of
 a installation (or post-installation process) process for larger packages.
 
 ## installation
@@ -60,8 +62,8 @@ The arguments to `make_shortcut` are:
 
 ##  `pyshortcut` command-line program
 
-pyshortcuts installs a `pyshortcut` command-line program for creating a shortcut.  
-From a shell or Command window with PATH set to include python programs and scripts, 
+pyshortcuts installs a `pyshortcut` command-line program for creating a shortcut.
+From a shell or Command window with PATH set to include python programs and scripts,
 a command to create a shortcut might look like:
 
 ```
@@ -87,13 +89,13 @@ The `pyshortcut` command line program has the following optional arguments:
 
 Note that running in the Terminal is True by default.  For GUI applications
 the extra Terminal or Command Window may be unwanted, and can be disabled with the
-`-g` or `--gui` option. 
+`-g` or `--gui` option.
 
 
 ## `pyshortcut` GUI
 
 In addition to the `pyshortcut` command-line program, there is a GUI that provides
-a simple form to help the user browse for script, icons, and set options before 
+a simple form to help the user browse for script, icons, and set options before
 creating a shortcut or generating an example Python script to create the shortcut.
 
 ![PyShortcut Screenshot](PyshortcutGUI.png)
@@ -104,9 +106,9 @@ This can be launched from the command line with
 ~> pyshortcut --wxgui
 ```
 
-That may be the sort of script that you might want to be able to launch by clicking 
-on a desktop shortcut. We have just the tool to do that! This script (which is 
-included as `gui_bootstrap.py` in the `examples` folder) will create a dekstop 
+That may be the sort of script that you might want to be able to launch by clicking
+on a desktop shortcut. We have just the tool to do that! This script (which is
+included as `gui_bootstrap.py` in the `examples` folder) will create a dekstop
 shortcut that launches the pyshortcut GUI:
 
 ```python
