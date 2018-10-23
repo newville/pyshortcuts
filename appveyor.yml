@@ -1,12 +1,15 @@
+
 environment:
+
   matrix:
-    - PYTHON: "C:\\Python27-x64"
-    - PYTHON: "C:\\Python35-x64"
-    - PYTHON: "C:\\Python36-x64"
+
+     - PYTHON: "C:\\Python27-x64"
+     - PYTHON: "C:\\Python35-x64"
+     - PYTHON: "C:\\Python36-x64"
 
 install:
-    - pip install six pywin32 pytest
-    - python setup.py install
+    - "%PYTHON%\\python.exe -m pip install wheel pip six pywin32 pytest"
+    - "%PYTHON%\\python.exe setup.py install"
 
 build: off
 
