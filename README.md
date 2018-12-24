@@ -9,7 +9,7 @@ that will run python scripts and applications.
 
 Pyshortcuts is cross-platform, supporting Windows, MacOS, and Linux each in the way that
 is most natural for the OS. On Windows, a Shortcut or Link is created. On MacOS, a minimal
-but compplete Application is created. On Linux a ".desktop" file is created. For all OSes,
+but complete Application is created. On Linux a ".desktop" file is created. For all OSes,
 the shortcut is put either directly on the Desktop or in a folder on the Desktop of the
 current user. This means that there is no  need for elevated permission and no writing to
 system-level files (registry, /Applications, /usr/bin).  After the shortcut has been created,
