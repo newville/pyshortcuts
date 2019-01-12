@@ -108,3 +108,5 @@ end tell
     os.chmod(ascript_name, 493) ## = octal 755 / rwxr-xr-x
     icon_dest = os.path.join(dest, 'Contents', 'Resources', scut.name + '.icns')
     shutil.copy(scut.icon, icon_dest)
+
+    return scut

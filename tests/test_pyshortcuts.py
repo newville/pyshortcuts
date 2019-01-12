@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from pyshortcuts import make_shortcut, platform
+from pyshortcuts import make_shortcut, platform, shortcut
 
 root = os.path.abspath(os.path.join(__file__, '..', '..'))
 
@@ -14,7 +14,8 @@ def test_shortcut():
         iext = 'icns'
 
     icon = "%s.%s" % (icon, iext)
-    make_shortcut(script, name='Timer', icon=icon)
+    scut = make_shortcut(script, name='Timer', icon=icon)
+    assert isinstance(scut, shortcut.Shortcut), 'it returns a shortcut instance'
 
 if __name__ == '__main__':
     test_shortcut()
