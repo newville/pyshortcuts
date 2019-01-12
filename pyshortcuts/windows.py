@@ -49,3 +49,5 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     wscript.Description = scut.description
     wscript.IconLocation = scut.icon
     wscript.save()
+
+    return scut
