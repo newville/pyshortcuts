@@ -42,4 +42,4 @@ Exec={exe:s} {script:s} {args:s}
            icon=scut.icon, script=scut.full_script, args=scut.args,
            term=term))
 
-
+    return scut

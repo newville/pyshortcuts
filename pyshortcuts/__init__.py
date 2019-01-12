@@ -69,6 +69,7 @@ def shortcut_cli():
 
     desc = scriptname = args[0]
     print('creating %s shortcut for script %s' % (platform, scriptname))
-    make_shortcut(scriptname, name=options.name, description=desc,
-                  terminal=options.terminal, folder=options.folder,
-                  icon=options.icon)
+    scut = make_shortcut(scriptname, name=options.name, description=desc,
+                         terminal=options.terminal, folder=options.folder,
+                         icon=options.icon)
+    return scut
