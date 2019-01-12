@@ -2,7 +2,7 @@
 import os
 from pyshortcuts import make_shortcut, platform
 
-root = os.path.abspath(os.path.join(__file__, '..'))
+root = os.path.abspath(os.path.join(__file__, '..', '..'))
 
 
 def test_shortcut():
