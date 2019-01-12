@@ -1,15 +1,25 @@
 # Config file for automatic testing at travis-ci.org
+language: c
 
-language: python
 sudo: false
 
-python:
-   - 2.7
-   - 3.5
-   - 3.6
+env:
+  - MC_PYTHON=2.7
+  - MC_PYTHON=3.5
+  - MC_PYTHON=3.6
+  - MC_PYTHON=3.7
+
+os:
+    - linux
+    - osx
 
 before_install:
-    - wget http://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh
+    - |-
+      case "$TRAVIS_OS_NAME" in
+        linux) miniconda_os=Linux
+        osx) miniconda_os=MacOSX
+      esac
+      wget http://repo.continuum.io/miniconda/Miniconda3-latest-${miniconda_os}-x86_64.sh -O miniconda.sh
     - bash miniconda.sh -b -p $HOME/miniconda
     - export PATH="$HOME/miniconda/bin:$PATH"
     - hash -r
@@ -18,7 +28,7 @@ before_install:
     - conda info -a
 
 install:
-    - conda create -q -n test_env python=$TRAVIS_PYTHON_VERSION six pytest
+    - conda create -q -n test_env python=$MC_PYTHON six pytest
     - source activate test_env
     - python setup.py install
 
