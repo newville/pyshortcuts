@@ -18,6 +18,7 @@ before_install:
       miniconda_os=Linux
       if ["$TRAVIS_OS_NAME" == "osx"]; then
         miniconda_os=MacOSX
+        ln -s /sbin/md5sum /bin/md5sum
       fi
       wget http://repo.continuum.io/miniconda/Miniconda3-latest-${miniconda_os}-x86_64.sh -O miniconda.sh
     - bash miniconda.sh -b -p $HOME/miniconda
@@ -30,8 +31,7 @@ before_install:
 install:
     - conda create -q -n test_env python=$MC_PYTHON six pytest
     - source activate test_env
-    - python setup.py install
+    - python -m pip install .
 
 script:
-    - cd tests
     - pytest
