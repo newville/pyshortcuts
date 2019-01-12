@@ -15,10 +15,10 @@ os:
 
 before_install:
     - |-
-      case "$TRAVIS_OS_NAME" in
-        linux) miniconda_os=Linux
-        osx) miniconda_os=MacOSX
-      esac
+      miniconda_os=Linux
+      if ["$TRAVIS_OS_NAME" == "osx"]; then
+        miniconda_os=MacOSX
+      fi
       wget http://repo.continuum.io/miniconda/Miniconda3-latest-${miniconda_os}-x86_64.sh -O miniconda.sh
     - bash miniconda.sh -b -p $HOME/miniconda
     - export PATH="$HOME/miniconda/bin:$PATH"
