@@ -2,9 +2,12 @@
 import os
 from pyshortcuts import make_shortcut, platform, shortcut
 
+root = os.path.abspath(os.path.join(__file__, '..', '..'))
+
+
 def test_shortcut():
-    script = os.path.join('..', 'examples', 'console_scripts', 'timer.py') + ' -u 0.25 -t 10'
-    icon  = os.path.join('..', 'examples', 'icons', 'stopwatch')
+    script = os.path.join(root, 'examples', 'console_scripts', 'timer.py') + ' -u 0.25 -t 10'
+    icon  = os.path.join(root, 'examples', 'icons', 'stopwatch')
 
     iext = 'ico'
     if platform.startswith('darwin'):
