@@ -7,6 +7,17 @@ import os
 import sys
 
 from .shortcut import Shortcut
+from .utils import get_homedir
+
+DESKTOP_FORM = """[Desktop Entry]
+Name={name:s}
+Type=Application
+Comment={desc:s}
+Terminal={term:s}
+Icon={icon:s}
+Exec={exe:s} {script:s} {args:s}
+"""
+
 
 def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
@@ -30,16 +41,22 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     if terminal:
         term = 'true'
 
-    with open(scut.target, 'w') as fout:
-        fout.write("""[Desktop Entry]
-Name={name:s}
-Type=Application
-Comment={desc:s}
-Terminal={term:s}
-Icon={icon:s}
-Exec={exe:s} {script:s} {args:s}
-""".format(name=scut.name, desc=description, exe=sys.executable,
-           icon=scut.icon, script=scut.full_script, args=scut.args,
-           term=term))
+    text = DESKTOP_FORM.format(name=scut.name, desc=description,
+                               exe=sys.executable, icon=scut.icon,
+                               script=scut.full_script, args=scut.args,
+                               term=term)
+    # Desktop
+    desktop = os.path.join(get_homedir(), 'Desktop')
+    if os.path.exists(desktop):
+        with open(scut.target, 'w') as fout:
+            fout.write(text)
+
+    # Local Applications
+    appfolder = os.path.join(get_homedir(), '.local', 'share', 'applications')
+    if os.path.exists(appfolder):
+        _, target = os.path.split(scut.target)
+        apptarget = os.path.join(appfolder, target)
+        with open(apptarget, 'w') as fout:
+            fout.write(text)
 
     return scut
