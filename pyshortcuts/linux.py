@@ -32,8 +32,6 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     folder      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
     terminal    (True or False) whether to run in a Terminal  [True]
     """
-    if description is None:
-        description = name
 
     scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
 
@@ -41,7 +39,7 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     if terminal:
         term = 'true'
 
-    text = DESKTOP_FORM.format(name=scut.name, desc=description,
+    text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
                                exe=sys.executable, icon=scut.icon,
                                script=scut.full_script, args=scut.args,
                                term=term)
