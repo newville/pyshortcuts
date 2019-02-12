@@ -81,10 +81,8 @@ class Shortcut():
             os.mkdir(dest)
 
         suffix = {'linux': 'desktop', 'darwin': 'app', 'win': 'lnk'}[platform]
-        target = '%s.%s' % (name, suffix)
-        self.folder = dest
-        self.target = os.path.join(self.folder, target)
-        self.folder = self.folder[len(desktop)+1:]
+        self.target = os.path.join(dest, '%s.%s' % (name, suffix))
+        self.folder = dest[len(desktop)+1:]
 
         self.icon = icon
         if self.icon is None:

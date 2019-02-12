@@ -4,22 +4,27 @@
 # pyshortcuts
 
 
-Pyshortcuts helps developers and Python users create desktop shortcuts that will run python scripts and applications.
+Pyshortcuts helps Python developers and users create desktop shortcuts that
+will run python scripts and applications.
 
-Pyshortcuts is cross-platform, supporting Windows, MacOS, and Linux each in the way that
-is most natural for each OS. On Windows, a Shortcut or Link is created. On MacOS, a minimal
-but complete Application is created. On Linux a ".desktop" file is created. In all cases,
-the shortcut can be put either directly on the Desktop of the current user or in a folder on
-the users Desktop. This means there is no need for elevated permission and no writing to
-system-level files (registry, /Applications, /usr/bin).  It also means there is no attempt to
-place in system-specific places like "Start Menu" or "Dock".  After the shortcut has been created,
-the user has complete control to rename, move, or delete it.  Shortcuts can have a custom
-icon (`.ico` files on Windows or Linux, or `.icns` files on MacOS) specified, defaulting to
-a Python icon included with pyshortcuts.
+Pyshortcuts works on Windows, MacOS, and Linux in the way that is most natural
+for each OS.  That is, on Windows, a Shortcut or Link is created and placed on
+the users Desktop. On MacOS, a minimal but complete Application is created and
+placed on the users Desktop. On Linux a ".desktop" file is created and placed
+on the users Desktop (if that exists) and in $HOME/.local/share/applications
+(if that exists).  On all platforms, the shortcut created on the Deskop can be
+put either directly on the user Desktop or in a folder on the users Desktop.
 
-Pyshortcuts is pure python, has a small footprint, is easy to install, and is easy to use
-from a python script.  This means that Pyshortcuts can easily be part of a installation
-(or post-installation process) process for larger packages.
+By writing only to the users Desktop or application folder, there is no need
+for elevated permission and no writing to system-level files (registry,
+/Applications, /usr/bin). After the shortcut has been created, the user has
+complete control to rename, move, or delete it.  Shortcuts can have a custom
+icon (`.ico` files on Windows or Linux, or `.icns` files on MacOS) specified,
+defaulting to a Python icon included with pyshortcuts.
+
+Pyshortcuts is pure python, small, easy to install, and easy to use from a
+python script.  This means that Pyshortcuts can be made part of an
+installation (or post-installation process) process for larger packages.
 
 ## installation
 
@@ -35,8 +40,8 @@ or
 conda install -c gsecars pyshortcuts
 ```
 
-On Windows, pyshortcuts requires the pywin32 package. This should be installed automatically
-with either of the above install methods.
+On Windows, pyshortcuts requires the pywin32 package. This should be installed
+automatically with either of the above install methods.
 
 In order to use the pyshortcut GUI, the wxPython package is required.
 
@@ -88,8 +93,11 @@ The `pyshortcut` command line program has the following optional arguments:
   * `-g`, `--gui`      run script as a GUI, with no Terminal Window [False]
   * `-w`, `--wxgui`    run GUI version of pyshortcut
 
-Note that running in the Terminal is True by default.  For GUI applications and extra Terminal or
-Command Window may be unwanted, and can be disabled with the `-g` or `--gui` option.
+Note that running in the Terminal is True by default, which means that each
+time the shortcut is used to lauch the program, a new Terminal or Command
+window will be created for it.  For many command-line applications, this is
+approprate.  The extra Terminal or Command window may be unwanted for some GUI
+applications, and can be disabled with the `-g` or `--gui` option.
 
 
 ## `pyshortcut` GUI
@@ -106,10 +114,10 @@ This can be launched from the command line with
 ~> pyshortcut --wxgui
 ```
 
-Of course, that might be the sort of command you might want to be able to launch by clicking
-on a desktop shortcut.  We have just the tool for that. This script (included as
-`gui_bootstrap.py` in the `examples` folder) will create a desktop shortcut that launches
-the pyshortcut GUI:
+Of course, that command might be the sort of command you might want to be able
+to launch by clicking on a desktop shortcut.  We have just the tool for
+that. This script (included as `gui_bootstrap.py` in the `examples` folder)
+will create a desktop shortcut that launches the pyshortcut GUI:
 
 ```python
 #!/usr/bin/env python
@@ -128,3 +136,13 @@ scut = make_shortcut(
 
 print("pyshortcuts GUI: %s" % scut.target)
 ```
+
+That is, running
+
+```
+~> python setup.py install
+~> python examples/gui_bootstrap.py
+```
+
+will give you a desktop shortcut that launches a GUI application for turning
+Python scripts into desktop shortcuts.
