@@ -72,7 +72,7 @@ class Shortcut():
             self.description = name
 
         desktop_folder_name = ''
-        if platform == linux:
+        if platform == "linux":
             desktop_folder_name = subprocess.check_output(['xdg-user-dir', 'DESKTOP'])
             desktop_folder_name = os.path.basename(desktop_folder_name.strip()).decode("utf-8")
         if desktop_folder_name == '':
