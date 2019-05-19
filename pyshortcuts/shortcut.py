@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
+import subprocess
 import os
 import sys
 from .utils import platform, get_homedir
@@ -70,7 +71,11 @@ class Shortcut():
         if self.description is None:
             self.description = name
 
-        desktop = dest = os.path.join(get_homedir(), 'Desktop')
+        desktop_folder_name = os.path.basename(subprocess.check_output(['xdg-user-dir', 'DESKTOP']).strip())
+        if desktop_folder_name == b'':
+            desktop_folder_name = 'Desktop'
+        
+        desktop = dest = os.path.join(get_homedir(), desktop_folder_name)
         if folder is not None:
             if folder.startswith(desktop):
                 folder = folder[len(desktop)+1:]
