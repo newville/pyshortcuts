@@ -71,8 +71,10 @@ class Shortcut():
         if self.description is None:
             self.description = name
 
-        desktop_folder_name = subprocess.check_output(['xdg-user-dir', 'DESKTOP'])
-        desktop_folder_name = os.path.basename(desktop_folder_name.strip()).decode("utf-8")
+        desktop_folder_name = ''
+        if platform == linux:
+            desktop_folder_name = subprocess.check_output(['xdg-user-dir', 'DESKTOP'])
+            desktop_folder_name = os.path.basename(desktop_folder_name.strip()).decode("utf-8")
         if desktop_folder_name == '':
             desktop_folder_name = 'Desktop'
         
@@ -81,7 +83,6 @@ class Shortcut():
             if folder.startswith(desktop):
                 folder = folder[len(desktop)+1:]
             dest = os.path.join(desktop, folder)
-
 
         if not os.path.exists(dest):
             os.mkdir(dest)
