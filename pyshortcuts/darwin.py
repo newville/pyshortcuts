@@ -46,10 +46,11 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     osascript = osascript.replace(' ', '\\ ')
 
     pyexe = sys.executable
-    if 'Anaconda' in sys.version:
-        pyexe = "{prefix:s}/python.app/Contents/MacOS/python".format(prefix=sys.prefix)
+    has_conda = os.path.exists(os.path.join(sys.prefix, 'conda-meta'))
+    pyapp_exe = "{prefix:s}/python.app/Contents/MacOS/python".format(prefix=sys.prefix)
+    if has_conda and os.path.exists(pyapp_exe):
+        pyexe = pyapp_exe
         fix_anacondapy_pythonw(scut.full_script)
-
 
     dest = scut.target
     if os.path.exists(dest):
