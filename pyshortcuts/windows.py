@@ -41,6 +41,10 @@ def make_shortcut(script, name=None, description=None, terminal=True,
             pyexe = tname
             scut.full_script = ''
 
+    if os.path.splitext(scut.full_script)[1].lower() == '.exe':
+        pyexe = scut.full_script
+        scut.full_script = ''
+
     wscript = Dispatch('WScript.Shell').CreateShortCut(scut.target)
     wscript.Targetpath = '"%s"' % pyexe
     wscript.Arguments = '%s %s' % (scut.full_script, scut.args)
