@@ -9,6 +9,12 @@ import sys
 from .utils import get_homedir
 from .shortcut import Shortcut
 
+
+def get_exe_types():
+    '''Return list of valid executable file extensions [.com, .exe, ...]'''
+    exetypes = [ext.lower() for ext in os.environ['PATHEXT'].split(os.pathsep)]
+    return exetypes
+
 def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
     """create windows shortcut
@@ -33,15 +39,17 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     if terminal:
         pyexe = os.path.join(sys.prefix, 'python.exe')
 
-    # check for other valid ways to run each script, allowing
-    # for Python's automagic creation of Windows exes.
+    # Check for other valid ways to run the script
+    # try appending .exe if script itself not found
     if not os.path.exists(scut.full_script):
         tname = scut.full_script + '.exe'
         if os.path.exists(tname):
             pyexe = tname
             scut.full_script = ''
 
-    if os.path.splitext(scut.full_script)[1].lower() == '.exe':
+    # If script is already executable use it directly instead of via pyexe
+    ext = os.path.splitext(scut.full_script)[1].lower()
+    if  ext in get_exe_types():
         pyexe = scut.full_script
         scut.full_script = ''
 
