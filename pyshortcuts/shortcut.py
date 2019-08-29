@@ -2,6 +2,7 @@
 from __future__ import print_function
 import os
 import sys
+import subprocess
 from .utils import platform, get_homedir
 
 import six
@@ -71,6 +72,14 @@ class Shortcut():
             self.description = name
 
         desktop = dest = os.path.join(get_homedir(), 'Desktop')
+        if platform == 'linux':
+            try:
+                xdgdesk = subprocess.check_output(['xdg-user-dir', 'Desktop'])
+                xdgdesk = xdgdesk.strip().decode('utf-8')
+                if xdgdesk is not None and len(xdgdesk) > 3:
+                    desktop = dest = xdgdesk
+            except:
+                pass
         if folder is not None:
             if folder.startswith(desktop):
                 folder = folder[len(desktop)+1:]
