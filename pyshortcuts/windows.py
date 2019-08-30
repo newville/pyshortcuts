@@ -9,11 +9,26 @@ import sys
 from .utils import get_homedir
 from .shortcut import Shortcut
 
+import win32com.client
+shellapp = win32com.client.Dispatch("Shell.Application")
+objshell = win32com.client.Dispatch("Wscript.Shell")
+
 
 def get_exe_types():
     '''Return list of valid executable file extensions [.com, .exe, ...]'''
     exetypes = [ext.lower() for ext in os.environ['PATHEXT'].split(os.pathsep)]
     return exetypes
+
+# Windows Special Folders
+# ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
+# https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
+def get_menu_folder():
+    '''Return user Start Menu folder'''
+    return shellapp.namespace(11).self.path
+def get_desktop_folder():
+    '''Return user Desktop folder'''
+    return shellapp.namespace(0).self.path
+
 
 def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
@@ -28,7 +43,6 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     folder      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
     terminal    (True or False) whether to run in a Terminal  [True]
     """
-    from win32com.client import Dispatch
 
     scut = Shortcut(script, name=name, description=description,
                     folder=folder, icon=icon)
@@ -53,7 +67,7 @@ def make_shortcut(script, name=None, description=None, terminal=True,
         pyexe = scut.full_script
         scut.full_script = ''
 
-    wscript = Dispatch('WScript.Shell').CreateShortCut(scut.target)
+    wscript = objshell.CreateShortCut(scut.target)
     wscript.Targetpath = '"%s"' % pyexe
     wscript.Arguments = '%s %s' % (scut.full_script, scut.args)
     wscript.WorkingDirectory = homedir
