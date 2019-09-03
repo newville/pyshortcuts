@@ -2,7 +2,6 @@
 from __future__ import print_function
 import os
 import sys
-import subprocess
 from .utils import platform, get_homedir
 
 import six
@@ -71,15 +70,21 @@ class Shortcut():
         if self.description is None:
             self.description = name
 
-        desktop = dest = os.path.join(get_homedir(), 'Desktop')
+        homedir = get_homedir()
+        desktop = dest = os.path.join(homedir, 'Desktop')
         if platform == 'linux':
-            try:
-                xdgdesk = subprocess.check_output(['xdg-user-dir', 'Desktop'])
-                xdgdesk = xdgdesk.strip().decode('utf-8')
-                if xdgdesk is not None and len(xdgdesk) > 3:
-                    desktop = dest = xdgdesk
-            except:
-                pass
+            # search for .config/user-dirs.dirs in HOMEDIR
+            ud_file = os.path.join(homedir, '.config', 'user-dirs.dirs')
+            if os.path.exists(ud_file):
+                val = desktop
+                with open(ud_file, 'r') as fh:
+                    text = fh.readlines()
+                for line in text:
+                    if 'DESKTOP' in line:
+                        line = line.replace('$HOME', homedir)[:-1]
+                        key, val = line.split('=')
+                        val = val.replace('"', '').replace("'", "")
+                desktop = dest = val
         if folder is not None:
             if folder.startswith(desktop):
                 folder = folder[len(desktop)+1:]
