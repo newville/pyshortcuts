@@ -22,6 +22,10 @@ def get_exe_types():
 # Windows Special Folders
 # ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
 # https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
+#
+# Start menu: user = 11, all users = 22
+# Desktop   : user =  0, all users = 25
+#
 def get_menu_folder():
     '''Return user Start Menu folder'''
     return shellapp.namespace(11).self.path
