@@ -93,13 +93,14 @@ def get_homedir():
             #if home is not None:
             #    break
 
-    # For Windows, ask for parent of Roaming 'Application Data' directory
-    if home is None and os.name == 'nt':
-        try:
-            from win32com.shell import shellcon, shell
-            home = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-        except ImportError:
-            pass
+    ## USERPROFILE always exists (right?) so this next bit unneeded
+    # # For Windows, ask for parent of Roaming 'Application Data' directory
+    # if home is None and os.name == 'nt':
+    #     try:
+    #         from win32com.shell import shellcon, shell
+    #         home = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
+    #     except ImportError:
+    #         pass
 
     # finally, use current folder
     if home is None:
