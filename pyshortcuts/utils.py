@@ -80,7 +80,10 @@ def get_homedir():
 
     # try expanding '~' -- should work on most Unixes
     if home is None:
-        home = check(os.path.expanduser, '~')
+        # home = check(os.path.expanduser, '~')
+        p = os.path.expandvars('~')
+        if os.path.exists(p):
+            home = p
 
     # try the common environmental variables
     if home is None:
