@@ -41,23 +41,32 @@ except ImportError:
 #if folders:
 #    print("Home, Desktop, StartMenu ", folders.home, folders.desktop, folders.start_menu)
 
-# mhw: WIP: getting a handle on named tuples
+## mhw: WIP: getting a handle on named tuples
 def get_win_folders():
-    from collections import namedtuple
-    nt = namedtuple('folders', 'name path')
-    folders = nt('Home', os.environ('USERPROFILE'))
-    folders = nt('Desktop', 'result from get_desktop_win()')
-    folders = nt('Menu', 'result from get_startmenu_win()')
-    return folders
-    # only the last is returned; not what we want.
-    # how to add and keep many table rows?
-    # oh, we need to keep list. I'm not sure thiss is what I want:
-    #   all_results = []
-    #     for result in results:
-    #     result = SomeRowResult(table1.col1, table2.col1, table3.col1)
-    #     all_results.append(result)
-    # https://stackoverflow.com/a/20096972/14420
+    '''Return named tuple of Home, Desktop and Startmenu paths.
 
+        folders = get_win_folders()
+        print("Home, Desktop, StartMenu ",
+            folders.home, folders.desktop, folders.startmenu)
+    '''
+    import win32com.client
+    shellapp = win32com.client.Dispatch("Shell.Application")
+    from collections import namedtuple
+    nt = namedtuple('folders', 'home desktop startmenu')
+    folders = nt(os.environ['USERPROFILE'],
+                shellapp.namespace(11).self.path,
+                shellapp.namespace(0).self.path)
+    return folders
+
+# Windows Special Folders
+# ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
+# https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
+#
+# Start menu: user = 11, all users = 22
+# Desktop   : user =  0, all users = 25
+
+
+##
 
 def get_homedir():
     "determine home directory of current user"
