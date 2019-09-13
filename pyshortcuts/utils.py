@@ -36,11 +36,6 @@ try:
 except ImportError:
     HAS_PWD = False
 
-
-#folders = get_folders()
-#if folders:
-#    print("Home, Desktop, StartMenu ", folders.home, folders.desktop, folders.start_menu)
-
 ## mhw: WIP: getting a handle on named tuples
 def get_win_folders():
     '''Return named tuple of Home, Desktop and Startmenu paths.
@@ -57,28 +52,26 @@ def get_win_folders():
                 shellapp.namespace(11).self.path,
                 shellapp.namespace(0).self.path)
     return folders
-
-# Windows Special Folders
-# ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
-# https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
-#
-# Start menu: user = 11, all users = 22
-# Desktop   : user =  0, all users = 25
-
+    # Windows Special Folders
+    # ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
+    # https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
+    #
+    # Start menu: user = 11, all users = 22
+    # Desktop   : user =  0, all users = 25
 
 ##
 
 def get_homedir():
     "determine home directory of current user"
     home = None
-    def check(method, s):
-        "check that os.path.expanduser / expandvars gives a useful result"
-        try:
-            if method(s) not in (None, s):
-                return method(s)
-        except:
-            pass
-        return None
+    # def check(method, s):
+    #     "check that os.path.expanduser / expandvars gives a useful result"
+    #     try:
+    #         if method(s) not in (None, s):
+    #             return method(s)
+    #     except:
+    #         pass
+    #     return None
 
     # for Unixes, allow for sudo case
     susername = os.environ.get("SUDO_USER", None)
@@ -90,11 +83,15 @@ def get_homedir():
         home = check(os.path.expanduser, '~')
 
     # try the common environmental variables
-    if home is  None:
+    if home is None:
         for var in ('$HOME', '$HOMEPATH', '$USERPROFILE', '$ALLUSERSPROFILE'):
-            home = check(os.path.expandvars, var)
-            if home is not None:
+            p = os.path.expandvars(var)
+            if os.path.exists(p):
+                home = p
                 break
+            #home = check(os.path.expandvars, var)
+            #if home is not None:
+            #    break
 
     # For Windows, ask for parent of Roaming 'Application Data' directory
     if home is None and os.name == 'nt':
