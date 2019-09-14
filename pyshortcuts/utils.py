@@ -64,6 +64,17 @@ def get_win_folders():
 def get_homedir():
     "determine home directory of current user"
     home = None
+
+    def get_home_from_env():
+    # '~' -- should work on most Unixes
+    # then try common environmental variables
+        for var in ('~', '$HOME', '$HOMEPATH', '$USERPROFILE', '$ALLUSERSPROFILE'):
+            p = os.path.expandvars(var)
+            if os.path.exists(p):
+                return p
+
+    ## Verifies string coming out of expandvar doesn't match the var name
+    ## so doesn't provide much protection, the dir could still not exist
     # def check(method, s):
     #     "check that os.path.expanduser / expandvars gives a useful result"
     #     try:
@@ -78,36 +89,13 @@ def get_homedir():
     if HAS_PWD and susername is not None and home is None:
         home = pwd.getpwnam(susername).pw_dir
 
-    # try expanding '~' -- should work on most Unixes
-    if home is None:
-        # home = check(os.path.expanduser, '~')
-        p = os.path.expandvars('~')
-        if os.path.exists(p):
-            home = p
-
-    # try the common environmental variables
-    if home is None:
-        for var in ('$HOME', '$HOMEPATH', '$USERPROFILE', '$ALLUSERSPROFILE'):
-            p = os.path.expandvars(var)
-            if os.path.exists(p):
-                home = p
-                break
-            #home = check(os.path.expandvars, var)
-            #if home is not None:
-            #    break
-
-    ## USERPROFILE always exists (right?) so this next bit unneeded
-    # # For Windows, ask for parent of Roaming 'Application Data' directory
-    # if home is None and os.name == 'nt':
-    #     try:
-    #         from win32com.shell import shellcon, shell
-    #         home = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-    #     except ImportError:
-    #         pass
+    elif home is None:
+        home = get_home_from_env()
 
     # finally, use current folder
-    if home is None:
+    else:
         home = os.path.abspath('.')
+
     return nativepath(home)
 
 
