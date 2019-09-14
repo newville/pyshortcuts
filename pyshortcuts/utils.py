@@ -54,7 +54,7 @@ def get_win_folders():
 
     nt = namedtuple("folders", "home desktop startmenu")
     folders = nt(
-        os.environ["USERPROFILE"],
+        shellapp.namespace(40).self.path,
         shellapp.namespace(11).self.path,
         shellapp.namespace(0).self.path,
     )
@@ -65,7 +65,7 @@ def get_win_folders():
     #
     # Start menu: user = 11, all users = 22
     # Desktop   : user =  0, all users = 25
-
+    # Profile   : = 40, same as %USERPROFILE%
 
 ##
 
