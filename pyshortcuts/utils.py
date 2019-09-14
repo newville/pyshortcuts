@@ -7,6 +7,7 @@ utilities for pyshortcuts
 """
 import os
 import sys
+from collections import namedtuple
 
 
 platform = sys.platform
@@ -39,7 +40,23 @@ try:
 except ImportError:
     HAS_PWD = False
 
-## mhw: WIP: getting a handle on named tuples
+## WIP: unix folder paths
+def get_nix_folders():
+    """Return named tuple of Home, Desktop and StartMenu paths.
+
+        folders = get_nix_folders()
+        print("Home, Desktop, StartMenu ",
+            folders.home, folders.desktop, folders.startmenu)
+    """
+    nt = namedtuple("folders", "home desktop startmenu")
+    folders = nt(get_homedir(),
+                os.path.join(get_homedir(), "Desktop"),
+                None)
+    return folders
+
+##
+
+
 def get_win_folders():
     """Return named tuple of Home, Desktop and Startmenu paths.
 
@@ -50,7 +67,6 @@ def get_win_folders():
     import win32com.client
 
     shellapp = win32com.client.Dispatch("Shell.Application")
-    from collections import namedtuple
 
     nt = namedtuple("folders", "home desktop startmenu")
     folders = nt(
@@ -66,8 +82,6 @@ def get_win_folders():
     # Start menu: user = 11, all users = 22
     # Desktop   : user =  0, all users = 25
     # Profile   : = 40, same as %USERPROFILE%
-
-##
 
 
 def get_homedir():
