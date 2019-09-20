@@ -5,6 +5,8 @@ Create desktop shortcuts for Linux
 from __future__ import print_function
 import os
 import sys
+from collections import namedtuple
+
 
 from .shortcut import Shortcut
 from .utils import get_homedir
@@ -17,6 +19,37 @@ Terminal={term:s}
 Icon={icon:s}
 Exec={exe:s} {script:s} {args:s}
 """
+
+def get_folders():
+    """Return named tuple of Home, Desktop and Startmenu paths.
+
+        folders = get_folders()
+        print("Home, Desktop, StartMenu ",
+            folders.home, folders.desktop, folders.startmenu)
+    """
+    homedir = get_homedir()
+    desktop = os.path.join(homedir, 'Desktop')
+
+    # search for .config/user-dirs.dirs in HOMEDIR
+    ud_file = os.path.join(homedir, '.config', 'user-dirs.dirs')
+    if os.path.exists(ud_file):
+        val = desktop
+        with open(ud_file, 'r') as fh:
+            text = fh.readlines()
+        for line in text:
+            if 'DESKTOP' in line:
+                line = line.replace('$HOME', homedir)[:-1]
+                key, val = line.split('=')
+                val = val.replace('"', '').replace("'", "")
+        desktop = val
+
+    nt = namedtuple("folders", "home desktop startmenu")
+    folders = nt(
+        homedir,
+        desktop,
+        None
+    )
+    return folders
 
 
 def make_shortcut(script, name=None, description=None, terminal=True,
@@ -44,7 +77,7 @@ def make_shortcut(script, name=None, description=None, terminal=True,
                                script=scut.full_script, args=scut.args,
                                term=term)
     # Desktop
-    desktop = os.path.join(get_homedir(), 'Desktop')
+    desktop = os.path.join(get_homedir(), 'Desktop') # todo: use folders.desktop
     if os.path.exists(desktop):
         with open(scut.target, 'w') as fout:
             fout.write(text)

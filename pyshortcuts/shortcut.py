@@ -70,26 +70,20 @@ class Shortcut():
         if self.description is None:
             self.description = name
 
-        homedir = get_homedir()
-        desktop = dest = os.path.join(homedir, 'Desktop')
-        if platform == 'linux':
-            # search for .config/user-dirs.dirs in HOMEDIR
-            ud_file = os.path.join(homedir, '.config', 'user-dirs.dirs')
-            if os.path.exists(ud_file):
-                val = desktop
-                with open(ud_file, 'r') as fh:
-                    text = fh.readlines()
-                for line in text:
-                    if 'DESKTOP' in line:
-                        line = line.replace('$HOME', homedir)[:-1]
-                        key, val = line.split('=')
-                        val = val.replace('"', '').replace("'", "")
-                desktop = dest = val
-        if folder is not None:
-            if folder.startswith(desktop):
-                folder = folder[len(desktop)+1:]
-            dest = os.path.join(desktop, folder)
+        # desktop = dest = os.path.join(get_homedir(), 'Desktop')
+        # if folder is not None:
+        #     # if folder var has a value
+        #     #   and it matches the beginning of just created `desktop` var
+        #     #   reassign folder var to be substring of folder var
+        #     #   that is 1 char longer that desktop var
+        #     # reassign `dest` to be desktop path + folder path
+        #     if folder.startswith(desktop):
+        #         folder = folder[len(desktop)+1:]
+        #     dest = os.path.join(desktop, folder)
 
+        #ignore all above, just make dest same as folder:
+        desktop = dest = folder
+        # print(f'---target dest: {dest}') # debug, py36+
 
         if not os.path.exists(dest):
             os.mkdir(dest)
