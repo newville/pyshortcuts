@@ -10,7 +10,7 @@ from .utils import platform
 
 make_shortcut = None
 if platform.startswith('win'):
-    from .windows import make_shortcut
+    from .windows import make_shortcut, get_folders
 
 elif platform.startswith('darwin'):
     from .darwin import make_shortcut

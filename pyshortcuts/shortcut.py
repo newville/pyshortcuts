@@ -70,12 +70,20 @@ class Shortcut():
         if self.description is None:
             self.description = name
 
-        desktop = dest = os.path.join(get_homedir(), 'Desktop')
-        if folder is not None:
-            if folder.startswith(desktop):
-                folder = folder[len(desktop)+1:]
-            dest = os.path.join(desktop, folder)
+        # desktop = dest = os.path.join(get_homedir(), 'Desktop')
+        # if folder is not None:
+        #     # if folder var has a value
+        #     #   and it matches the beginning of just created `desktop` var
+        #     #   reassign folder var to be substring of folder var
+        #     #   that is 1 char longer that desktop var
+        #     # reassign `dest` to be desktop path + folder path
+        #     if folder.startswith(desktop):
+        #         folder = folder[len(desktop)+1:]
+        #     dest = os.path.join(desktop, folder)
 
+        #ignore all above, just make dest same as folder:
+        desktop = dest = folder
+        print(f'---target dest: {dest}')
 
         if not os.path.exists(dest):
             os.mkdir(dest)

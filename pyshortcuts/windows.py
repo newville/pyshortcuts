@@ -34,6 +34,32 @@ def get_desktop_folder():
     return shellapp.namespace(0).self.path
 
 
+def get_folders():
+    """Return named tuple of Home, Desktop and Startmenu paths.
+
+        folders = get_win_folders()
+        print("Home, Desktop, StartMenu ",
+            folders.home, folders.desktop, folders.startmenu)
+    """
+    import win32com.client
+    from collections import namedtuple
+
+    shellapp = win32com.client.Dispatch("Shell.Application")
+
+    nt = namedtuple("folders", "home desktop startmenu")
+    folders = nt(
+        shellapp.namespace(40).self.path,
+        shellapp.namespace(0).self.path,
+        shellapp.namespace(11).self.path,
+    )
+    return folders
+    # Windows Special Folders
+    # ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
+    # https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
+    #
+    # Start menu: user = 11, all users = 22
+    # Desktop   : user =  0, all users = 25
+    # Profile   : = 40, same as %USERPROFILE%
 def make_shortcut(script, name=None, description=None, terminal=True,
                   folder=None, icon=None):
     """create windows shortcut
@@ -47,11 +73,11 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     folder      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
     terminal    (True or False) whether to run in a Terminal  [True]
     """
+    homedir = get_homedir()
+    print(f'--- windows.py:make_shortcut() folder= {folder}')
 
     scut = Shortcut(script, name=name, description=description,
                     folder=folder, icon=icon)
-
-    homedir = get_homedir()
 
     pyexe = os.path.join(sys.prefix, 'pythonw.exe')
     if terminal:
