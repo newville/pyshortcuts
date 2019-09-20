@@ -74,7 +74,7 @@ def make_shortcut(script, name=None, description=None, terminal=True,
     terminal    (True or False) whether to run in a Terminal  [True]
     """
     homedir = get_homedir()
-    print(f'--- windows.py:make_shortcut() folder= {folder}')
+    # print(f'--- windows.py:make_shortcut() folder= {folder}') # debug, py36+
 
     scut = Shortcut(script, name=name, description=description,
                     folder=folder, icon=icon)

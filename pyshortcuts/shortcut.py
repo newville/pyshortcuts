@@ -83,7 +83,7 @@ class Shortcut():
 
         #ignore all above, just make dest same as folder:
         desktop = dest = folder
-        print(f'---target dest: {dest}')
+        # print(f'---target dest: {dest}') # debug, py36+
 
         if not os.path.exists(dest):
             os.mkdir(dest)
