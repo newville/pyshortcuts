@@ -85,21 +85,6 @@ class Shortcut():
         desktop = dest = folder
         print(f'---target dest: {dest}')
 
-        if platform == 'linux':
-            # search for .config/user-dirs.dirs in HOMEDIR
-            ud_file = os.path.join(homedir, '.config', 'user-dirs.dirs')
-            if os.path.exists(ud_file):
-                val = desktop
-                with open(ud_file, 'r') as fh:
-                    text = fh.readlines()
-                for line in text:
-                    if 'DESKTOP' in line:
-                        line = line.replace('$HOME', homedir)[:-1]
-                        key, val = line.split('=')
-                        val = val.replace('"', '').replace("'", "")
-                desktop = dest = val
-
-
         if not os.path.exists(dest):
             os.mkdir(dest)
 

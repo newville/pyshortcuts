@@ -16,7 +16,7 @@ elif platform.startswith('darwin'):
     from .darwin import make_shortcut
 
 elif platform.startswith('linux'):
-    from .linux import make_shortcut
+    from .linux import make_shortcut, get_folders
 
 try:
     import wx
