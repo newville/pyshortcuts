@@ -21,7 +21,7 @@ def test_shortcut():
     scut = make_shortcut(script, name='Timer', icon=icon, folder=folders.desktop)
     assert isinstance(scut, shortcut.Shortcut), 'it returns a shortcut instance'
 
-    raise err # force crash so we see manual print() debug statements
+    #raise err # force crash so we see manual print() debug statements
 
 if __name__ == '__main__':
     test_shortcut()
