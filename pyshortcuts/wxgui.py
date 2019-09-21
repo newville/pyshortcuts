@@ -11,9 +11,8 @@ else:
 
 import wx.lib.filebrowsebutton as filebrowse
 
-from pyshortcuts import make_shortcut
-from pyshortcuts.shortcut import Shortcut, fix_filename
-from pyshortcuts.utils import platform, get_homedir
+from pyshortcuts import (make_shortcut, platform, get_desktop, shortcut, fix_filename)
+
 
 PY_FILES = "Python scripts (*.py)|*.py"
 ALL_FILES = "All files (*.*)|*.*"
@@ -193,7 +192,7 @@ class ShortcutFrame(wx.Frame):
     def onBrowseFolder(self, event=None):
         defdir = self.txt_folder.GetValue()
         if defdir in ('', 'Desktop'):
-            defdir = os.path.join(get_homedir(), 'Desktop')
+            defdir = get_desktop()
         dlg = wx.DirDialog(self,
                            message='Select Folder for Shortcut',
                            defaultPath=defdir,
@@ -201,7 +200,7 @@ class ShortcutFrame(wx.Frame):
 
         if dlg.ShowModal() == wx.ID_OK:
             folder = os.path.abspath(dlg.GetPath())
-            desktop = os.path.join(get_homedir(), 'Desktop')
+            desktop = get_desktop()
             if folder.startswith(desktop):
                 folder.replace(desktop, '')
                 if folder.startswith('/'):
@@ -249,7 +248,7 @@ class ShortcutFrame(wx.Frame):
             return
 
         if folder is not None:
-            desktop = os.path.join(get_homedir(), 'Desktop')
+            desktop = get_desktop()
             if folder.startswith(desktop):
                 folder.replace(desktop, '')
                 if folder.startswith('/'):

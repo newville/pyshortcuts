@@ -15,24 +15,25 @@ if os.name == "nt":
 if platform == "linux2":
     platform = "linux"
 
-from .linux import (make_shortcut, get_folders, get_homedir,
-                    scut_ext, ico_ext)
+from .linux import (scut_ext, ico_ext, make_shortcut,
+                    get_folders, get_homedir, get_desktop)
 
 if platform.startswith('win'):
-    from .windows import (make_shortcut, get_folders, get_homedir,
-                          scut_ext, ico_ext)
+    from .windows import (scut_ext, ico_ext, make_shortcut,
+                          get_folders, get_homedir, get_desktop)
 
 elif platform.startswith('darwin'):
-    from .darwin import (make_shortcut, get_folders, get_homedir,
-                         scut_ext, ico_ext)
+    from .darwin import (scut_ext, ico_ext, make_shortcut,
+                         get_folders, get_homedir, get_desktop)
 
+from .shortcut import shortcut, Shortcut, fix_filename
 
 try:
     import wx
-    from .wxgui import ShortcutFrame
     HAS_WX = True
 except ImportError:
     HAS_WX = False
+from .wxgui import ShortcutFrame
 
 
 # for back-compat
@@ -81,6 +82,7 @@ def shortcut_cli():
 
     (options, args) = parser.parse_args()
 
+    print(HAS_WX, options)
     if HAS_WX and options.wxgui:
         app = wx.App()
         ShortcutFrame().Show(True)
