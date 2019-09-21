@@ -2,14 +2,13 @@
 """
 Create desktop shortcuts for Linux
 """
-from __future__ import print_function
 import os
 import sys
-from collections import namedtuple
+from .shortcut import shortcut
+from . import UserFolders
 
-
-from .shortcut import Shortcut
-from .utils import get_homedir
+scut_ext = 'desktop'
+ico_ext = 'ico'
 
 DESKTOP_FORM = """[Desktop Entry]
 Name={name:s}
@@ -20,13 +19,29 @@ Icon={icon:s}
 Exec={exe:s} {script:s} {args:s}
 """
 
-def get_folders():
-    """Return named tuple of Home, Desktop and Startmenu paths.
+_HOME = None
+def get_homedir():
+    "determine home directory of current user"
+    global _HOME
+    if _HOME is not None:
+        return _HOME
 
-        folders = get_folders()
-        print("Home, Desktop, StartMenu ",
-            folders.home, folders.desktop, folders.startmenu)
-    """
+    home = None
+    try:
+        from pathlib import Path  #  Py3.5+
+        home = str(Path.home())
+    except:
+        pass
+
+    if home is None:
+        home = os.path.expanduser("~")
+    if home is None:
+        home = os.environ.get("HOME", os.path.abspath("."))
+    _HOME = home
+    return home
+
+def get_desktop():
+    "get desktop location"
     homedir = get_homedir()
     desktop = os.path.join(homedir, 'Desktop')
 
@@ -42,52 +57,71 @@ def get_folders():
                 key, val = line.split('=')
                 val = val.replace('"', '').replace("'", "")
         desktop = val
+    return desktop
 
-    nt = namedtuple("folders", "home desktop startmenu")
-    folders = nt(
-        homedir,
-        desktop,
-        None
-    )
-    return folders
+def get_startmenu():
+    "get start menu location"
+    homedir = get_homedir()
+    return os.path.join(homedir, '.local', 'share', 'applications')
 
+def get_folders():
+    """get user-specific folders
 
-def make_shortcut(script, name=None, description=None, terminal=True,
-                  folder=None, icon=None):
-    """create linux .desktop file
+    Returns:
+    -------
+    Named tuple with fields 'home', 'desktop', 'startmenu'
 
-    Arguments
-    ---------
-    script      (str)  path to script to run.  This can include  command-line arguments
-    name        (str or None) name to use for shortcut [defaults to script name]
-    description (str or None) longer description of script [defaults to `name`]
-    icon        (str or None) path to icon file [defaults to python icon]
-    folder      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
-    terminal    (True or False) whether to run in a Terminal  [True]
+    Example:
+    -------
+    >>> from pyshortcuts import get_folders
+    >>> folders = get_folders()
+    >>> print("Home, Desktop, StartMenu ",
+    ...       folders.home, folders.desktop, folders.startmenu)
     """
+    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
-    scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
 
-    term = 'false'
-    if terminal:
-        term = 'true'
+def make_shortcut(script, name=None, description=None, icon=None,
+                  folder=None, terminal=True, desktop=True,
+                  startmenu=True, executable=None):
+    """create shortcut
 
+    Arguments:
+    ---------
+    script      (str) path to script, may include command-line arguments
+    name        (str, None) name to display for shortcut [name of script]
+    description (str, None) longer description of script [`name`]
+    icon        (str, None) path to icon file [python icon]
+    folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
+    terminal    (bool) whether to run in a Terminal [True]
+    desktop     (bool) whether to add shortcut to Desktop [True]
+    startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
+    executable  (str, None) name of executable to use [this Python] (see Note 3)
+
+    Notes:
+    ------
+    1. `folder` will place shortcut in a subfolder of Desktop and/or Start Menu
+    2. Start Menu does not exist for Darwin / MacOSX
+    3. executable defaults to the Python executable used to make shortcut.
+    """
+    userfolder = get_folders()
+    scut = shortcut(script, userfolders, name=name, description=description,
+                    folder=folder, icon=icon)
+
+    if executable is None:
+        executable = sys.executable
     text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
-                               exe=sys.executable, icon=scut.icon,
-                               script=scut.full_script, args=scut.args,
-                               term=term)
-    # Desktop
-    desktop = os.path.join(get_homedir(), 'Desktop') # todo: use folders.desktop
-    if os.path.exists(desktop):
-        with open(scut.target, 'w') as fout:
-            fout.write(text)
+                               exe=executable, icon=scut.icon,
+                               script=scut.full_script, args=scut.argumentss,
+                               term='true' if terminal else 'false')
 
-    # Local Applications
-    appfolder = os.path.join(get_homedir(), '.local', 'share', 'applications')
-    if os.path.exists(appfolder):
-        _, target = os.path.split(scut.target)
-        apptarget = os.path.join(appfolder, target)
-        with open(apptarget, 'w') as fout:
-            fout.write(text)
+    for (create, folder) in ((desktop, scut.desktop_dir),
+                             (startmenu, scut.startmenu_dir)):
+        if create:
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+            dest = os.path.join(folder, scut.target)
+            with open(dest, 'w') as fout:
+                fout.write(text)
 
     return scut
