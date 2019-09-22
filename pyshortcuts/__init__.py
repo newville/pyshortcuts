@@ -55,6 +55,9 @@ def shortcut_cli():
                             formatter_class=RawDescriptionHelpFormatter)
 
 
+    parser.add_argument('-v', '--version', dest='version', action='store_true',
+                        default=False, help='show version')
+
     parser.add_argument('-n', '--name', dest='name', default=None,
                         help='name for shortcut link')
 
@@ -86,6 +89,9 @@ def shortcut_cli():
                         help='script name, including arguments')
 
     args = parser.parse_args()
+
+    if args.version:
+        print("pyshortcuts {:s}".format(__version__))
 
     if HAS_WX and args.wxgui:
         app = wx.App()
