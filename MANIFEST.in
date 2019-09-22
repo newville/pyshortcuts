@@ -1,4 +1,10 @@
-include README.md LICENSE MANIFEST.in setup.py
-include PyshortcutGUI.png
-recursive-include pyshortcuts
-recursive-include examples
+include README.md LICENSE MANIFEST.in setup.py requirements.txt
+include doc/pyshortcutgui_screenshot.png
+exclude *.pyc core.* *~ *.pdf
+recursive-exclude pyyshortcuts/__pycache__ *
+
+recursive-exclude pyshortcuts *.pyc
+recursive-include pyshortcuts *.py
+recursive-include pyshortcuts/icons *
+recursive-include examples *
+recursive-include tests *.py
