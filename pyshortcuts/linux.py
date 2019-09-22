@@ -112,7 +112,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
         executable = sys.executable
     text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
                                exe=executable, icon=scut.icon,
-                               script=scut.full_script, args=scut.argumentss,
+                               script=scut.full_script, args=scut.arguments,
                                term='true' if terminal else 'false')
 
     for (create, folder) in ((desktop, scut.desktop_dir),
