@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
-__version__ = '1.4'
+__version__ = '1.5'
 
 import os
 import sys
-from optparse import OptionParser
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from collections import namedtuple
 
 UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
-
 
 platform = sys.platform
 if os.name == "nt":
@@ -48,58 +47,61 @@ def shortcut_cli():
     '''
     command-line interface to creating desktop shortcuts
     '''
-    usage = 'Usage: pyshortcut [options] scriptname'
-    vers = 'pyshortcut %s' % (__version__)
-
-    parser = OptionParser(usage=usage, prog='pyshortcut', version=vers)
-
-    parser.add_option('-n', '--name', dest='name', metavar='link_name',
-                      default=None, help='name for shortcut link')
-
-    parser.add_option('-i', '--icon', dest='icon', metavar='icon_name',
-                      default=None, help='name of icon file')
-
-    parser.add_option('-f', '--folder', dest='folder', metavar='subfolder',
-                      default=None, help='subfolder on desktop to put icon')
-
-    parser.add_option('-e', '--executable', dest='exe', metavar='exe_name',
-                      default=None, help='name of executable to use (python)')
-
-    parser.add_option('-t', '--terminal', dest='terminal', action='store_true',
-                      default=True, help='run in a Terminal [True]')
-
-    parser.add_option('-g', '--gui', dest='gui', action='store_true',
-                      default=False, help='run as GUI, with no Terminal [False]')
-
-    parser.add_option('-d', '--desktop', dest='desktop', action='store_true',
-                      default=True, help='create desktop shortcut [True]')
-
-    parser.add_option('-s', '--startmenu', dest='startmenu', action='store_true',
-                      default=True, help='create Start Menu shortcut [True]')
-
-    parser.add_option('-w', '--wxgui', dest='wxgui', action='store_true',
-                      default=False, help='run GUI version of pyshortcut')
+    desc = 'create desktop and start menu shortcuts'
+    version_string = 'pyshortcut %s' % (__version__)
 
 
-    (options, args) = parser.parse_args()
+    parser = ArgumentParser(description=desc, # version=version_string,
+                            formatter_class=RawDescriptionHelpFormatter)
 
-    print(HAS_WX, options)
-    if HAS_WX and options.wxgui:
+
+    parser.add_argument('-n', '--name', dest='name', default=None,
+                        help='name for shortcut link')
+
+    parser.add_argument('-i', '--icon', dest='icon', default=None,
+                        help='name of icon file')
+
+    parser.add_argument('-f', '--folder', dest='folder', default=None,
+                        help='subfolder on desktop to put shortcut')
+
+    parser.add_argument('-e', '--executable', dest='exe', default=None,
+                        help='name of executable to use (python)')
+
+    parser.add_argument('-t', '--terminal', dest='terminal', action='store_true',
+                        default=True, help='run script in a Terminal [True]')
+
+    parser.add_argument('-g', '--gui', dest='gui', action='store_true',
+                        default=False, help='run script as GUI, with no Terminal [False]')
+
+    parser.add_argument('-d', '--desktop', dest='desktop', action='store_true',
+                        default=True, help='create desktop shortcut [True]')
+
+    parser.add_argument('-s', '--startmenu', dest='startmenu', action='store_true',
+                        default=True, help='create Start Menu shortcut [True]')
+
+    parser.add_argument('-w', '--wxgui', dest='wxgui', action='store_true',
+                        default=False, help='run GUI version of pyshortcut [False]')
+
+    parser.add_argument('scriptname', nargs='?',
+                        help='script name, including arguments')
+
+    args = parser.parse_args()
+
+    if HAS_WX and args.wxgui:
         app = wx.App()
         ShortcutFrame().Show(True)
         app.MainLoop()
         sys.exit()
 
-    if options.gui:
-        options.terminal = False
+    if args.gui:
+        args.terminal = False
 
-    if len(args) != 1:
-        print("pyshortcut: must provide script.  try 'pyshortcuts -h'")
+    if args.scriptname is None:
+        print("pyshortcut: must provide one script.  try 'pyshortcuts -h'")
         sys.exit()
 
-    desc = scriptname = args[0]
-    print('creating %s shortcut for script %s' % (platform, scriptname))
-    make_shortcut(scriptname, name=options.name, description=desc,
-                  terminal=options.terminal, folder=options.folder,
-                  icon=options.icon, desktop=options.desktop,
-                  startmenu=options.startmenu, executable=options.exe)
+    desc = scriptname = args.scriptname
+    make_shortcut(scriptname, name=args.name, description=desc,
+                  terminal=args.terminal, folder=args.folder,
+                  icon=args.icon, desktop=args.desktop,
+                  startmenu=args.startmenu, executable=args.exe)
