@@ -9,6 +9,7 @@ from collections import namedtuple
 
 UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
 
+
 platform = sys.platform
 if os.name == "nt":
     platform = "win"
@@ -31,9 +32,9 @@ from .shortcut import shortcut, Shortcut, fix_filename
 try:
     import wx
     HAS_WX = True
+    from .wxgui import ShortcutFrame
 except ImportError:
     HAS_WX = False
-from .wxgui import ShortcutFrame
 
 
 # for back-compat
