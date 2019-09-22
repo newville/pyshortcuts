@@ -123,5 +123,5 @@ def make_shortcut(script, name=None, description=None, icon=None,
             dest = os.path.join(folder, scut.target)
             with open(dest, 'w') as fout:
                 fout.write(text)
-
+            os.chmod(dest, 493) ## = octal 755 / rwxr-xr-x
     return scut
