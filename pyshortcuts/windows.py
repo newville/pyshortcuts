@@ -117,7 +117,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
             wscript = _WSHELL.CreateShortCut(dest)
             wscript.Targetpath = '"%s"' % executable
             wscript.Arguments = full_script
-            wscript.WorkingDirectory = folders.home
+            wscript.WorkingDirectory = userfolders.home
             wscript.WindowStyle = 0
             wscript.Description = scut.description
             wscript.IconLocation = scut.icon
