@@ -56,7 +56,7 @@ def get_folders():
     >>> print("Home, Desktop, StartMenu ",
     ...       folders.home, folders.desktop, folders.startmenu)
     """
-    return UserFolder(get_homedir(), get_desktop(), get_startmenu())
+    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
 
 def make_shortcut(script, name=None, description=None, icon=None,

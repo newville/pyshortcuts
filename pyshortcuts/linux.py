@@ -104,7 +104,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     2. Start Menu does not exist for Darwin / MacOSX
     3. executable defaults to the Python executable used to make shortcut.
     """
-    userfolder = get_folders()
+    userfolders = get_folders()
     scut = shortcut(script, userfolders, name=name, description=description,
                     folder=folder, icon=icon)
 
