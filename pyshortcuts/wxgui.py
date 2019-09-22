@@ -270,11 +270,6 @@ class ShortcutFrame(wx.Frame):
 
         terminal = self.opt_terminal.IsChecked()
 
-        if as_string:
-            script = "'%s %s'" % (script[1:-1], args[1:-1])
-        else:
-            script = "%s %s" % (script, args)
-
         if script in (None, 'None'):
             dlg = wx.MessageDialog(self, "script required",
                                    style=wx.OK|wx.ICON_INFORMATION)
@@ -282,12 +277,20 @@ class ShortcutFrame(wx.Frame):
             dlg.Destroy()
             return
 
+        if as_string:
+            script = "'%s %s'" % (script[1:-1], args[1:-1])
+        else:
+            script = "%s %s" % (script, args)
+        script = script.strip()
+
         return dict(script=script, name=name, description=desc, icon=icon,
                    folder=folder, terminal=terminal, desktop=desktop,
                    startmenu=startmenu, executable=executable)
 
     def onCreate(self, event=None):
         opts = self.read_form()
+        if opts is None:
+            return
         script = opts.pop('script')
         make_shortcut(script, **opts)
 
@@ -302,6 +305,8 @@ class ShortcutFrame(wx.Frame):
         if dlg.ShowModal() == wx.ID_OK:
             path = os.path.abspath(dlg.GetPath())
             opts = self.read_form(as_string=True)
+            if opts is None:
+                return
             buff = ['#!/usr/bin/env python',
                     'from pyshortcuts import make_shortcut',
                     """make_shortcut({script:s},
