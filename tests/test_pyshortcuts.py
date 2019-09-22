@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from pyshortcuts import make_shortcut, platform, shortcut, get_folders
+from pyshortcuts import make_shortcut, platform, Shortcut, get_folders
 
 root = os.path.abspath(os.path.join(__file__, '..', '..'))
 
@@ -19,10 +19,9 @@ def test_shortcut():
 
     icon = "%s.%s" % (icon, iext)
     scut = make_shortcut(script, name='Timer', icon=icon, folder=folders.desktop)
-    assert isinstance(scut, shortcut.Shortcut), 'it returns a shortcut instance'
+    assert isinstance(scut, Shortcut), 'it returns a shortcut instance'
 
     #raise err # force crash so we see manual print() debug statements
 
 if __name__ == '__main__':
     test_shortcut()
-

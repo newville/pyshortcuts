@@ -7,7 +7,32 @@ import os
 import sys
 import shutil
 
-from .shortcut import Shortcut
+from .shortcut import shortcut
+from .linux import get_homedir, get_desktop
+from . import UserFolders
+
+scut_ext = 'app'
+ico_ext = 'icns'
+
+def get_startmenu():
+    "get start menu location"
+    return ''
+
+def get_folders():
+    """get user-specific folders
+
+    Returns:
+    -------
+    Named tuple with fields 'home', 'desktop', 'startmenu'
+
+    Example:
+    -------
+    >>> from pyshortcuts import get_folders
+    >>> folders = get_folders()
+    >>> print("Home, Desktop, StartMenu ",
+    ...       folders.home, folders.desktop, folders.startmenu)
+    """
+    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
 def fix_anacondapy_pythonw(fname):
     """fix shebang line for scripts using anaconda python
@@ -27,44 +52,66 @@ def fix_anacondapy_pythonw(fname):
         fh.write("".join(lines[1:]))
         fh.close()
 
-def make_shortcut(script, name=None, description=None, terminal=True,
-                  folder=None, icon=None):
-    """create minimal Mac App to run script
+def make_shortcut(script, name=None, description=None, icon=None,
+                  folder=None, terminal=True, desktop=True,
+                  startmenu=True, executable=None):
+    """create shortcut
 
-    Arguments
+    Arguments:
     ---------
-    script      (str)  path to script to run.  This can include  command-line arguments
-    name        (str or None) name to use for shortcut [defaults to script name]
-    description (str or None) longer description of script [defaults to `name`]
-    icon        (str or None) path to icon file [defaults to python icon]
-    folder      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
-    terminal    (True or False) whether to run in a Terminal  [True]
-    """
-    scut = Shortcut(script, name=name, description=description, folder=folder, icon=icon)
+    script      (str) path to script, may include command-line arguments
+    name        (str, None) name to display for shortcut [name of script]
+    description (str, None) longer description of script [`name`]
+    icon        (str, None) path to icon file [python icon]
+    folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
+    terminal    (bool) whether to run in a Terminal [True]
+    desktop     (bool) whether to add shortcut to Desktop [True]
+    startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
+    executable  (str, None) name of executable to use [this Python] (see Note 3)
 
-    osascript = '%s %s' % (scut.full_script, scut.args)
+    Notes:
+    ------
+    1. `folder` will place shortcut in a subfolder of Desktop and/or Start Menu
+    2. Start Menu does not exist for Darwin / MacOSX
+    3. executable defaults to the Python executable used to make shortcut.
+    """
+    if not desktop:
+        return
+
+    userfolders = get_folders()
+    scut = shortcut(script, userfolders, name=name, description=description,
+                    folder=folder, icon=icon)
+
+    osascript = '%s %s' % (scut.full_script, scut.arguments)
     osascript = osascript.replace(' ', '\\ ')
 
-    pyexe = sys.executable
-    has_conda = os.path.exists(os.path.join(sys.prefix, 'conda-meta'))
-    pyapp_exe = "{prefix:s}/python.app/Contents/MacOS/python".format(prefix=sys.prefix)
-    if has_conda and os.path.exists(pyapp_exe):
-        pyexe = pyapp_exe
-        fix_anacondapy_pythonw(scut.full_script)
+    if executable is None:
+        executable = sys.executable
+        # check for Anaconda on MacOSX
+        has_conda = os.path.exists(os.path.join(sys.prefix, 'conda-meta'))
+        pyapp_exe = "{:s}/python.app/Contents/MacOS/python".format(sys.prefix)
+        if has_conda and os.path.exists(pyapp_exe):
+            executable = pyapp_exe
+            fix_anacondapy_pythonw(scut.full_script)
 
-    dest = scut.target
+    if not os.path.exists(scut.desktop_dir):
+        os.makedirs(scut.desktop_dir)
+
+    dest = os.path.join(scut.desktop_dir, scut.target)
     if os.path.exists(dest):
         shutil.rmtree(dest)
+
     os.mkdir(dest)
     os.mkdir(os.path.join(dest, 'Contents'))
     os.mkdir(os.path.join(dest, 'Contents', 'MacOS'))
     os.mkdir(os.path.join(dest, 'Contents', 'Resources'))
+
     opts = dict(name=scut.name,
                 desc=scut.description,
                 script=scut.full_script,
-                args=scut.args,
+                args=scut.arguments,
                 prefix=sys.prefix,
-                pyexe=pyexe,
+                exe=executable,
                 osascript=osascript)
 
     info = """<?xml version="1.0" encoding="UTF-8"?>
@@ -82,17 +129,17 @@ def make_shortcut(script, name=None, description=None, terminal=True,
 """
 
     header = """#!/bin/bash
-## Run script with Python that created this script
+## Make sure to set PYTHONEXECUTABLE to Python that created this script
 export PYTHONEXECUTABLE={prefix:s}/bin/python
-export PY={pyexe:s}
+export EXE={exe:s}
 export SCRIPT={script:s}
 export ARGS='{args:s}'
 """
-    text = "$PY $SCRIPT $ARGS"
+    text = "$EXE $SCRIPT $ARGS"
     if terminal:
         text = """
 osascript -e 'tell application "Terminal"
-   do script "'${{PY}}\ {osascript:s}'"
+   do script "'${{EXE}}\ {osascript:s}'"
 end tell
 '
 """
@@ -109,5 +156,4 @@ end tell
     os.chmod(ascript_name, 493) ## = octal 755 / rwxr-xr-x
     icon_dest = os.path.join(dest, 'Contents', 'Resources', scut.name + '.icns')
     shutil.copy(scut.icon, icon_dest)
-
     return scut

@@ -4,26 +4,32 @@
 # pyshortcuts
 
 
-Pyshortcuts helps Python developers and users create desktop shortcuts that
-will run python scripts and applications.
+Pyshortcuts helps Python developers and users create shortcuts that will
+run python scripts and other applications.  The shortcuts created can go
+onto the users desktop or into the Start Menu (for systems with Start
+Menus) or both.
 
-Pyshortcuts works on Windows, MacOS, and Linux in the way that is most natural
-for each OS.  That is, on Windows, a Shortcut or Link is created and placed on
-the users Desktop. On MacOS, a minimal but complete Application is created and
-placed on the users Desktop. On Linux a ".desktop" file is created and placed
-on the users Desktop (if that exists) and in $HOME/.local/share/applications
-(if that exists).  On all platforms, the shortcut created on the Deskop can be
-put either directly on the user Desktop or in a folder on the users Desktop.
+Pyshortcuts works on Windows, MacOS, and Linux in the way that is most
+natural for each OS.  That is, on Windows, a Shortcut or Link is created
+and placed on the users Desktop and in the Start Menu. On MacOS, a minimal
+but complete Application is created and placed on the users Desktop.  On
+Linux a ".desktop" file is created and placed on the users Desktop (if that
+exists) and in $HOME/.local/share/applications (if that exists), which will
+often get presented in a Start Menu for windowing desktop themes that use a
+Start Menu.  On all platforms, the shortcuts created on the Deskop or Start
+Meny can be put either directly on the Desktop / Start Menu or in a folder
+on the Desktop / Start Menu.
 
-By writing only to the users Desktop or application folder, there is no need
-for elevated permission and no writing to system-level files (registry,
-/Applications, /usr/bin). After the shortcut has been created, the user has
-complete control to rename, move, or delete it.  Shortcuts can have a custom
-icon (`.ico` files on Windows or Linux, or `.icns` files on MacOS) specified,
-defaulting to a Python icon included with pyshortcuts.
+By writing only to the users Desktop or application folder that gets read
+by the Start Menu, there is no need for elevated permission and no writing
+to system-level files (registry entries, /Applications, /usr/bin, etc).
+After the shortcut has been created, the user has complete control to
+rename, move, or delete it.  Shortcuts can have a custom icon (`.ico` files
+on Windows or Linux, or `.icns` files on MacOS) specified, defaulting to a
+Python icon included with pyshortcuts.
 
 Pyshortcuts is pure python, small, easy to install, and easy to use from a
-python script.  This means that Pyshortcuts can be made part of an
+python script.   This means that Pyshortcuts can be made part of an
 installation (or post-installation process) process for larger packages.
 
 ## installation
@@ -64,7 +70,15 @@ The arguments to the `make_shortcut` function are:
   * `description` (str or None) longer description of script [defaults to `name`]
   * `icon`        (str or None) path to icon file [defaults to python icon]
   * `folder`      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
-  * `terminal`    (True or False) whether to run in a Terminal [True]
+  * `terminal`    (bool) whether to run in a Terminal [True]
+  * `desktop`  ((bool) whether to add shortcut to Desktop [True]
+  * `startmenu`   (bool) whether to add shortcut to Start Menu [True]
+  * `executable`  (str or None) name of executable to use [this Python]
+
+Note that the Start Menu does not exist for MacOSX.
+
+The `executable` defaults to the version of Python executable used to make shortcut.
+
 
 ##  `pyshortcut` command-line program
 
@@ -82,15 +96,34 @@ To include command-line options for the script, put them in double quotes
 ~> pyshortcut -n MyApp -i /home/user/icons/myicon.icns "/home/user/bin/myapp.py  -t 10"
 ```
 
-The `pyshortcut` command line program has the following optional arguments:
+The `pyshortcut` command line program has a form of
 
-  * `--version`        show program's version number and exit
-  * `-h`, `--help`     show help message and exit
-  * `-n link_name`, `--name=link_name` name for shortcut link
-  * `-i icon_name`, `--icon=icon_name` name of icon file
-  * `-f subfolder`, `--folder=subfolder` subfolder on desktop to put icon
+```
+pyshortcut [-h] [-v] [-n NAME] [-i ICON] [-f FOLDER] [-e EXE] [-t] [-g] [-d] [-s] [-w] [scriptname]
+```
+
+where `scriptname` is the name of the script.  To include arguments to that
+script, enclose the script name and arguments in quotes (double quotes on
+Windows).
+
+
+There are several optional arguments:
+
+
+
+with the following optional arguments:
+
+  * `-h`, `--help`      show help message and exit
+  * `-v`, `--version`   show program's version number and exit
+  * `-n NAME`, `--name=NAME` name for shortcut
+  * `-i ICON`, `--icon=ICON` name of icon file
+  * `-f FOLDER`, `--folder=Folder` subfolder on desktop to put icon
+  * `-e EXE`, `--executable EXE`     name of executable to use (python)
+
   * `-t`, `--terminal` run script in a Terminal Window [True]
   * `-g`, `--gui`      run script as a GUI, with no Terminal Window [False]
+  * `-d`,` --desktop`         create desktop shortcut [True]
+  * `-s`, `--startmenu`       create Start Menu shortcut [True]
   * `-w`, `--wxgui`    run GUI version of pyshortcut
 
 Note that running in the Terminal is True by default, which means that each
