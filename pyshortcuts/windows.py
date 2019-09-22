@@ -85,7 +85,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     userfolders = get_folders()
     scut = shortcut(script, userfolders, name=name, description=description,
                     folder=folder, icon=icon)
-
+    full_script = scut.full_script
     if executable is None:
         executable = os.path.join(sys.prefix, 'pythonw.exe')
         if terminal:
@@ -97,15 +97,16 @@ def make_shortcut(script, name=None, description=None, icon=None,
         tname = scut.full_script + '.exe'
         if os.path.exists(tname):
             executable = tname
-            scut.full_script = ''
+            full_script = ''
 
     # If script is already executable use it directly instead of via pyexe
     ext = os.path.splitext(scut.full_script)[1].lower()
     known_exes = [ext.lower() for ext in os.environ['PATHEXT'].split(os.pathsep)]
     if ext in known_exes:
         executable = scut.full_script
-        scut.full_script = ''
+        full_script = ''
 
+    full_script = ' '.join((full_script, scut.arguments))
     for (create, folder) in ((desktop, scut.desktop_dir),
                              (startmenu, scut.startmenu_dir)):
         if create:
@@ -115,7 +116,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
 
             wscript = _WSHELL.CreateShortCut(dest)
             wscript.Targetpath = '"%s"' % executable
-            wscript.Arguments = ' '.join((scut.full_script, scut.arguments))
+            wscript.Arguments = full_script
             wscript.WorkingDirectory = folders.home
             wscript.WindowStyle = 0
             wscript.Description = scut.description
