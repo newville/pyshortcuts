@@ -5,9 +5,11 @@ import wx
 
 import wx.lib.filebrowsebutton as filebrowse
 
-from pyshortcuts import (make_shortcut, platform,
-                         get_folders, shortcut, fix_filename)
+from pyshortcuts import make_shortcut, platform, get_folders, fix_filename
 
+
+USERFOLDERS = get_folders()
+DESKTOP = USERFOLDERS.desktop
 
 PY_FILES = "Python scripts (*.py)|*.py"
 ALL_FILES = "All files (*.*)|*.*"
@@ -25,8 +27,6 @@ FONTSIZE = 11
 if platform == 'linux':
     FONTSIZE = 10
 
-USERFOLDERS = get_folders()
-DESKTOP = USERFOLDERS.desktop
 
 class ShortcutFrame(wx.Frame):
     def __init__(self):
@@ -77,7 +77,6 @@ class ShortcutFrame(wx.Frame):
                                         size=(200, -1))
         self.opt_terminal.SetValue(1)
 
-
         targets = ('Desktop and Start Menu Shortcut',
                    'Desktop Shortcut only',
                    'Start Menu Shortcut only')
@@ -85,7 +84,7 @@ class ShortcutFrame(wx.Frame):
         self.targetchoice = wx.Choice(panel, choices=targets,
                                        size=(250, -1))
         self.targetchoice.SetSelection(0)
-        self.targetchoice.Enable(platform != 'darwin')
+        self.targetchoice.Enable(platform!='darwin')
 
         btn_script = wx.Button(panel, -1, label='Browse', size=(100, -1))
         btn_script.Bind(wx.EVT_BUTTON, self.onBrowseScript)
@@ -253,12 +252,8 @@ class ShortcutFrame(wx.Frame):
             val = wid.GetValue().strip()
             if len(val) < 1:
                 val = None
-            if val is None:
-                sval = 'None'
-            else:
-                sval = "'%s'" % val
             if as_string:
-                return sval
+                val = 'None' if val is None else "'%s'" % val
             return val
 
         script = str_or_None(self.txt_script)
@@ -270,7 +265,6 @@ class ShortcutFrame(wx.Frame):
         executable = str_or_None(self.txt_exec)
 
         targets = self.targetchoice.GetStringSelection().lower()
-
         desktop = 'desktop' in targets
         startmenu = 'start' in targets
 
@@ -298,10 +292,19 @@ class ShortcutFrame(wx.Frame):
         make_shortcut(script, **opts)
 
     def onSavePy(self, event=None):
-        opts = self.read_form(as_string=True)
-        buff = ['#!/usr/bin/env python',
-                'from pyshortcuts import make_shortcut',
-                """make_shortcut({script:s},
+        wildcards = "%s|%s" % (PY_FILES, ALL_FILES)
+        dlg = wx.FileDialog(self,
+                            message='Save Python script for creating shortcut',
+                            defaultFile='make_shortcut.py',
+                            wildcard=wildcards,
+                            style=wx.FD_SAVE)
+
+        if dlg.ShowModal() == wx.ID_OK:
+            path = os.path.abspath(dlg.GetPath())
+            opts = self.read_form(as_string=True)
+            buff = ['#!/usr/bin/env python',
+                    'from pyshortcuts import make_shortcut',
+                    """make_shortcut({script:s},
               name={name:s},
               description={description:s},
               folder={folder:s},
@@ -309,15 +312,6 @@ class ShortcutFrame(wx.Frame):
               terminal={terminal}, desktop={desktop}, startmenu={startmenu},
               executable={executable:s})""".format(**opts)]
 
-
-        wildcards = "%s|%s" % (PY_FILES, ALL_FILES)
-        dlg = wx.FileDialog(self, message='Save Python script for creating shortcut',
-                            defaultFile='make_shortcut.py',
-                            wildcard=wildcards,
-                            style=wx.FD_SAVE)
-
-        if dlg.ShowModal() == wx.ID_OK:
-            path = os.path.abspath(dlg.GetPath())
             with open(path, 'w') as fh:
                 fh.write('\n'.join(buff))
 
