@@ -48,7 +48,7 @@ class ShortcutFrame(wx.Frame):
 
         panel      = wx.Panel(self)
 
-        opts = dict(size=(175, -1))
+        opts = dict(size=(200, -1))
         lab_exec = wx.StaticText(panel, label='  Executable:', **opts)
         lab_script = wx.StaticText(panel, label='  Python Script:', **opts)
         lab_args  = wx.StaticText(panel, label='  Command-line Arguments:', **opts)
@@ -74,7 +74,7 @@ class ShortcutFrame(wx.Frame):
         self.txt_name.Bind(wx.EVT_TEXT_ENTER, self.onNameEnter)
 
         self.opt_terminal = wx.CheckBox(panel, label='Run in Terminal?',
-                                        size=(200, -1))
+                                        size=(250, -1))
         self.opt_terminal.SetValue(1)
 
         targets = ('Desktop and Start Menu Shortcut',
@@ -82,7 +82,7 @@ class ShortcutFrame(wx.Frame):
                    'Start Menu Shortcut only')
 
         self.targetchoice = wx.Choice(panel, choices=targets,
-                                       size=(250, -1))
+                                       size=(275, -1))
         self.targetchoice.SetSelection(0)
         self.targetchoice.Enable(platform!='darwin')
 
@@ -277,12 +277,23 @@ class ShortcutFrame(wx.Frame):
             dlg.Destroy()
             return
 
-        if as_string:
-            script = "'%s %s'" % (script[1:-1], args[1:-1])
-        else:
-            script = "%s %s" % (script, args)
-        script = script.strip()
+        def cleanpath(val):
+            if val in (None, 'None'):
+                val = ''
+            val = val.replace('\\', '/')
+            return val.strip()
 
+        script = cleanpath(script)
+        folder = cleanpath(folder)
+        icon = cleanpath(icon)
+        executable = cleanpath(executable)
+
+        if args not in (None, 'None'):
+            if as_string:
+                script = "'%s %s'" % (script[1:-1], args[1:-1])
+            else:
+                script = "%s %s" % (script, args)
+        script = script.strip()
         return dict(script=script, name=name, description=desc, icon=icon,
                    folder=folder, terminal=terminal, desktop=desktop,
                    startmenu=startmenu, executable=executable)
