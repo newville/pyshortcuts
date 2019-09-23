@@ -17,7 +17,7 @@ Linux a ".desktop" file is created and placed on the users Desktop (if that
 exists) and in $HOME/.local/share/applications (if that exists), which will
 often get presented in a Start Menu for windowing desktop themes that use a
 Start Menu.  On all platforms, the shortcuts created on the Deskop or Start
-Meny can be put either directly on the Desktop / Start Menu or in a folder
+Menu can be put either directly on the Desktop / Start Menu or in a folder
 on the Desktop / Start Menu.
 
 By writing only to the users Desktop or application folder that gets read
