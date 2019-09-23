@@ -40,7 +40,8 @@ def get_desktop():
 def get_startmenu():
     '''Return user Start Menu folder'''
     # shellcon.CSIDL_STARTMENU ?
-    return _getwinfolder(11)
+    return os.path.join(_getwinfolder(11), 'Programs')
+
 
 def get_folders():
     """get user-specific folders
@@ -57,7 +58,6 @@ def get_folders():
     ...       folders.home, folders.desktop, folders.startmenu)
     """
     return UserFolders(get_homedir(), get_desktop(), get_startmenu())
-
 
 def make_shortcut(script, name=None, description=None, icon=None,
                   folder=None, terminal=True, desktop=True,
