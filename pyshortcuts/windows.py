@@ -16,8 +16,13 @@ import win32com.client
 # ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
 # https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
 #
-# Start menu: user = 11, all users = 22
-# Desktop   : user =  0, all users = 25
+# Profile (Home dir) : 40
+# Desktop            : user =  0, all users = 25
+# Start menu programs: user =  2, all users = 23
+
+#   Don't use. Win10 doesn't appear to show shortcuts in Startmenu
+#   unless in sub-folder.
+# Start menu         : user = 11, all users = 22
 
 scut_ext = 'lnk'
 ico_ext = 'ico'
@@ -38,9 +43,9 @@ def get_desktop():
     return _getwinfolder(0)
 
 def get_startmenu():
-    '''Return user Start Menu folder'''
+    '''Return user Start Menu Programs folder'''
     # shellcon.CSIDL_STARTMENU ?
-    return os.path.join(_getwinfolder(11), 'Programs')
+    return _getwinfolder(2)
 
 
 def get_folders():
