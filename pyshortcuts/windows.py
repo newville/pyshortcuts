@@ -10,42 +10,35 @@ from .shortcut import shortcut
 from . import UserFolders
 
 import win32com.client
-#from win32com.shell import shellcon
-
-# Windows Special Folders
-# ID numbers from https://gist.github.com/maphew/47e67b6a99e240f01aced8b6b5678eeb
-# https://docs.microsoft.com/en-gb/windows/win32/api/shldisp/ne-shldisp-shellspecialfolderconstants#constants
-#
-# Profile (Home dir) : 40
-# Desktop            : user =  0, all users = 25
-# Start menu programs: user =  2, all users = 23
-
-#   Don't use. Win10 doesn't appear to show shortcuts in Startmenu
-#   unless in sub-folder.
-# Start menu         : user = 11, all users = 22
+from win32com.shell import shell, shellcon
 
 scut_ext = 'lnk'
 ico_ext = 'ico'
 
-_SHELLAPP = win32com.client.Dispatch("Shell.Application")
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
 
-def _getwinfolder(idnum):
-    return _SHELLAPP.namespace(idnum).self.path
+
+# Windows Special Folders
+# see: https://docs.microsoft.com/en-us/windows/win32/shell/csidl
 
 def get_homedir():
-    '''Return home directory'''
-    return _getwinfolder(40)
+    '''Return home directory:
+    note that we return CSIDL_PROFILE, not
+    CSIDL_APPDATA, CSIDL_LOCAL_APPDATA,  or CSIDL_COMMON_APPDATA
+    '''
+    return shell.SHGetFolderPath(0, shellcon.CSIDL_PROFILE, None, 0)
+
 
 def get_desktop():
     '''Return user Desktop folder'''
-    # shellcon.CSIDL_DESKTOP ?
-    return _getwinfolder(0)
+    return shell.SHGetFolderPath(0, shellcon.CSIDL_DESKTOP, None, 0)
+
 
 def get_startmenu():
-    '''Return user Start Menu Programs folder'''
-    # shellcon.CSIDL_STARTMENU ?
-    return _getwinfolder(2)
+    '''Return user Start Menu Programs folder
+    note that we return CSIDL_PROGRAMS not CSIDL_COMMON_PROGRAMS
+    '''
+    return shell.SHGetFolderPath(0, shellcon.CSIDL_PROGRAMS, None, 0)
 
 
 def get_folders():
