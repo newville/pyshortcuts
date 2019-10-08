@@ -5,7 +5,7 @@ Create desktop shortcuts for Windows
 from __future__ import print_function
 import os
 import sys
-
+import time
 from .shortcut import shortcut
 from . import UserFolders
 
@@ -18,11 +18,11 @@ ico_ext = 'ico'
 # batch file to activate the base environment
 # for Anaconda Python before running command.
 BASERUNNER = """
+@ECHO OFF
 if "%CONDA_DEFAULT_ENV%" == "" call %~dp0%activate base
-echo # run command in conda environment "%CONDA_DEFAULT_ENV%":
-echo # %~dp0%*
-%~dp0%*
-
+echo # run in conda environment "%CONDA_DEFAULT_ENV%":
+echo # %*
+%*
 """
 
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
