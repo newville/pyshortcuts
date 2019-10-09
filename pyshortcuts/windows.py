@@ -5,7 +5,7 @@ Create desktop shortcuts for Windows
 from __future__ import print_function
 import os
 import sys
-
+import time
 from .shortcut import shortcut
 from . import UserFolders
 
@@ -14,6 +14,16 @@ from win32com.shell import shell, shellcon
 
 scut_ext = 'lnk'
 ico_ext = 'ico'
+
+# batch file to activate the base environment
+# for Anaconda Python before running command.
+BASERUNNER = """
+@ECHO OFF
+if "%CONDA_DEFAULT_ENV%" == "" call %~dp0%activate base
+echo # run in conda environment "%CONDA_DEFAULT_ENV%":
+echo # %*
+%*
+"""
 
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
 
@@ -81,13 +91,13 @@ def make_shortcut(script, name=None, description=None, icon=None,
     3. executable defaults to the Python executable used to make shortcut.
     """
     userfolders = get_folders()
+
     scut = shortcut(script, userfolders, name=name, description=description,
                     folder=folder, icon=icon)
     full_script = scut.full_script
     if executable is None:
-        executable = os.path.join(sys.prefix, 'pythonw.exe')
-        if terminal:
-            executable = os.path.join(sys.prefix, 'python.exe')
+        pyexe = 'python.exe' if terminal else 'pythonw.exe'
+        executable = os.path.join(sys.prefix, pyexe)
 
     # Check for other valid ways to run the script
     # try appending .exe if script itself not found
@@ -99,12 +109,22 @@ def make_shortcut(script, name=None, description=None, icon=None,
 
     # If script is already executable use it directly instead of via pyexe
     ext = os.path.splitext(scut.full_script)[1].lower()
-    known_exes = [ext.lower() for ext in os.environ['PATHEXT'].split(os.pathsep)]
+    known_exes = [e.lower() for e in os.environ['PATHEXT'].split(os.pathsep)]
     if ext in known_exes:
         executable = scut.full_script
         full_script = ''
-
     full_script = ' '.join((full_script, scut.arguments))
+
+    # If we're on Anaconda Python, we need to wrap this
+    # script in a batch file that activates an environment
+    if os.path.exists(os.path.join(sys.prefix, 'conda-meta')):
+        runner = os.path.join(sys.prefix, 'Scripts', 'baserunner.bat')
+        with open(runner, 'w') as fh:
+            fh.write(BASERUNNER)
+        time.sleep(0.05)
+        full_script = "{:s} {:s}".format(executable, full_script).strip()
+        executable = runner
+
     for (create, folder) in ((desktop, scut.desktop_dir),
                              (startmenu, scut.startmenu_dir)):
         if create:
