@@ -1,9 +1,6 @@
 [![Build Status](https://travis-ci.com/newville/pyshortcuts.svg?branch=master)](https://travis-ci.com/newville/pyshortcuts)
-
 [![Build status](https://ci.appveyor.com/api/projects/status/ro3b3ytjjjrkhun6/branch/master?svg=true)](https://ci.appveyor.com/project/newville/pyshortcuts/branch/master)
-
 [![Version](https://img.shields.io/pypi/v/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
-
 [![Downloads](https://img.shields.io/pypi/dm/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
 
 
