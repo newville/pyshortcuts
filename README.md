@@ -1,5 +1,11 @@
 [![Build Status](https://travis-ci.com/newville/pyshortcuts.svg?branch=master)](https://travis-ci.com/newville/pyshortcuts)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/ro3b3ytjjjrkhun6/branch/master?svg=true)](https://ci.appveyor.com/project/newville/pyshortcuts/branch/master)
+
+[![Version](https://img.shields.io/pypi/v/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
+
+[![Downloads](https://img.shields.io/pypi/dm/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
+
 
 # pyshortcuts
 
@@ -10,15 +16,22 @@ onto the users desktop or into the Start Menu (for systems with Start
 Menus) or both.
 
 Pyshortcuts works on Windows, MacOS, and Linux in the way that is most
-natural for each OS.  That is, on Windows, a Shortcut or Link is created
-and placed on the users Desktop and in the Start Menu. On MacOS, a minimal
-but complete Application is created and placed on the users Desktop.  On
-Linux a ".desktop" file is created and placed on the users Desktop (if that
+natural for each OS.  That is, on Windows, a Shortcut Link is created and
+placed on the users Desktop and in the Start Menu. On MacOS, a minimal but
+complete Application is created and placed on the users Desktop.  On Linux
+a ".desktop" file is created and placed on the users Desktop (if that
 exists) and in $HOME/.local/share/applications (if that exists), which will
 often get presented in a Start Menu for windowing desktop themes that use a
 Start Menu.  On all platforms, the shortcuts created on the Deskop or Start
 Menu can be put either directly on the Desktop / Start Menu or in a folder
 on the Desktop / Start Menu.
+
+Special attention is given to Anaconda Python.  On Windows, this means the
+program linked to by the shortcut will be run in an Anaconda environment,
+explicitly selecting the "base" environment even if that has not been
+explicitly set.  On MacOS, the shortcut will make sure to use the
+`python.app` application so that GUI programs will be able to draw to
+properly draw to the screen.
 
 By writing only to the users Desktop or application folder that gets read
 by the Start Menu, there is no need for elevated permission and no writing
