@@ -15,15 +15,25 @@ from win32com.shell import shell, shellcon
 scut_ext = 'lnk'
 ico_ext = 'ico'
 
-# batch file to activate the base environment
+def get_conda_active_env():
+    '''Return name of active conda environment or empty string'''
+    conda_env = None
+    try:
+        conda_env = os.environ['CONDA_DEFAULT_ENV']
+    except KeyError:
+        print("No conda env active, defaulting to base")
+        conda_env = ""
+    return conda_env
+
+# batch file to activate the environment
 # for Anaconda Python before running command.
-BASERUNNER = """
+ENVRUNNER = """
 @ECHO OFF
-if "%CONDA_DEFAULT_ENV%" == "" call %~dp0%activate
+call %~dp0%activate {0}
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
 %*
-"""
+""".format(get_conda_active_env())
 
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
 
@@ -118,9 +128,9 @@ def make_shortcut(script, name=None, description=None, icon=None,
     # If we're on Anaconda Python, we need to wrap this
     # script in a batch file that activates an environment
     if os.path.exists(os.path.join(sys.prefix, 'conda-meta')):
-        runner = os.path.join(sys.prefix, 'Scripts', 'baserunner.bat')
+        runner = os.path.join(sys.prefix, 'Scripts', 'ENVRUNNER.bat')
         with open(runner, 'w') as fh:
-            fh.write(BASERUNNER)
+            fh.write(ENVRUNNER)
         time.sleep(0.05)
         full_script = "{:s} {:s}".format(executable, full_script).strip()
         executable = runner
