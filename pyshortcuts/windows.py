@@ -27,13 +27,14 @@ def get_conda_active_env():
 
 # batch file to activate the environment
 # for Anaconda Python before running command.
+conda_env = get_conda_active_env()
 ENVRUNNER = """
 @ECHO OFF
 call %~dp0%activate {0}
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
 %*
-""".format(get_conda_active_env())
+""".format(conda_env)
 
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
 
@@ -128,7 +129,8 @@ def make_shortcut(script, name=None, description=None, icon=None,
     # If we're on Anaconda Python, we need to wrap this
     # script in a batch file that activates an environment
     if os.path.exists(os.path.join(sys.prefix, 'conda-meta')):
-        runner = os.path.join(sys.prefix, 'Scripts', 'ENVRUNNER.bat')
+        runnerbat = 'envrunner-{}.bat'.format(conda_env)
+        runner = os.path.join(sys.prefix, 'Scripts', runnerbat)
         with open(runner, 'w') as fh:
             fh.write(ENVRUNNER)
         time.sleep(0.05)
