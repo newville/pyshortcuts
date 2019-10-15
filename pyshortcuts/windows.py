@@ -19,7 +19,7 @@ ico_ext = 'ico'
 # for Anaconda Python before running command.
 BASERUNNER = """
 @ECHO OFF
-if "%CONDA_DEFAULT_ENV%" == "" call %~dp0%activate base
+if "%CONDA_DEFAULT_ENV%" == "" call %~dp0%activate
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
 %*
