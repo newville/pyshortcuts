@@ -62,6 +62,9 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
     """
     from . import platform, scut_ext, ico_ext
 
+    if not isinstance(script, str) or len(script) < 1:
+        raise ValueError("`script` for shortcut must be a non-zero length string")
+
     words = script.split(' ', 1)
     if len(words) < 2:
         words.append('')
