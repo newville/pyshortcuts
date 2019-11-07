@@ -16,6 +16,7 @@ Type=Application
 Comment={desc:s}
 Terminal={term:s}
 Icon={icon:s}
+Categories={cat:s}
 Exec={exe:s} {script:s} {args:s}
 """
 
@@ -83,7 +84,7 @@ def get_folders():
 
 def make_shortcut(script, name=None, description=None, icon=None,
                   folder=None, terminal=True, desktop=True,
-                  startmenu=True, executable=None):
+                  startmenu=True, executable=None, categories=None):
     """create shortcut
 
     Arguments:
@@ -95,6 +96,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
     terminal    (bool) whether to run in a Terminal [True]
     desktop     (bool) whether to add shortcut to Desktop [True]
+    categories .....
     startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
     executable  (str, None) name of executable to use [this Python] (see Note 3)
 
@@ -106,13 +108,13 @@ def make_shortcut(script, name=None, description=None, icon=None,
     """
     userfolders = get_folders()
     scut = shortcut(script, userfolders, name=name, description=description,
-                    folder=folder, icon=icon)
+                    folder=folder, icon=icon, , categories=categories)
 
     if executable is None:
         executable = sys.executable
     text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
-                               exe=executable, icon=scut.icon,
-                               script=scut.full_script, args=scut.arguments,
+                               exe=executable, icon=scut.icon, cat=scut.categories,
+                               script=scut.full_script,  args=scut.arguments,
                                term='true' if terminal else 'false')
 
     for (create, folder) in ((desktop, scut.desktop_dir),
