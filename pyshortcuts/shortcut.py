@@ -32,7 +32,7 @@ Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target',
                                    'script', 'full_script', 'arguments',
                                    'desktop_dir', 'startmenu_dir'))
 
-def shortcut(script, userfolders, name=None, description=None, folder=None,
+def shortcut(script, userfolders, name=None, description=None, folder=None,categories=None,
              icon=None):
     """representation of a Shortcuts parameters.
 
@@ -104,6 +104,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
         if folder.startswith(startmenu_dir):
             folder = folder[len(startmenu_dir)+1:]
         startmenu_dir = os.path.join(startmenu_dir, folder)
+    categories = categories
 
     return Shortcut(name, description, icon, target, script, full_script,
-                    arguments, desktop_dir, startmenu_dir)
+                    arguments, desktop_dir, startmenu_dir, categories)
