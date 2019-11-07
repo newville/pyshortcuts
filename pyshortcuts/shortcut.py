@@ -30,7 +30,7 @@ def fix_filename(s):
 
 Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target',
                                    'script', 'full_script', 'arguments',
-                                   'desktop_dir', 'startmenu_dir'))
+                                   'desktop_dir', 'startmenu_dir', 'categories'))
 
 def shortcut(script, userfolders, name=None, description=None, folder=None,categories=None,
              icon=None):
