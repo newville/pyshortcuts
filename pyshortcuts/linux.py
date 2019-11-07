@@ -108,7 +108,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     """
     userfolders = get_folders()
     scut = shortcut(script, userfolders, name=name, description=description,
-                    folder=folder, icon=icon, , categories=categories)
+                    folder=folder, icon=icon, categories=categories)
 
     if executable is None:
         executable = sys.executable
