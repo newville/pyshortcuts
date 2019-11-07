@@ -113,5 +113,5 @@ def shortcut_cli():
     desc = scriptname = args.scriptname
     make_shortcut(scriptname, name=args.name, description=desc,
                   terminal=args.terminal, folder=args.folder,
-                  icon=args.icon, desktop=args.desktop, categories=args.categories
+                  icon=args.icon, desktop=args.desktop, categories=args.categories,
                   startmenu=args.startmenu, executable=args.exe)
