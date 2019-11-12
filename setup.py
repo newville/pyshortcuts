@@ -58,7 +58,7 @@ setup(name='pyshortcuts-max',
       python_requires='>=3.5.*',
       description='create desktop and Start Menu shortcuts for python scripts',
       long_description=long_description,
-      packages=['pyshortcuts-max'],
+      packages=['pyshortcutsmax'],
       install_requires=install_reqs,
       classifiers=[
           'Intended Audience :: End Users/Desktop',
@@ -69,6 +69,7 @@ setup(name='pyshortcuts-max',
           'Operating System :: POSIX',
           'Programming Language :: Python',
           ],
-      package_data={'pyshortcuts-max': ['icons/*']},
-      entry_points={'console_scripts' : ['pyshortcut = pyshortcuts-max:shortcut_cli']}
+      package_data={'pyshortcutsmax': ['icons/*']},
+      entry_points={'console_scripts' : [
+		'pyshortcuts=pyshortcutsmax.__init__:shortcut_cli']}
       )
