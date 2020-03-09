@@ -1,18 +1,45 @@
-
-environment:
-
-  matrix:
-
-     - PYTHON: "C:\\Python27-x64"
-     - PYTHON: "C:\\Python35-x64"
-     - PYTHON: "C:\\Python36-x64"
-
-install:
-    - "%PYTHON%\\python.exe -m pip install wheel pip six pywin32 pytest"
-    - "%PYTHON%\\python.exe setup.py install"
-
 build: off
 
-test_script:
-    - cd tests
-    - "%PYTHON%\\python.exe -m pytest"
+environment:
+  DEPS: wheel pip six pywin32 pytest
+  USE_CONDA: "0"
+  USE_CONDA_BASE: "0"
+  matrix:
+    - PYTHON: "C:\\Python27-x64"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python36-x64"
+    - CONDA_INSTALL_LOCN: "C:\\Miniconda37-x64"
+      USE_CONDA: "1"
+      USE_CONDA_BASE: "1"
+    - CONDA_INSTALL_LOCN: "C:\\Miniconda37-x64"
+      USE_CONDA: "1"
+
+for:
+  - matrix:
+      only:
+        USE_CONDA: "0"
+    install:
+      - "%PYTHON%\\python.exe -m pip install %DEPS%"
+      - "%PYTHON%\\python.exe setup.py install"
+    test_script:
+      - "cd tests && %PYTHON%\\python.exe -m pytest"
+
+  - matrix:
+      only:
+        USE_CONDA: "1"
+        USE_CONDA_BASE: "1"
+    install:
+      - "%CONDA_INSTALL_LOCN%\\Scripts\\conda.exe install -yn base %DEPS%"
+      - "%CONDA_INSTALL_LOCN%\\python.exe setup.py install"
+    test_script:
+      - "cd tests && call %CONDA_INSTALL_LOCN%\\Scripts\\activate.bat base && pytest"
+
+  - matrix:
+      only:
+          USE_CONDA: "1"
+          USE_CONDA_BASE: "0"
+    install:
+      - "%CONDA_INSTALL_LOCN%\\Scripts\\conda.exe create -yp c:\\test-env python=3.8 %DEPS%"
+      - "%CONDA_INSTALL_LOCN%\\Scripts\\activate.bat c:\\test-env && python setup.py install"
+    test_script:
+      - "cd tests && call %CONDA_INSTALL_LOCN%\\Scripts\\activate.bat c:\\test-env && pytest"

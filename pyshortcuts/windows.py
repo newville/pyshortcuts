@@ -4,8 +4,11 @@ Create desktop shortcuts for Windows
 """
 from __future__ import print_function
 import os
+import re
 import sys
+import json
 import time
+import subprocess
 from .shortcut import shortcut
 from . import UserFolders
 
@@ -15,26 +18,27 @@ from win32com.shell import shell, shellcon
 scut_ext = 'lnk'
 ico_ext = 'ico'
 
-def get_conda_active_env():
-    '''Return name of active conda environment or empty string'''
-    conda_env = None
-    try:
-        conda_env = os.environ['CONDA_DEFAULT_ENV']
-    except KeyError:
-        print("No conda env active, defaulting to base")
-        conda_env = ""
-    return conda_env
+def get_conda_info():
+    '''Return conda info, or None if not in conda'''
+    if os.path.exists(os.path.join(sys.prefix, "conda-meta")):
+        return None
 
-# batch file to activate the environment
-# for Anaconda Python before running command.
-conda_env = get_conda_active_env()
+    return json.loads(
+        subprocess.check_output(["conda", "info", "--json"]).decode("utf-8")
+    )
+
+CONDA_INFO = get_conda_info()
+
+# batch file to activate the environment (using the base conda environment)
+# before running command, and exit with a proper return code in case of an error
 ENVRUNNER = """
 @ECHO OFF
-call %~dp0%activate {0}
+call "{conda_prefix}\\Scripts\\activate.bat" "{active_prefix}"
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
 %*
-""".format(conda_env)
+if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+"""
 
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
 
@@ -126,13 +130,13 @@ def make_shortcut(script, name=None, description=None, icon=None,
         full_script = ''
     full_script = ' '.join((full_script, scut.arguments))
 
-    # If we're on Anaconda Python, we need to wrap this
-    # script in a batch file that activates an environment
-    if os.path.exists(os.path.join(sys.prefix, 'conda-meta')):
-        runnerbat = 'envrunner-{}.bat'.format(conda_env)
+    # If in a conda env, we need to wrap the script in a batch file to
+    # fully activate the environment
+    if CONDA_INFO is not None:
+        runnerbat = 'pyshortcuts-envrunner.bat'
         runner = os.path.join(sys.prefix, 'Scripts', runnerbat)
         with open(runner, 'w') as fh:
-            fh.write(ENVRUNNER)
+            fh.write(ENVRUNNER.format(**CONDA_INFO))
         time.sleep(0.05)
         full_script = "{:s} {:s}".format(executable, full_script).strip()
         executable = runner
