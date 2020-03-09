@@ -19,12 +19,12 @@ scut_ext = 'lnk'
 ico_ext = 'ico'
 
 def get_conda_info():
-    '''Return conda info, or None if not in conda'''
-    if os.path.exists(os.path.join(sys.prefix, "conda-meta")):
+    '''Return conda info, or None if not in an activated conda env'''
+    if not os.environ.get('CONDA_DEFAULT_ENV', '').strip():
         return None
 
     return json.loads(
-        subprocess.check_output(["conda", "info", "--json"]).decode("utf-8")
+        subprocess.check_output(['conda', 'info', '--json']).decode('utf-8')
     )
 
 CONDA_INFO = get_conda_info()
