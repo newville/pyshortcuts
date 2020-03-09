@@ -2,22 +2,20 @@ build: off
 
 environment:
   DEPS: wheel pip six pywin32 pytest
-  USE_CONDA: "0"
-  USE_CONDA_BASE: "0"
+  USE_CONDA: disabled
   matrix:
     - PYTHON: "C:\\Python27-x64"
     - PYTHON: "C:\\Python35-x64"
     - PYTHON: "C:\\Python36-x64"
     - CONDA_INSTALL_LOCN: "C:\\Miniconda37-x64"
-      USE_CONDA: "1"
-      USE_CONDA_BASE: "1"
+      USE_CONDA: base
     - CONDA_INSTALL_LOCN: "C:\\Miniconda37-x64"
-      USE_CONDA: "1"
+      USE_CONDA: env
 
 for:
   - matrix:
       only:
-        - USE_CONDA: "0"
+        - USE_CONDA: disabled
     install:
       - "%PYTHON%\\python.exe -m pip install %DEPS%"
       - "%PYTHON%\\python.exe setup.py install"
@@ -26,8 +24,7 @@ for:
 
   - matrix:
       only:
-        - USE_CONDA: "1"
-          USE_CONDA_BASE: "1"
+        - USE_CONDA: base
     install:
       - "%CONDA_INSTALL_LOCN%\\Scripts\\conda.exe install -yn base %DEPS%"
       - "%CONDA_INSTALL_LOCN%\\python.exe setup.py install"
@@ -36,8 +33,7 @@ for:
 
   - matrix:
       only:
-        - USE_CONDA: "1"
-          USE_CONDA_BASE: "0"
+        - USE_CONDA: env
     install:
       - "%CONDA_INSTALL_LOCN%\\Scripts\\conda.exe create -yp c:\\test-env python=3.8 %DEPS%"
       - "%CONDA_INSTALL_LOCN%\\Scripts\\activate.bat c:\\test-env && python setup.py install"
