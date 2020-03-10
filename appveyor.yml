@@ -26,7 +26,7 @@ for:
         - USE_CONDA: base
     install:
       - "%CONDA_INSTALL_LOCN%\\Scripts\\conda.exe install -yn base %DEPS%"
-      - "%CONDA_INSTALL_LOCN%\\python.exe setup.py install --no-deps"
+      - "%CONDA_INSTALL_LOCN%\\Scripts\\activate.bat && python -m pip install . --no-deps"
     test_script:
       - "cd tests && call %CONDA_INSTALL_LOCN%\\Scripts\\activate.bat base && pytest"
 
@@ -35,6 +35,6 @@ for:
         - USE_CONDA: env
     install:
       - "%CONDA_INSTALL_LOCN%\\Scripts\\conda.exe create -yp c:\\test-env python=3.8 %DEPS%"
-      - "%CONDA_INSTALL_LOCN%\\Scripts\\activate.bat c:\\test-env && python setup.py install --no-deps"
+      - "%CONDA_INSTALL_LOCN%\\Scripts\\activate.bat c:\\test-env && python -m pip install . --no-deps"
     test_script:
       - "cd tests && call %CONDA_INSTALL_LOCN%\\Scripts\\activate.bat c:\\test-env && pytest"
