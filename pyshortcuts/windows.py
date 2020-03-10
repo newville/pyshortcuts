@@ -20,11 +20,13 @@ ico_ext = 'ico'
 
 def get_conda_info():
     '''Return conda info, or None if not in an activated conda env'''
-    if not os.environ.get('CONDA_DEFAULT_ENV', '').strip():
+    conda_exe = os.environ.get('CONDA_EXE', None)
+
+    if not (conda_exe and os.path.exists(conda_exe)):
         return None
 
     return json.loads(
-        subprocess.check_output(['conda', 'info', '--json']).decode('utf-8')
+        subprocess.check_output([conda_exe, 'info', '--json']).decode('utf-8')
     )
 
 CONDA_INFO = get_conda_info()
