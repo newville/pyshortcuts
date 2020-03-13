@@ -90,7 +90,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
         _path, _fname = os.path.split(__file__)
         icon = os.path.join(_path, 'icons', 'py.{:s}'.format(ico_ext))
     icon = os.path.abspath(icon)
-    if not icon.endswith(ico_ext):
+    if not icon.endswith(ico_ext) and not os.path.exist(icon):
         icon = "{:s}.{:s}".format(icon, ico_ext)
 
     desktop_dir = userfolders.desktop
