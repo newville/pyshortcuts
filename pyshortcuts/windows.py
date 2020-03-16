@@ -23,7 +23,7 @@ def get_conda_active_env():
     except KeyError:
         print("No conda env active, defaulting to base")
         conda_env = ""
-    return conda_envs
+    return conda_env
 
 # batch file to activate the environment
 # for Anaconda Python before running command.
