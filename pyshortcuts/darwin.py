@@ -12,7 +12,7 @@ from .linux import get_homedir, get_desktop
 from . import UserFolders
 
 scut_ext = 'app'
-ico_ext = 'icns'
+ico_ext = ('icns',)
 
 def get_startmenu():
     "get start menu location"

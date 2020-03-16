@@ -13,7 +13,7 @@ import win32com.client
 from win32com.shell import shell, shellcon
 
 scut_ext = 'lnk'
-ico_ext = 'ico'
+ico_ext = ('ico',)
 
 def get_conda_active_env():
     '''Return name of active conda environment or empty string'''
@@ -23,7 +23,7 @@ def get_conda_active_env():
     except KeyError:
         print("No conda env active, defaulting to base")
         conda_env = ""
-    return conda_env
+    return conda_envs
 
 # batch file to activate the environment
 # for Anaconda Python before running command.

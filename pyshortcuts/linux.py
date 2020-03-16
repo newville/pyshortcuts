@@ -8,7 +8,7 @@ from .shortcut import shortcut
 from . import UserFolders
 
 scut_ext = 'desktop'
-ico_ext = 'ico'
+ico_ext = ('ico', 'svg', 'png')
 
 DESKTOP_FORM = """[Desktop Entry]
 Name={name:s}
