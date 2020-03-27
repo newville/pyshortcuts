@@ -86,12 +86,19 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
 
     target = '%s.%s' % (name, scut_ext)
 
-    if icon is None:
+    if icon is not None and len(icon) > 0:
+        icon = os.path.abspath(icon)
+        if not os.path.exists(icon):
+            for ext in ico_ext:
+                ticon = "{:s}.{:s}".format(icon, ext)
+                if os.path.exists(ticon):
+                    icon = ticon
+                    break
+
+    if icon is None or not os.path.exists(icon):
         _path, _fname = os.path.split(__file__)
-        icon = os.path.join(_path, 'icons', 'py.{:s}'.format(ico_ext))
-    icon = os.path.abspath(icon)
-    if not icon.endswith(ico_ext) and not os.path.exist(icon):
-        icon = "{:s}.{:s}".format(icon, ico_ext)
+        icon = os.path.join(os.path.abspath(_path), 'icons',
+                            'py.{:s}'.format(ico_ext[0]))
 
     desktop_dir = userfolders.desktop
     if folder is not None:

@@ -13,7 +13,7 @@ import win32com.client
 from win32com.shell import shell, shellcon
 
 scut_ext = 'lnk'
-ico_ext = 'ico'
+ico_ext = ('ico',)
 
 def get_conda_active_env():
     '''Return name of active conda environment or empty string'''
