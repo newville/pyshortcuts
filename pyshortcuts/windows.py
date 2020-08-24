@@ -33,7 +33,7 @@ ENVRUNNER = """
 call %~dp0%activate {0}
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
-%*
+start %*
 """.format(conda_env)
 
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
