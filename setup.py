@@ -27,11 +27,11 @@ be part of a installation (or post-installation process) process for larger
 packages.
 '''
 
-install_reqs = ['six']
+install_reqs = []
 if sys.platform.startswith('win'):
     install_reqs.append('pywin32')
 
-version = '1.4'
+version = '1.7.2'
 here, s = os.path.split(__file__)
 with open(os.path.join(here, 'pyshortcuts', '__init__.py'), 'r') as fh:
     text = fh.readlines()
@@ -50,7 +50,7 @@ setup(name='pyshortcuts',
       author_email='newville@cars.uchicago.edu',
       url='http://github.com/newville/pyshortcuts',
       license = 'OSI Approved :: MIT License',
-      python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
+      python_requires='>=3.6',
       description='create desktop and Start Menu shortcuts for python scripts',
       long_description=long_description,
       packages=['pyshortcuts'],
