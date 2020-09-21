@@ -1,15 +1,7 @@
 #!/usr/bin/env python
-from __future__ import print_function
 import os
 import sys
 from collections import namedtuple
-
-import six
-
-if six.PY3:
-    maketrans = str.maketrans
-else:
-    from string import maketrans
 
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
@@ -21,7 +13,7 @@ def fix_filename(s):
 
     More restrictive than most OSes, but avoids nasty cases.
     """
-    t = str(s).translate(maketrans(BAD_FILECHARS, GOOD_FILECHARS))
+    t = str(s).translate(str.maketrans(BAD_FILECHARS, GOOD_FILECHARS))
     if t.count('.') > 1:
         for i in range(t.count('.') - 1):
             idot = t.find('.')
