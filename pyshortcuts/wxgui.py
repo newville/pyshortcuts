@@ -157,7 +157,7 @@ class ShortcutFrame(wx.Frame):
         sizer.Fit(panel)
 
         fsizer = wx.BoxSizer(wx.VERTICAL)
-        fsizer.Add(panel, 0, wx.ALIGN_LEFT|wx.ALIGN_CENTER|wx.EXPAND)
+        fsizer.Add(panel, 0, wx.ALIGN_LEFT|wx.ALIGN_CENTER)
         fsizer.Fit(self)
         self.Refresh()
 
