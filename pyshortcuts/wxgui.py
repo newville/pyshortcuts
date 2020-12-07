@@ -247,8 +247,7 @@ class ShortcutFrame(wx.Frame):
             self.txt_desc.SetValue(name)
 
     def read_form(self, as_string=False):
-        as_string = as_string
-        def str_or_None(wid):
+        def str_or_None(wid, as_string=False):
             val = wid.GetValue().strip()
             if len(val) < 1:
                 val = None
@@ -256,13 +255,13 @@ class ShortcutFrame(wx.Frame):
                 val = 'None' if val is None else "'%s'" % val
             return val
 
-        script = str_or_None(self.txt_script)
-        args   = str_or_None(self.txt_args)
-        name   = str_or_None(self.txt_name)
-        desc   = str_or_None(self.txt_desc)
-        icon   = str_or_None(self.txt_icon)
-        folder = str_or_None(self.txt_folder)
-        executable = str_or_None(self.txt_exec)
+        script = str_or_None(self.txt_script, as_string=as_string)
+        args   = str_or_None(self.txt_args, as_string=as_string)
+        name   = str_or_None(self.txt_name, as_string=as_string)
+        desc   = str_or_None(self.txt_desc, as_string=as_string)
+        icon   = str_or_None(self.txt_icon, as_string=as_string)
+        folder = str_or_None(self.txt_folder, as_string=as_string)
+        executable = str_or_None(self.txt_exec, as_string=as_string)
 
         targets = self.targetchoice.GetStringSelection().lower()
         desktop = 'desktop' in targets
@@ -278,10 +277,9 @@ class ShortcutFrame(wx.Frame):
             return
 
         def cleanpath(val):
-            if val in (None, 'None'):
-                val = ''
-            val = val.replace('\\', '/')
-            return val.strip()
+            if val not in (None, 'None'):
+                val = val.replace('\\', '/').strip()
+            return val
 
         script = cleanpath(script)
         folder = cleanpath(folder)
