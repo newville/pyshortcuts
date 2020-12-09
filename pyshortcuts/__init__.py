@@ -86,6 +86,9 @@ def shortcut_cli():
     parser.add_argument('-w', '--wxgui', dest='wxgui', action='store_true',
                         default=False, help='run GUI version of pyshortcut [False]')
 
+    parser.add_argument('-b', '--bootstrap', dest='bootstrap', action='store_true',
+                        default=False, help='make desktop shortcut to wxGUI')
+
     parser.add_argument('scriptname', nargs='?',
                         help='script name, including arguments')
 
@@ -94,21 +97,34 @@ def shortcut_cli():
     if args.version:
         print("pyshortcuts {:s}".format(__version__))
 
-    if HAS_WX and args.wxgui:
+    if (args.wxgui or args.bootstrap) and not HAS_WX:
+        print("wxpython is required to run GUI")
+        sys.exit()
+
+    if args.bootstrap:
+        bindir = 'bin'
+        if platform.startswith('win'):
+            bindir = 'Scripts'
+        here, this = os.path.split(os.path.abspath(__file__))
+        icon = os.path.join(here, 'icons', 'ladder.%s' % ico_ext[0])
+        script = "%s --wxgui" % os.path.join(sys.prefix, bindir, 'pyshortcut')
+        make_shortcut(script, name='PyShortcut', terminal=False, icon=icon)
+
+    elif args.wxgui:
         app = wx.App()
         ShortcutFrame().Show(True)
         app.MainLoop()
-        sys.exit()
 
-    if args.gui:
-        args.terminal = False
+    else:
+        if args.gui:
+            args.terminal = False
 
-    if args.scriptname is None:
-        print("pyshortcut: must provide one script.  try 'pyshortcuts -h'")
-        sys.exit()
+        if args.scriptname is None:
+            print("pyshortcut: must provide one script.  try 'pyshortcuts -h'")
+        else:
 
-    desc = scriptname = args.scriptname
-    make_shortcut(scriptname, name=args.name, description=desc,
-                  terminal=args.terminal, folder=args.folder,
-                  icon=args.icon, desktop=args.desktop,
-                  startmenu=args.startmenu, executable=args.exe)
+            desc = scriptname = args.scriptname
+            make_shortcut(scriptname, name=args.name, description=desc,
+                          terminal=args.terminal, folder=args.folder,
+                          icon=args.icon, desktop=args.desktop,
+                          startmenu=args.startmenu, executable=args.exe)
