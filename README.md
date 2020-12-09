@@ -159,8 +159,14 @@ This can be launched from the command line with
 
 Of course, that command might be the sort of command you might want to be able
 to launch by clicking on a desktop shortcut.  We have just the tool for
-that. This script (included as `gui_bootstrap.py` in the `examples` folder)
-will create a desktop shortcut that launches the pyshortcut GUI:
+that!  In fact, using
+
+```
+~> pyshortcut --bootstrap
+```
+
+will create a desktop shortcut with a ladder as the icon that launches the pyshortcut GUI.  This essentially runs
+
 
 ```python
 #!/usr/bin/env python
@@ -174,18 +180,18 @@ if platform.startswith('win'):
 
 scut = make_shortcut(
     "%s --wxgui" % os.path.join(sys.prefix, bindir, 'pyshortcut'),
-    name='PyShortcut', terminal=False
-)
-
-print("pyshortcuts GUI: %s" % scut.target)
+    name='PyShortcut', terminal=False)
 ```
 
 That is, running
 
 ```
 ~> python setup.py install
-~> python examples/gui_bootstrap.py
+~> pyshortcut --bootstrap
 ```
 
 will give you a desktop shortcut that launches a GUI application for turning
 Python scripts into desktop shortcuts.
+
+The ladder icon was made by Left Martinez, and downloaded from
+(https://www.iconfinder.com/iconsets/free-construction-tools)
