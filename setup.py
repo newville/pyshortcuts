@@ -31,7 +31,7 @@ install_reqs = []
 if sys.platform.startswith('win'):
     install_reqs.append('pywin32')
 
-version = '1.7.2'
+version = '1.8.0'
 here, s = os.path.split(__file__)
 with open(os.path.join(here, 'pyshortcuts', '__init__.py'), 'r') as fh:
     text = fh.readlines()
