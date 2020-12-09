@@ -48,15 +48,15 @@ class ShortcutFrame(wx.Frame):
 
         panel      = wx.Panel(self)
 
-        opts = dict(size=(200, -1))
-        lab_exec = wx.StaticText(panel, label='  Executable:', **opts)
-        lab_script = wx.StaticText(panel, label='  Python Script:', **opts)
-        lab_args  = wx.StaticText(panel, label='  Command-line Arguments:', **opts)
-        lab_name  = wx.StaticText(panel, label='  Shortcut Name:', **opts)
-        lab_desc  = wx.StaticText(panel, label='  Description:', **opts)
-        lab_icon  = wx.StaticText(panel, label='  Icon File:', **opts)
-        lab_folder = wx.StaticText(panel, label='  Desktop SubFolder:', **opts)
-        lab_opts  = wx.StaticText(panel, label='  Options:', **opts)
+        opts = dict(size=(225, -1))
+        lab_exec = wx.StaticText(panel, label=' Executable:', **opts)
+        lab_script = wx.StaticText(panel, label=' Python Script:', **opts)
+        lab_args  = wx.StaticText(panel, label=' Command-line Arguments:', **opts)
+        lab_name  = wx.StaticText(panel, label=' Shortcut Name:', **opts)
+        lab_desc  = wx.StaticText(panel, label=' Description:', **opts)
+        lab_icon  = wx.StaticText(panel, label=' Icon File:', **opts)
+        lab_folder = wx.StaticText(panel, label=' Desktop SubFolder:', **opts)
+        lab_opts  = wx.StaticText(panel, label=' Options:', **opts)
 
         opts['size'] = (400, -1)
 
