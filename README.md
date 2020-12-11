@@ -50,12 +50,6 @@ To install `pyshortcuts`, use
 pip install pyshortcuts
 ```
 
-or
-
-```
-conda install -c gsecars pyshortcuts
-```
-
 On Windows, pyshortcuts requires the pywin32 package. This should be installed
 automatically with either of the above install methods.
 
@@ -135,6 +129,7 @@ with the following optional arguments:
   * `-d`,` --desktop`         create desktop shortcut [True]
   * `-s`, `--startmenu`       create Start Menu shortcut [True]
   * `-w`, `--wxgui`    run GUI version of pyshortcut
+  * `-b`, `--bootstrap`   create a desktop shortcut to run GUI version of pyshortcut
 
 Note that running in the Terminal is True by default, which means that each
 time the shortcut is used to lauch the program, a new Terminal or Command
@@ -145,13 +140,16 @@ applications, and can be disabled with the `-g` or `--gui` option.
 
 ## `pyshortcut` GUI
 
-In addition to the `pyshortcut` command-line program, there is a GUI that provides
-a simple form to help the user browse for script and icons, and set options before
-creating a shortcut or generating an example Python script to create the shortcut.
+In addition to the `pyshortcut` command-line program, there is a small GUI
+application that provides a simple form to help the user browse for script
+and icons, and set options before creating a shortcut or generating an
+example Python script to create the shortcut.
 
 ![PyShortcut Screenshot](doc/pyshortcutgui_screenshot.png)
 
-This can be launched from the command line with
+This requires the `wxPython` package which can be installed using `pip` or
+`conda` but is not automatically installed when installing `pyshortcuts`.
+This application can be launched from the command line with
 
 ```
 ~> pyshortcut --wxgui
@@ -165,7 +163,8 @@ that!  In fact, using
 ~> pyshortcut --bootstrap
 ```
 
-will create a desktop shortcut with a ladder as the icon that launches the pyshortcut GUI.  This essentially runs
+will create a desktop shortcut with an icon of a ladder that will launch
+the pyshortcut GUI.  This essentially runs
 
 
 ```python
@@ -182,16 +181,6 @@ scut = make_shortcut(
     "%s --wxgui" % os.path.join(sys.prefix, bindir, 'pyshortcut'),
     name='PyShortcut', terminal=False)
 ```
-
-That is, running
-
-```
-~> python setup.py install
-~> pyshortcut --bootstrap
-```
-
-will give you a desktop shortcut that launches a GUI application for turning
-Python scripts into desktop shortcuts.
 
 The ladder icon was made by Left Martinez, and downloaded from
 (https://www.iconfinder.com/iconsets/free-construction-tools)
