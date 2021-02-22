@@ -78,7 +78,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
 
     target = '%s.%s' % (name, scut_ext)
 
-    if icon is not None and len(icon) > 0:
+    if icon is not None and len(str(icon)) > 0:
         icon = os.path.abspath(icon)
         if not os.path.exists(icon):
             for ext in ico_ext:
