@@ -13,15 +13,15 @@ onto the users desktop or into the Start Menu (for systems with Start
 Menus) or both.
 
 Pyshortcuts works on Windows, MacOS, and Linux in the way that is most
-natural for each OS.  That is, on Windows, a Shortcut Link is created and
+natural for each OS.  On Windows, a Shortcut Link is created and
 placed on the users Desktop and in the Start Menu. On MacOS, a minimal but
 complete Application is created and placed on the users Desktop.  On Linux
 a ".desktop" file is created and placed on the users Desktop (if that
 exists) and in $HOME/.local/share/applications (if that exists), which will
 often get presented in a Start Menu for windowing desktop themes that use a
-Start Menu.  On all platforms, the shortcuts created on the Deskop or Start
-Menu can be put either directly on the Desktop / Start Menu or in a folder
-on the Desktop / Start Menu.
+one.  On all platforms, the shortcuts created on the Deskop or Start
+Menu can be put either directly onto the Desktop / Start Menu or in a sub-folder
+of the Desktop / Start Menu.
 
 Special attention is given to Anaconda Python.  On Windows, this means the
 program linked to by the shortcut will be run in an Anaconda environment,
@@ -50,8 +50,8 @@ To install `pyshortcuts`, use
 pip install pyshortcuts
 ```
 
-On Windows, pyshortcuts requires the pywin32 package. This should be installed
-automatically with either of the above install methods.
+On Windows, pyshortcuts requires the pywin32 package and will be installed
+automatically if needed.
 
 In order to use the pyshortcut GUI, the wxPython package is required.
 
@@ -114,9 +114,6 @@ Windows).
 There are several optional arguments:
 
 
-
-with the following optional arguments:
-
   * `-h`, `--help`      show help message and exit
   * `-v`, `--version`   show program's version number and exit
   * `-n NAME`, `--name=NAME` name for shortcut
@@ -134,7 +131,7 @@ with the following optional arguments:
 Note that running in the Terminal is True by default, which means that each
 time the shortcut is used to lauch the program, a new Terminal or Command
 window will be created for it.  For many command-line applications, this is
-approprate.  The extra Terminal or Command window may be unwanted for some GUI
+appropriate.  The extra Terminal or Command window may be unwanted for some GUI
 applications, and can be disabled with the `-g` or `--gui` option.
 
 
@@ -157,7 +154,7 @@ This application can be launched from the command line with
 
 Of course, that command might be the sort of command you might want to be able
 to launch by clicking on a desktop shortcut.  We have just the tool for
-that!  In fact, using
+that! Doing
 
 ```
 ~> pyshortcut --bootstrap
