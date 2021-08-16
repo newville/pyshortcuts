@@ -29,7 +29,7 @@ def get_conda_active_env():
 conda_env = get_conda_active_env()
 ENVRUNNER = """
 @ECHO OFF
-call %~dp0%activate {0}
+call %~dp0 activate {0}
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
 start %*
