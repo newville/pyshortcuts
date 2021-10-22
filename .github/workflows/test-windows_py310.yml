@@ -1,4 +1,4 @@
-name: Test with Windows, Python 3.7 - 3.9
+name: Test with Windows, Python 3.10
 
 on: [push]
 
@@ -9,7 +9,7 @@ jobs:
       max-parallel: 5
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9, "3.10"]
+        python-version: ["3.10"]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python from Miniconda
@@ -20,10 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         printenv
-        conda install pywin32 pytest wheel pip six numpy pyparsing pytest pytest-cov coverage
-        conda update -n base -c defaults conda
-        conda info
-        conda list
+        pip install pywin32 pytest wheel pip six numpy pyparsing pytest pytest-cov coverage
         python setup.py install
     - name: Run test suite
       run: |
