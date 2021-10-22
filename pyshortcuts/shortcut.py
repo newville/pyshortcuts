@@ -6,18 +6,19 @@ from collections import namedtuple
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
 
-def fix_filename(s):
+def fix_filename(s, allow_multiple_dots=True):
     """
     fix string to be a 'good' filename, with very few special
-    characters and no more than 1 '.'.
+    characters and (optionally) no more than 1 '.'.
 
     More restrictive than most OSes, but avoids nasty cases.
     """
     t = str(s).translate(str.maketrans(BAD_FILECHARS, GOOD_FILECHARS))
-    if t.count('.') > 1:
-        for i in range(t.count('.') - 1):
-            idot = t.find('.')
-            t = "%s_%s" % (t[:idot], t[idot+1:])
+    if not allow_multiple_dots:
+        if t.count('.') > 1:
+            for i in range(t.count('.') - 1):
+                idot = t.find('.')
+                t = "%s_%s" % (t[:idot], t[idot+1:])
     return t
 
 Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target',
@@ -31,7 +32,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
     Arguments:
     ----------
     script        script to run, may include optional arguments
-    userfolders   userfolders returned from the approprieate get_userfolders()
+    userfolders   userfolders returned from the appropriate get_userfolders()
     name          name for shortcut (`None` to use name of script file)
     description   long description (`None` to use name of script file)
     folder        sub-folder of Desktop to place shortcut (`None` for on Desktop)
