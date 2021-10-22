@@ -20,7 +20,10 @@ jobs:
     - name: Install dependencies
       run: |
         printenv
-        pip install pywin32 pytest wheel pip six
+        conda install pywin32 pytest wheel pip six numpy pyparsing pytest pytest-cov coverage
+        conda update -n base -c defaults conda
+        conda info
+        conda list
         python setup.py install
     - name: Run test suite
       run: |
