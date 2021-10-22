@@ -1,4 +1,4 @@
-name: Test with ubuntu-latest
+name: test, ubuntu-latest
 
 on:  [push]
 

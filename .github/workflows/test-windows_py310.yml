@@ -1,4 +1,4 @@
-name: Test with Windows, Python 3.10
+name: test, Windows, Python 3.10
 
 on: [push]
 
