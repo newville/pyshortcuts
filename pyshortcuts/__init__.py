@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-__version__ = '1.8.0'
-__data__ = '2020-Dec-09'
+from pyshortcuts.version import version as __version__
 
 import os
 import sys
