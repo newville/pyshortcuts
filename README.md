@@ -1,10 +1,11 @@
-[![Build Status](https://travis-ci.com/newville/pyshortcuts.svg?branch=master)](https://travis-ci.com/newville/pyshortcuts)
-[![Build status](https://ci.appveyor.com/api/projects/status/ro3b3ytjjjrkhun6/branch/master?svg=true)](https://ci.appveyor.com/project/newville/pyshortcuts/branch/master)
+[![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-ubuntu.yml/badge.svg)
+(https://github.com/newville/pyshortcuts/actions/workflows/test-ubuntu.yml)
 
+[![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-windows.yml/badge.svg)
+(https://github.com/newville/pyshortcuts/actions/workflows/test-windows.yml)
 
-.. image:: https://github.com/pyepics/pyepics/actions/workflows/test-with-conda.yml/badge.svg
-   :target: https://github.com/pyepics/pyepics/actions/workflows/
-
+[![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-windows_py310.yml/badge.svg)
+https://github.com/newville/pyshortcuts/actions/workflows/test-windows_py310.yml)
 
 [![Version](https://img.shields.io/pypi/v/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
 [![Downloads](https://img.shields.io/pypi/dm/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
