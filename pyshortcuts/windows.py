@@ -107,7 +107,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     full_script = scut.full_script
     if executable is None:
         pyexe = 'python.exe' if terminal else 'pythonw.exe'
-        executable = os.path.join(sys.prefix, pyexe)
+        executable = os.path.normpath(os.path.join(sys.prefix, pyexe))
 
     # Check for other valid ways to run the script
     # try appending .exe if script itself not found
@@ -129,7 +129,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     # script in a batch file that activates an environment
     if os.path.exists(os.path.join(sys.prefix, 'conda-meta')):
         runnerbat = 'envrunner-{}.bat'.format(conda_env)
-        runner = os.path.join(sys.prefix, 'Scripts', runnerbat)
+        runner = os.path.normpath(os.path.join(sys.prefix, 'Scripts', runnerbat))
         with open(runner, 'w') as fh:
             fh.write(ENVRUNNER)
         time.sleep(0.05)
@@ -141,7 +141,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
         if create:
             if not os.path.exists(folder):
                 os.makedirs(folder)
-            dest = os.path.join(folder, scut.target)
+            dest = os.path.normpath(os.path.join(folder, scut.target))
 
             wscript = _WSHELL.CreateShortCut(dest)
             wscript.Targetpath = '"%s"' % executable

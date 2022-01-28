@@ -38,7 +38,7 @@ def get_homedir():
     if home is None:
         home = os.environ.get("HOME", os.path.abspath("."))
     _HOME = home
-    return home
+    return os.path.normpath(home)
 
 def get_desktop():
     "get desktop location"
@@ -110,9 +110,11 @@ def make_shortcut(script, name=None, description=None, icon=None,
 
     if executable is None:
         executable = sys.executable
+
     text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
-                               exe=executable, icon=scut.icon,
-                               script=scut.full_script, args=scut.arguments,
+                               exe=os.path.normpath(executable),
+                               icon=scut.icon, script=scut.full_script,
+                               args=scut.arguments,
                                term='true' if terminal else 'false')
 
     for (create, folder) in ((desktop, scut.desktop_dir),

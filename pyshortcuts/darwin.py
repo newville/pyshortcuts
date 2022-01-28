@@ -83,22 +83,25 @@ def make_shortcut(script, name=None, description=None, icon=None,
 
     osascript = '%s %s' % (scut.full_script, scut.arguments)
     osascript = osascript.replace(' ', '\\ ')
-
+    prefix = os.path.normpath(sys.prefix)
     if executable is None:
         executable = sys.executable
         # check for Anaconda on MacOSX
-        has_conda = os.path.exists(os.path.join(sys.prefix, 'conda-meta'))
-        pyapp_exe = "{:s}/python.app/Contents/MacOS/python".format(sys.prefix)
+        has_conda = os.path.exists(os.path.join(prefix, 'conda-meta'))
+        pyapp_exe = "{:s}/python.app/Contents/MacOS/python".format(prefix)
         if has_conda and os.path.exists(pyapp_exe):
             executable = pyapp_exe
             fix_anacondapy_pythonw(scut.full_script)
+    executable = os.path.normpath(executable)
 
     if not os.path.exists(scut.desktop_dir):
         os.makedirs(scut.desktop_dir)
 
     dest = os.path.join(scut.desktop_dir, scut.target)
+
     if os.path.exists(dest):
         shutil.rmtree(dest)
+
 
     os.mkdir(dest)
     os.mkdir(os.path.join(dest, 'Contents'))
@@ -109,9 +112,10 @@ def make_shortcut(script, name=None, description=None, icon=None,
                 desc=scut.description,
                 script=scut.full_script,
                 args=scut.arguments,
-                prefix=sys.prefix,
+                prefix=prefix,
                 exe=executable,
                 osascript=osascript)
+
 
     info = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"

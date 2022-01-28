@@ -64,7 +64,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
 
     script, arguments = words[0], words[1]
 
-    full_script = os.path.abspath(script)
+    full_script = os.path.normpath(os.path.abspath(script))
 
     if name is None:
         name = script
@@ -80,7 +80,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
     target = '%s.%s' % (name, scut_ext)
 
     if icon is not None and len(str(icon)) > 0:
-        icon = os.path.abspath(icon)
+        icon = os.path.normpath(os.path.abspath(icon))
         if not os.path.exists(icon):
             for ext in ico_ext:
                 ticon = "{:s}.{:s}".format(icon, ext)
@@ -90,20 +90,20 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
 
     if icon is None or not os.path.exists(icon):
         _path, _fname = os.path.split(__file__)
-        icon = os.path.join(os.path.abspath(_path), 'icons',
-                            'py.{:s}'.format(ico_ext[0]))
+        icon = os.path.normpath(os.path.join(os.path.abspath(_path), 'icons',
+                                             'py.{:s}'.format(ico_ext[0])))
 
     desktop_dir = userfolders.desktop
     if folder is not None:
         if folder.startswith(desktop_dir):
             folder = folder[len(desktop_dir)+1:]
-        desktop_dir = os.path.join(desktop_dir, folder)
+        desktop_dir = os.path.normpath(os.path.join(desktop_dir, folder))
 
     startmenu_dir = userfolders.startmenu
     if folder is not None and len(startmenu_dir) > 1:
         if folder.startswith(startmenu_dir):
             folder = folder[len(startmenu_dir)+1:]
-        startmenu_dir = os.path.join(startmenu_dir, folder)
+        startmenu_dir = os.path.normpath(os.path.join(startmenu_dir, folder))
 
     return Shortcut(name, description, icon, target, script, full_script,
                     arguments, desktop_dir, startmenu_dir)
