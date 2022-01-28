@@ -1,5 +1,11 @@
 [![Build Status](https://travis-ci.com/newville/pyshortcuts.svg?branch=master)](https://travis-ci.com/newville/pyshortcuts)
 [![Build status](https://ci.appveyor.com/api/projects/status/ro3b3ytjjjrkhun6/branch/master?svg=true)](https://ci.appveyor.com/project/newville/pyshortcuts/branch/master)
+
+
+.. image:: https://github.com/pyepics/pyepics/actions/workflows/test-with-conda.yml/badge.svg
+   :target: https://github.com/pyepics/pyepics/actions/workflows/
+
+
 [![Version](https://img.shields.io/pypi/v/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
 [![Downloads](https://img.shields.io/pypi/dm/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
 
@@ -63,8 +69,7 @@ Shortcuts can be created from a Python script with
 
 from pyshortcuts import make_shortcut
 
-make_shortcut('/home/user/bin/myapp.py', name='MyApp',
-                        icon='/home/user/icons/myicon.ico')
+make_shortcut('/home/user/bin/myapp.py', name='MyApp', icon='/home/user/icons/myicon.ico')
 ```
 
 The arguments to the `make_shortcut` function are:
@@ -153,8 +158,7 @@ This application can be launched from the command line with
 ```
 
 Of course, that command might be the sort of command you might want to be able
-to launch by clicking on a desktop shortcut.  We have just the tool for
-that! Doing
+to launch by clicking on a desktop shortcut.  We have just the tool for that!  Doing
 
 ```
 ~> pyshortcut --bootstrap
@@ -170,13 +174,9 @@ import os
 import sys
 from pyshortcuts import make_shortcut, platform
 
-bindir = 'bin'
-if platform.startswith('win'):
-    bindir = 'Scripts'
-
-scut = make_shortcut(
-    "%s --wxgui" % os.path.join(sys.prefix, bindir, 'pyshortcut'),
-    name='PyShortcut', terminal=False)
+bindir = 'Scripts' if platform.startswith('win') else 'bin'
+pyshortcut = os.path.normpath(os.path.join(sys.prefix, bindir, 'pyshortcut'))
+scut = make_shortcut(f"{pyshortcut:s} --wxgui", name='PyShortcut', terminal=False)
 ```
 
 The ladder icon was made by Left Martinez, and downloaded from
