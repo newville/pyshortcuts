@@ -1,7 +1,5 @@
 [![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-ubuntu.yml/badge.svg)](https://github.com/newville/pyshortcuts/actions/workflows/test-ubuntu.yml)
-
 [![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-windows.yml/badge.svg)](https://github.com/newville/pyshortcuts/actions/workflows/test-windows.yml)
-
 [![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-windows_py310.yml/badge.svg)](https://github.com/newville/pyshortcuts/actions/workflows/test-windows_py310.yml)
 
 [![Version](https://img.shields.io/pypi/v/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
