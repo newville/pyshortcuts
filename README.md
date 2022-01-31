@@ -3,8 +3,7 @@
 [![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-windows_py310.yml/badge.svg)](https://github.com/newville/pyshortcuts/actions/workflows/test-windows_py310.yml)
 
 [![Version](https://img.shields.io/pypi/v/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
-[![Downloads](https://img.shields.io/pypi/dm/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
-
+[![Downloads](https://pepy.tech/badge/pyshortcuts/month)](https://pepy.tech/project/pyshortcuts)
 
 # pyshortcuts
 
