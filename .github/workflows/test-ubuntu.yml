@@ -20,7 +20,8 @@ jobs:
     - name: Install dependencies
       run: |
         printenv
-        pip install pytest wheel pip six
+        conda install pip pytest wheel
+        which python
         python -m pip install .
     - name: Run test suite
       run: |
