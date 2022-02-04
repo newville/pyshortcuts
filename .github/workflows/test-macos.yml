@@ -1,11 +1,10 @@
-name: test, windows
+name: test, macos
 
-
-on: [push]
+on:  [push]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
     strategy:
       max-parallel: 5
       fail-fast: false
@@ -21,11 +20,8 @@ jobs:
     - name: Install dependencies
       run: |
         printenv
-        conda install pywin32 pytest wheel pip six numpy pyparsing pytest pytest-cov coverage
-        conda update -n base -c defaults conda
-        conda info
-        conda list
-        python setup.py install
+        pip install pytest wheel pip six
+        python -m pip install .
     - name: Run test suite
       run: |
         cd tests
