@@ -8,4 +8,6 @@ eggs/
 *.egg
 MANIFEST
 doc/_build/
-python/version.py
+
+
+pyshortcuts/version.py
