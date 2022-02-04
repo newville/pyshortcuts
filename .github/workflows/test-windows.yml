@@ -10,22 +10,23 @@ jobs:
       max-parallel: 5
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9, 3.10]
+        python-version: [3.7, 3.8, 3.9, "3.10"]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python from Miniconda
-      uses: conda-incubator/setup-miniconda@v2
+      uses: actions/setup-python@v2
       with:
-          auto-update-conda: true
           python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+        echo '### which python:'
+        which python
+        echo '### printev:'
         printenv
-        conda install pywin32 pytest wheel pip six numpy pyparsing pytest pytest-cov coverage
-        conda update -n base -c defaults conda
-        conda info
-        conda list
-        python setup.py install
+        echo '###'
+        python -m pip install --upgrade pip
+        python -m pip install pytest pywin32
+        python -m pip install .
     - name: Run test suite
       run: |
         cd tests
