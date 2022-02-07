@@ -21,7 +21,7 @@ def get_conda_active_env():
         conda_env = os.environ['CONDA_DEFAULT_ENV']
     except KeyError:
         print("No conda env active, defaulting to base")
-        conda_env = ""
+        conda_env = "base"
     return conda_env
 
 # batch file to activate the environment
@@ -29,10 +29,10 @@ def get_conda_active_env():
 conda_env = get_conda_active_env()
 ENVRUNNER = """
 @ECHO OFF
-call %~dp0 activate {0}
+call "%~dp0..\condabin\conda.bat" activate {0}
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
-start %*
+%*
 """.format(conda_env)
 
 _WSHELL = win32com.client.Dispatch("Wscript.Shell")
