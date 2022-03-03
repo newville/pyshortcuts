@@ -28,19 +28,30 @@ elif platform.startswith('darwin'):
 
 from .shortcut import shortcut, Shortcut, fix_filename
 
+# for back-compat
+from . import utils
+utils.get_homedir = get_homedir
+utils.get_folders = get_folders
+utils.platform = platform
+
+def get_cwd():
+    """
+    os.getcwd() can fail with permission error.
+    this changes to and returns `homedir` when that happens
+    """
+    try:
+        return os.getcwd()
+    except:
+        home = get_homedir()
+        os.chdir(home)
+        return home
+
 try:
     import wx
     HAS_WX = True
     from .wxgui import ShortcutFrame
 except ImportError:
     HAS_WX = False
-
-
-# for back-compat
-from . import utils
-utils.get_homedir = get_homedir
-utils.get_folders = get_folders
-utils.platform = platform
 
 
 def shortcut_cli():

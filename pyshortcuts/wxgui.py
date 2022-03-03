@@ -5,7 +5,8 @@ import wx
 
 import wx.lib.filebrowsebutton as filebrowse
 
-from pyshortcuts import make_shortcut, platform, get_folders, fix_filename
+from pyshortcuts import (make_shortcut, platform, get_folders,
+                         get_cwd, fix_filename)
 
 
 USERFOLDERS = get_folders()
@@ -166,6 +167,7 @@ class ShortcutFrame(wx.Frame):
 
         dlg = wx.FileDialog(self, message='Select Python Script file',
                             wildcard=wildcards,
+                            defaultDir=get_cwd(),
                             style=wx.FD_OPEN)
 
         if dlg.ShowModal() == wx.ID_OK:
@@ -195,6 +197,7 @@ class ShortcutFrame(wx.Frame):
 
         dlg = wx.FileDialog(self, message='Select Icon file',
                             wildcard=wildcards,
+                            defaultDir=get_cwd(),
                             style=wx.FD_OPEN)
 
         if dlg.ShowModal() == wx.ID_OK:
@@ -309,6 +312,7 @@ class ShortcutFrame(wx.Frame):
                             message='Save Python script for creating shortcut',
                             defaultFile='make_shortcut.py',
                             wildcard=wildcards,
+                            defaultDir=get_cwd(),
                             style=wx.FD_SAVE)
 
         if dlg.ShowModal() == wx.ID_OK:
