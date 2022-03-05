@@ -9,20 +9,20 @@ from collections import namedtuple
 
 UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
 
-platform = sys.platform
+uname = sys.platform
 if os.name == "nt":
-    platform = "win"
-if platform == "linux2":
-    platform = "linux"
+    uname = "win"
+if uname == "linux2":
+    uname = "linux"
 
 from .linux import (scut_ext, ico_ext, make_shortcut,
                     get_folders, get_homedir, get_desktop)
 
-if platform.startswith('win'):
+if uname.startswith('win'):
     from .windows import (scut_ext, ico_ext, make_shortcut,
                           get_folders, get_homedir, get_desktop)
 
-elif platform.startswith('darwin'):
+elif uname.startswith('darwin'):
     from .darwin import (scut_ext, ico_ext, make_shortcut,
                          get_folders, get_homedir, get_desktop)
 
@@ -32,12 +32,15 @@ from .shortcut import shortcut, Shortcut, fix_filename
 from . import utils
 utils.get_homedir = get_homedir
 utils.get_folders = get_folders
-utils.platform = platform
+utils.platform = platform = uname
 
 def get_cwd():
-    """
-    os.getcwd() can fail with permission error.
-    this changes to and returns `homedir` when that happens
+    """get current working directory
+    Note: os.getcwd() can fail with permission error.
+
+    when that happens, this changes to the users `HOME` directory
+    and returns that directory so that it always returns an existing
+    and readable directory.
     """
     try:
         return os.getcwd()
@@ -113,7 +116,7 @@ def shortcut_cli():
 
     if args.bootstrap:
         bindir = 'bin'
-        if platform.startswith('win'):
+        if uname.startswith('win'):
             bindir = 'Scripts'
         here, this = os.path.split(os.path.abspath(__file__))
         icon = os.path.join(here, 'icons', 'ladder.%s' % ico_ext[0])
