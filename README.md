@@ -69,7 +69,7 @@ make_shortcut('/home/user/bin/myapp.py', name='MyApp', icon='/home/user/icons/my
 
 The arguments to the `make_shortcut` function are:
 
-  * `script`      (str) command to script to run. This can include command-line arguments
+  * `script`      (str) scipt or command to be run. This can include command-line arguments
   * `name`        (str or None) name to use for shortcut [defaults to script name]
   * `description` (str or None) longer description of script [defaults to `name`]
   * `icon`        (str or None) path to icon file [defaults to python icon]
@@ -129,7 +129,7 @@ There are several optional arguments:
   * `-b`, `--bootstrap`   create a desktop shortcut to run GUI version of pyshortcut
 
 Note that running in the Terminal is True by default, which means that each
-time the shortcut is used to lauch the program, a new Terminal or Command
+time the shortcut is used to launch the application, a new Terminal or Command
 window will be created for it.  For many command-line applications, this is
 appropriate.  The extra Terminal or Command window may be unwanted for some GUI
 applications, and can be disabled with the `-g` or `--gui` option.
