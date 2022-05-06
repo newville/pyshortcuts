@@ -120,7 +120,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     # If script is already executable use it directly instead of via pyexe
     ext = os.path.splitext(scut.full_script)[1].lower()
     known_exes = [e.lower() for e in os.environ['PATHEXT'].split(os.pathsep)]
-    if ext in known_exes:
+    if ext != '.py' and ext in known_exes:
         executable = scut.full_script
         full_script = ''
     full_script = ' '.join((full_script, scut.arguments))
