@@ -13,9 +13,11 @@ from . import UserFolders
 scut_ext = 'app'
 ico_ext = ('icns',)
 
+
 def get_startmenu():
     "get start menu location"
     return ''
+
 
 def get_folders():
     """get user-specific folders
@@ -32,6 +34,7 @@ def get_folders():
     ...       folders.home, folders.desktop, folders.startmenu)
     """
     return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+
 
 def fix_anacondapy_pythonw(fname):
     """fix shebang line for scripts using anaconda python
@@ -51,7 +54,8 @@ def fix_anacondapy_pythonw(fname):
         fh.write("".join(lines[1:]))
         fh.close()
 
-def make_shortcut(script, name=None, description=None, icon=None,
+
+def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
                   folder=None, terminal=True, desktop=True,
                   startmenu=True, executable=None):
     """create shortcut
@@ -62,6 +66,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     name        (str, None) name to display for shortcut [name of script]
     description (str, None) longer description of script [`name`]
     icon        (str, None) path to icon file [python icon]
+    working_dir (str, None) directory where to run the script in
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
     terminal    (bool) whether to run in a Terminal [True]
     desktop     (bool) whether to add shortcut to Desktop [True]
@@ -79,7 +84,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
 
     userfolders = get_folders()
     scut = shortcut(script, userfolders, name=name, description=description,
-                    folder=folder, icon=icon)
+                    working_dir=working_dir, folder=folder, icon=icon)
 
     osascript = '%s %s' % (scut.full_script, scut.arguments)
     osascript = osascript.replace(' ', '\\ ')
@@ -102,7 +107,6 @@ def make_shortcut(script, name=None, description=None, icon=None,
     if os.path.exists(dest):
         shutil.rmtree(dest)
 
-
     os.mkdir(dest)
     os.mkdir(os.path.join(dest, 'Contents'))
     os.mkdir(os.path.join(dest, 'Contents', 'MacOS'))
@@ -111,11 +115,11 @@ def make_shortcut(script, name=None, description=None, icon=None,
     opts = dict(name=scut.name,
                 desc=scut.description,
                 script=scut.full_script,
+                path=scut.working_dir,
                 args=scut.arguments,
                 prefix=prefix,
                 exe=executable,
                 osascript=osascript)
-
 
     info = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
@@ -135,14 +139,15 @@ def make_shortcut(script, name=None, description=None, icon=None,
 ## Make sure to set PYTHONEXECUTABLE to Python that created this script
 export PYTHONEXECUTABLE={prefix:s}/bin/python
 export EXE={exe:s}
+export PATH={path:s}
 export SCRIPT={script:s}
 export ARGS='{args:s}'
 """
-    text = "$EXE $SCRIPT $ARGS"
+    text = "(cd $PATH && $EXE $SCRIPT $ARGS)" if scut.working_dir else "$EXE $SCRIPT $ARGS"
     if terminal:
         text = """
 osascript -e 'tell application "Terminal"
-   do script "'${{EXE}}\ {osascript:s}'"
+   do script """ + "cd  '{path:s}' & " if scut.working_dir else "" + """ "'${{EXE}}\ {osascript:s}'"
 end tell
 '
 """
@@ -156,7 +161,7 @@ end tell
         fout.write(text.format(**opts))
         fout.write("\n")
 
-    os.chmod(ascript_name, 493) ## = octal 755 / rwxr-xr-x
+    os.chmod(ascript_name, 493)  # = octal 755 / rwxr-xr-x
     icon_dest = os.path.join(dest, 'Contents', 'Resources', scut.name + '.icns')
     shutil.copy(scut.icon, icon_dest)
     return scut

@@ -106,6 +106,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     name        (str, None) name to display for shortcut [name of script]
     description (str, None) longer description of script [`name`]
     icon        (str, None) path to icon file [python icon]
+    working_dir (str, None) directory where to run the script in
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
     terminal    (bool) whether to run in a Terminal [True]
     desktop     (bool) whether to add shortcut to Desktop [True]
