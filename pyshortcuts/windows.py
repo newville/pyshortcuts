@@ -77,7 +77,8 @@ def get_folders():
     """
     return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
-def make_shortcut(script, name=None, description=None, icon=None,
+
+def make_shortcut(script, name=None, working_dir=None, description=None, icon=None,
                   folder=None, terminal=True, desktop=True,
                   startmenu=True, executable=None):
     """create shortcut
@@ -86,6 +87,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     ---------
     script      (str) path to script, may include command-line arguments
     name        (str, None) name to display for shortcut [name of script]
+    working_dir (str, None) directory where to run the script in
     description (str, None) longer description of script [`name`]
     icon        (str, None) path to icon file [python icon]
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
@@ -102,13 +104,12 @@ def make_shortcut(script, name=None, description=None, icon=None,
     """
     userfolders = get_folders()
 
-    scut = shortcut(script, userfolders, name=name, description=description,
+    scut = shortcut(script, userfolders, name=name, description=description, working_dir=working_dir,
                     folder=folder, icon=icon)
     full_script = scut.full_script
     if executable is None:
         pyexe = 'python.exe' if terminal else 'pythonw.exe'
-        pydir = os.path.dirname(sys.executable)
-        executable = os.path.normpath(os.path.join(pydir, pyexe))
+        executable = os.path.normpath(os.path.join(sys.prefix, pyexe))
 
     # Check for other valid ways to run the script
     # try appending .exe if script itself not found
@@ -121,7 +122,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     # If script is already executable use it directly instead of via pyexe
     ext = os.path.splitext(scut.full_script)[1].lower()
     known_exes = [e.lower() for e in os.environ['PATHEXT'].split(os.pathsep)]
-    if ext != '.py' and ext in known_exes:
+    if ext in known_exes:
         executable = scut.full_script
         full_script = ''
     full_script = ' '.join((full_script, scut.arguments))
@@ -147,7 +148,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
             wscript = _WSHELL.CreateShortCut(dest)
             wscript.Targetpath = '"%s"' % executable
             wscript.Arguments = full_script
-            wscript.WorkingDirectory = userfolders.home
+            wscript.WorkingDirectory = scut.working_dir or userfolders.home
             wscript.WindowStyle = 0
             wscript.Description = scut.description
             wscript.IconLocation = scut.icon

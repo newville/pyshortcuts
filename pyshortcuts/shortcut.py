@@ -6,6 +6,7 @@ from collections import namedtuple
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
 
+
 def fix_filename(s, allow_multiple_dots=True):
     """
     fix string to be a 'good' filename, with very few special
@@ -21,11 +22,13 @@ def fix_filename(s, allow_multiple_dots=True):
                 t = "%s_%s" % (t[:idot], t[idot+1:])
     return t
 
-Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target',
+
+Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target', 'working_dir',
                                    'script', 'full_script', 'arguments',
                                    'desktop_dir', 'startmenu_dir'))
 
-def shortcut(script, userfolders, name=None, description=None, folder=None,
+
+def shortcut(script, userfolders, name=None, description=None, folder=None, working_dir=None,
              icon=None):
     """representation of a Shortcuts parameters.
 
@@ -36,6 +39,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
     name          name for shortcut (`None` to use name of script file)
     description   long description (`None` to use name of script file)
     folder        sub-folder of Desktop to place shortcut (`None` for on Desktop)
+    working_dir   directory where to run the script in
     icon          full path to icon file for shortcut (`None` for default)
 
     Returns:
@@ -46,6 +50,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
       description    long description of shortcut
       icon           full path of icon file
       target         name of the shortcut file (without folder name)
+      working_dir    directory where to run the script in
       script         shortname of python script to be run (without arguments)
       full_script    full path of python script to be run (without arguments)
       arguments      command line arguments
@@ -105,5 +110,5 @@ def shortcut(script, userfolders, name=None, description=None, folder=None,
             folder = folder[len(startmenu_dir)+1:]
         startmenu_dir = os.path.normpath(os.path.join(startmenu_dir, folder))
 
-    return Shortcut(name, description, icon, target, script, full_script,
+    return Shortcut(name, description, icon, target, working_dir, script, full_script,
                     arguments, desktop_dir, startmenu_dir)

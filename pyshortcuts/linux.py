@@ -21,6 +21,7 @@ ico_ext = ('ico', 'svg', 'png')
 DESKTOP_FORM = """[Desktop Entry]
 Name={name:s}
 Type=Application
+Path={path:s}
 Comment={desc:s}
 Terminal={term:s}
 Icon={icon:s}
@@ -94,7 +95,7 @@ def get_folders():
     return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
 
-def make_shortcut(script, name=None, description=None, icon=None,
+def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
                   folder=None, terminal=True, desktop=True,
                   startmenu=True, executable=None):
     """create shortcut
@@ -105,6 +106,7 @@ def make_shortcut(script, name=None, description=None, icon=None,
     name        (str, None) name to display for shortcut [name of script]
     description (str, None) longer description of script [`name`]
     icon        (str, None) path to icon file [python icon]
+    working_dir (str, None) directory where to run the script in
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
     terminal    (bool) whether to run in a Terminal [True]
     desktop     (bool) whether to add shortcut to Desktop [True]
@@ -119,12 +121,12 @@ def make_shortcut(script, name=None, description=None, icon=None,
     """
     userfolders = get_folders()
     scut = shortcut(script, userfolders, name=name, description=description,
-                    folder=folder, icon=icon)
+                    working_dir=working_dir, folder=folder, icon=icon)
 
     if executable is None:
         executable = sys.executable
 
-    text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
+    text = DESKTOP_FORM.format(name=scut.name, desc=scut.description, path=scut.working_dir,
                                exe=os.path.normpath(executable),
                                icon=scut.icon, script=scut.full_script,
                                args=scut.arguments,
