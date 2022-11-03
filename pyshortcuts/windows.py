@@ -109,7 +109,8 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     full_script = scut.full_script
     if executable is None:
         pyexe = 'python.exe' if terminal else 'pythonw.exe'
-        executable = os.path.normpath(os.path.join(sys.prefix, pyexe))
+        pydir = os.path.dirname(sys.executable)
+        executable = os.path.normpath(os.path.join(pydir, pyexe))
 
     # Check for other valid ways to run the script
     # try appending .exe if script itself not found
@@ -122,7 +123,7 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     # If script is already executable use it directly instead of via pyexe
     ext = os.path.splitext(scut.full_script)[1].lower()
     known_exes = [e.lower() for e in os.environ['PATHEXT'].split(os.pathsep)]
-    if ext in known_exes:
+    if ext != '.py' and ext in known_exes:
         executable = scut.full_script
         full_script = ''
     full_script = ' '.join((full_script, scut.arguments))
