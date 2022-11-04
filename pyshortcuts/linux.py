@@ -21,7 +21,7 @@ ico_ext = ('ico', 'svg', 'png')
 DESKTOP_FORM = """[Desktop Entry]
 Name={name:s}
 Type=Application
-Path={path:s}
+Path={workdir:s}
 Comment={desc:s}
 Terminal={term:s}
 Icon={icon:s}
@@ -120,13 +120,16 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     3. executable defaults to the Python executable used to make shortcut.
     """
     userfolders = get_folders()
+    if working_dir is None:
+        working_dir = userfolders.home
     scut = shortcut(script, userfolders, name=name, description=description,
                     working_dir=working_dir, folder=folder, icon=icon)
 
     if executable is None:
         executable = sys.executable
 
-    text = DESKTOP_FORM.format(name=scut.name, desc=scut.description, path=scut.working_dir,
+    text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
+                               workdir=scut.working_dir,
                                exe=os.path.normpath(executable),
                                icon=scut.icon, script=scut.full_script,
                                args=scut.arguments,
