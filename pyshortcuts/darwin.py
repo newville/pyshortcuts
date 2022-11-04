@@ -83,6 +83,9 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         return
 
     userfolders = get_folders()
+    if working_dir is None:
+        working_dir = ''
+
     scut = shortcut(script, userfolders, name=name, description=description,
                     working_dir=working_dir, folder=folder, icon=icon)
 
@@ -115,7 +118,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     opts = dict(name=scut.name,
                 desc=scut.description,
                 script=scut.full_script,
-                path=scut.working_dir,
+                workdir=scut.working_dir,
                 args=scut.arguments,
                 prefix=prefix,
                 exe=executable,
@@ -135,31 +138,34 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
 </plist>
 """
 
-    header = """#!/bin/bash
-## Make sure to set PYTHONEXECUTABLE to Python that created this script
-export PYTHONEXECUTABLE={prefix:s}/bin/python
-export EXE={exe:s}
-export PATH={path:s}
-export SCRIPT={script:s}
-export ARGS='{args:s}'
-"""
-    text = "(cd $PATH && $EXE $SCRIPT $ARGS)" if scut.working_dir else "$EXE $SCRIPT $ARGS"
+    text = ['#!/bin/bash',
+            "## Make sure to set PYTHONEXECUTABLE to Python that created this script",
+            "export PYTHONEXECUTABLE={prefix:s}/bin/python",
+            "export EXE={exe:s}",
+            "export SCRIPT={script:s}",
+            "export ARGS='{args:s}'", " "]
+
+    if scut.working_dir not in (None, ''):
+        text.append("cd {workdir:s}")
+
     if terminal:
-        text = """
-osascript -e 'tell application "Terminal"
-   do script """ + "cd  '{path:s}' & " if scut.working_dir else "" + """ "'${{EXE}}\ {osascript:s}'"
+        text.append("""osascript -e 'tell application "Terminal"
+   do script "'${{EXE}}\ {osascript:s}'"
 end tell
 '
-"""
+""")
+    else:
+        text.append("$EXE $SCRIPT $ARGS")
+
+    text.append('\n')
+    text = '\n'.join(text)
 
     with open(os.path.join(dest, 'Contents', 'Info.plist'), 'w') as fout:
         fout.write(info.format(**opts))
 
     ascript_name = os.path.join(dest, 'Contents', 'MacOS', scut.name)
     with open(ascript_name, 'w') as fout:
-        fout.write(header.format(**opts))
         fout.write(text.format(**opts))
-        fout.write("\n")
 
     os.chmod(ascript_name, 493)  # = octal 755 / rwxr-xr-x
     icon_dest = os.path.join(dest, 'Contents', 'Resources', scut.name + '.icns')
