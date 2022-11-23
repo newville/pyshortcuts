@@ -47,7 +47,7 @@ class ShortcutFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onExit, menu_exit)
         self.Bind(wx.EVT_CLOSE, self.onExit)
 
-        panel      = wx.Panel(self)
+        panel = wx.Panel(self)
 
         opts = dict(size=(225, -1))
         lab_exec = wx.StaticText(panel, label=' Executable:', **opts)
@@ -99,7 +99,7 @@ class ShortcutFrame(wx.Frame):
         sizer = wx.GridBagSizer(5, 5)
 
         irow = 0
-        sizer.Add(wx.StaticLine(self, size=(650, 4)), (irow, 0), (1, 3), ALL_CEN)
+        sizer.Add(wx.StaticLine(panel, size=(650, 4)), (irow, 0), (1, 3), ALL_CEN)
 
         irow += 1
         sizer.Add(lab_exec,      (irow, 0), (1, 1), ALL_LEFT)
@@ -138,7 +138,7 @@ class ShortcutFrame(wx.Frame):
         sizer.Add(self.opt_terminal, (irow, 2), (1, 1), ALL_LEFT)
 
         irow += 1
-        sizer.Add(wx.StaticLine(self, size=(650, 4)), (irow, 0), (1, 3), ALL_CEN)
+        sizer.Add(wx.StaticLine(panel, size=(650, 4)), (irow, 0), (1, 3), ALL_CEN)
 
         btn_create = wx.Button(panel, label='Create Shortcut',  size=(175, -1))
         btn_create.Bind(wx.EVT_BUTTON, self.onCreate)
