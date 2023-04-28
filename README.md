@@ -27,9 +27,7 @@ of the Desktop / Start Menu.
 Special attention is given to Anaconda Python.  On Windows, this means the
 program linked to by the shortcut will be run in an Anaconda environment,
 explicitly selecting the "base" environment even if that has not been
-explicitly set.  On MacOS, the shortcut will make sure to use the
-`python.app` application so that GUI programs will be able to draw to
-properly draw to the screen.
+explicitly set.
 
 By writing only to the users Desktop or application folder that gets read
 by the Start Menu, there is no need for elevated permission and no writing
@@ -82,6 +80,33 @@ The arguments to the `make_shortcut` function are:
 Note that the Start Menu does not exist for MacOSX.
 
 The `executable` defaults to the version of Python executable used to make shortcut.
+
+
+## Note for running wxPython GUIs on macOS with Anaconda Python
+
+If your application uses wxPython and you are running with Anaconda Python on
+macOS, you may experience problems that your application does not start.  If
+you try to run your script from the command line, you may see the following
+error message:
+
+
+```
+~> python my_wxpython_app.py
+This program needs access to the screen. Please run with a
+Framework build of python, and only when you are logged in
+on the main display of your Mac.
+```
+
+
+If you do see that, it can be fixed and your script run properly by adding
+
+```
+import wx
+wx.PyApp.IsDisplayAvailable = lambda _: True
+```
+
+in your script before runnig your application,
+
 
 
 ##  `pyshortcut` command-line program
