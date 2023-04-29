@@ -36,25 +36,6 @@ def get_folders():
     return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
 
-def fix_anacondapy_pythonw(fname):
-    """fix shebang line for scripts using anaconda python
-    to use 'pythonw' instead of 'python'
-    """
-    # print(" fix anaconda py (%s) for %s" % (sys.prefix, script))
-    with open(fname, 'r') as fh:
-        try:
-            lines = fh.readlines()
-        except IOError:
-            lines = ['-']
-    firstline = lines[0][:-1].strip()
-    if firstline.startswith('#!') and 'python' in firstline:
-        firstline = '#!/usr/bin/env pythonw'
-        fh = open(fname, 'w')
-        fh.write('%s\n' % firstline)
-        fh.write("".join(lines[1:]))
-        fh.close()
-
-
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
                   folder=None, terminal=True, desktop=True,
                   startmenu=True, executable=None):
@@ -94,12 +75,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     prefix = os.path.normpath(sys.prefix)
     if executable is None:
         executable = sys.executable
-        # check for Anaconda on MacOSX
-        has_conda = os.path.exists(os.path.join(prefix, 'conda-meta'))
-        pyapp_exe = "{:s}/python.app/Contents/MacOS/python".format(prefix)
-        if has_conda and os.path.exists(pyapp_exe):
-            executable = pyapp_exe
-            fix_anacondapy_pythonw(scut.full_script)
+
     executable = os.path.normpath(executable)
 
     if not os.path.exists(scut.desktop_dir):
@@ -139,11 +115,9 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
 """
 
     text = ['#!/bin/bash',
-            "## Make sure to set PYTHONEXECUTABLE to Python that created this script",
-            "export PYTHONEXECUTABLE={prefix:s}/bin/python",
             "export EXE={exe:s}",
             "export SCRIPT={script:s}",
-            "export ARGS='{args:s}'", " "]
+            "export ARGS='{args:s}'"]
 
     if scut.working_dir not in (None, ''):
         text.append("cd {workdir:s}")

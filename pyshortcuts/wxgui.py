@@ -28,6 +28,8 @@ FONTSIZE = 11
 if platform == 'linux':
     FONTSIZE = 10
 
+if platform.startswith('darwin'):
+    wx.PyApp.IsDisplayAvailable = lambda _: True
 
 class ShortcutFrame(wx.Frame):
     def __init__(self):
