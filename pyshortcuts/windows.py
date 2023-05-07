@@ -5,7 +5,7 @@ Create desktop shortcuts for Windows
 import os
 import sys
 import time
-from .shortcut import shortcut
+from .shortcut import shortcut, get_pyexe
 from . import UserFolders
 
 import win32com.client
@@ -107,15 +107,9 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     scut = shortcut(script, userfolders, name=name, description=description, working_dir=working_dir,
                     folder=folder, icon=icon)
     full_script = scut.full_script
+    
     if executable is None:
-        pyexe = 'python.exe'
-        pydir = os.path.dirname(sys.executable)
-        executable = os.path.normpath(os.path.join(pydir, pyexe))
-
-
-    executable = os.path.normpath(executable)
-    if os.path.realpath(scut.full_script) == os.path.realpath(executable):
-        print("EXE matchs script")
+        executable = get_pyexe()
 
     # Check for other valid ways to run the script
     # try appending .exe if script itself not found
