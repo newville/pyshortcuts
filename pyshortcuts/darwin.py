@@ -6,7 +6,7 @@ import os
 import sys
 import shutil
 
-from .shortcut import shortcut
+from .shortcut import shortcut, get_pyexe
 from .linux import get_homedir, get_desktop
 from . import UserFolders
 
@@ -74,7 +74,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     osascript = osascript.replace(' ', '\\ ')
     prefix = os.path.normpath(sys.prefix)
     if executable is None:
-        executable = sys.executable
+        executable = get_pyexe()
 
     executable = os.path.normpath(executable)
     if os.path.realpath(scut.full_script) == os.path.realpath(executable):

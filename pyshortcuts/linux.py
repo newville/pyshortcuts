@@ -12,7 +12,7 @@ try:
 except ImportError:
     pass
 
-from .shortcut import shortcut
+from .shortcut import shortcut, get_pyexe
 from . import UserFolders
 
 scut_ext = 'desktop'
@@ -126,7 +126,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
                     working_dir=working_dir, folder=folder, icon=icon)
 
     if executable is None:
-        executable = sys.executable
+        executable = get_pyexe()
 
     executable = os.path.normpath(executable)
     if os.path.realpath(scut.full_script) == os.path.realpath(executable):
