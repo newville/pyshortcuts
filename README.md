@@ -142,13 +142,20 @@ python command.  An example of this might look like this:
 import sys
 from pyshortcuts import make_shortcut
 
-pycmd = f"{sys.executable} -m pip install --upgrade pyshortcuts"
+pycmd = "_ -m pip install --upgrade pyshortcuts"
 
 make_shortcut(pycmd, name='Update Pyshortcuts')
 ```
 
-An example that includes an icon is given in the examples folder.
+Note that using `_` or `{}` as the command name will indicate that the
+current Python executable should be be used. An example that includes
+an icon is given in the examples folder.
 
+The above could be done from the command line with
+
+```
+~> pyshortcut -n "Update Pyshortcuts" "_ -m pip install pyshortcuts"
+```
 
 ## Note for running wxPython GUIs on macOS with Anaconda Python
 
