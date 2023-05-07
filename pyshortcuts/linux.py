@@ -25,7 +25,7 @@ Path={workdir:s}
 Comment={desc:s}
 Terminal={term:s}
 Icon={icon:s}
-Exec={exe:s} {script:s} {args:s}
+Exec={execstring:s}
 """
 
 _HOME = None
@@ -128,11 +128,16 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     if executable is None:
         executable = sys.executable
 
+    executable = os.path.normpath(executable)
+    if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+        executable = ''
+
+    execstring=f"{executable:s} {scut.full_script:s} {scut.arguments:s}".strip()
+
     text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
                                workdir=scut.working_dir,
-                               exe=os.path.normpath(executable),
-                               icon=scut.icon, script=scut.full_script,
-                               args=scut.arguments,
+                               execstring=execstring,
+                               icon=scut.icon,
                                term='true' if terminal else 'false')
 
     for (create, folder) in ((desktop, scut.desktop_dir),
