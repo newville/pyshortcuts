@@ -77,6 +77,8 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         executable = sys.executable
 
     executable = os.path.normpath(executable)
+    if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+        executable = ''
 
     if not os.path.exists(scut.desktop_dir):
         os.makedirs(scut.desktop_dir)
