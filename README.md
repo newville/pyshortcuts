@@ -8,38 +8,39 @@
 # pyshortcuts
 
 
-Pyshortcuts helps Python developers and users create shortcuts that will
-run python scripts and other applications.  The shortcuts created can go
-onto the users desktop or into the Start Menu (for systems with Start
-Menus) or both.
+Pyshortcuts helps Python developers and users create shortcuts that will run
+python scripts and other applications.  The shortcuts created can go onto the
+users desktop or into the Start Menu (for systems with Start Menus) or both.
+Pyshortcuts gives a consistent interface for building shortcuts that run on
+Windows, macOS, and Linux in the way that is most natural for each OS.
 
-Pyshortcuts works on Windows, MacOS, and Linux in the way that is most
-natural for each OS.  On Windows, a Shortcut Link is created and
-placed on the users Desktop and in the Start Menu. On MacOS, a minimal but
-complete Application is created and placed on the users Desktop.  On Linux
-a ".desktop" file is created and placed on the users Desktop (if that
-exists) and in $HOME/.local/share/applications (if that exists), which will
-often get presented in a Start Menu for windowing desktop themes that use a
-one.  On all platforms, the shortcuts created on the Deskop or Start
-Menu can be put either directly onto the Desktop / Start Menu or in a sub-folder
-of the Desktop / Start Menu.
+On Windows, a Shortcut Link is created and placed on the users Desktop and in
+the Start Menu. On macOS, a minimal but complete Application is created and
+placed on the users Desktop.  On Linux a ".desktop" file is created and placed
+on the users Desktop (if that exists) and in $HOME/.local/share/applications
+(if that exists), which will often get presented in a Start Menu for windowing
+desktop themes that use a one.  On all platforms, the shortcuts created on the
+Deskop or Start Menu can be put either directly onto the Desktop / Start Menu
+or in a sub-folder of the Desktop / Start Menu.  Shortcuts can have a custom
+icon (`.ico` files on Windows or Linux, or `.icns` files on macOS) specified,
+defaulting to a Python icon included with pyshortcuts.
 
-Special attention is given to Anaconda Python.  On Windows, this means the
-program linked to by the shortcut will be run in an Anaconda environment,
-explicitly selecting the "base" environment even if that has not been
-explicitly set.
 
-By writing only to the users Desktop or application folder that gets read
-by the Start Menu, there is no need for elevated permission and no writing
-to system-level files (registry entries, /Applications, /usr/bin, etc).
-After the shortcut has been created, the user has complete control to
-rename, move, or delete it.  Shortcuts can have a custom icon (`.ico` files
-on Windows or Linux, or `.icns` files on MacOS) specified, defaulting to a
-Python icon included with pyshortcuts.
+By writing only to the users Desktop or application folder that gets read by
+the Start Menu, there is no need for elevated permission and no writing to
+system-level files (registry entries, /Applications, /usr/bin, etc).  After the
+shortcut has been created, the end user has complete control to rename, move,
+or delete it.
 
-Pyshortcuts is pure python, small, easy to install, and easy to use from a
-python script.   This means that Pyshortcuts can be made part of an
-installation (or post-installation process) process for larger packages.
+Pyshortcuts is pure python, small, readily installed, and easy to use from a
+the command-line or from Python scripts.  This means that Pyshortcuts can be
+made part of an installation (or post-installation process) process for larger
+packages.
+
+Special attention is given to Anaconda Python on Windows.  For that
+environment, the shortcut created will be sure to run in an Anaconda
+environment, explicitly selecting the "base" environment even if that has not
+been explicitly set by the user.
 
 ## installation
 
@@ -50,7 +51,7 @@ pip install pyshortcuts
 ```
 
 On Windows, pyshortcuts requires the pywin32 package and will be installed
-automatically if needed.
+if needed. There are no depenendencies on macOS or Linux.
 
 In order to use the pyshortcut GUI, the wxPython package is required.
 
@@ -77,41 +78,14 @@ The arguments to the `make_shortcut` function are:
   * `startmenu`   (bool) whether to add shortcut to Start Menu [True]
   * `executable`  (str or None) name of executable to use [this Python]
 
-Note that the Start Menu does not exist for MacOSX.
+Note that the Start Menu does not exist for macOSX.
 
 The `executable` defaults to the version of Python executable used to make shortcut.
 
 
-## Note for running wxPython GUIs on macOS with Anaconda Python
-
-If your application uses wxPython and you are running with Anaconda Python on
-macOS, you may experience problems that your application does not start.  If
-you try to run your script from the command line, you may see the following
-error message:
-
-
-```
-~> python my_wxpython_app.py
-This program needs access to the screen. Please run with a
-Framework build of python, and only when you are logged in
-on the main display of your Mac.
-```
-
-
-If you do see that, it can be fixed and your script run properly by adding
-
-```
-import wx
-wx.PyApp.IsDisplayAvailable = lambda _: True
-```
-
-in your script before runnig your application,
-
-
-
 ##  `pyshortcut` command-line program
 
-pyshortcuts also installs a `pyshortcut` command-line program for creating a shortcut.
+Pyshortcuts installs a `pyshortcut` command-line program for creating a shortcut.
 From a shell or Command window with PATH set to include python programs and scripts,
 a command to create a shortcut might look like:
 
@@ -158,6 +132,49 @@ time the shortcut is used to launch the application, a new Terminal or Command
 window will be created for it.  For many command-line applications, this is
 appropriate.  The extra Terminal or Command window may be unwanted for some GUI
 applications, and can be disabled with the `-g` or `--gui` option.
+
+## Making a shortcut for single python command
+
+A common request and simple use-case for `pyshortcuts` is to wrap a single
+python command.  An example of this might look like this:
+
+```
+import sys
+from pyshortcuts import make_shortcut
+
+pycmd = f"{sys.executable} -m pip install --upgrade pyshortcuts"
+
+make_shortcut(pycmd, name='Update Pyshortcuts')
+```
+
+An example that includes an icon is given in the examples folder.
+
+
+## Note for running wxPython GUIs on macOS with Anaconda Python
+
+If your application uses wxPython and you are running with Anaconda Python on
+macOS, you may experience problems that your application does not start.  If
+you try to run your script from the command line, you may see the following
+error message:
+
+
+```
+~> python my_wxpython_app.py
+This program needs access to the screen. Please run with a
+Framework build of python, and only when you are logged in
+on the main display of your Mac.
+```
+
+
+If you do see that, it can be fixed and your script run properly by adding
+
+```
+import wx
+wx.PyApp.IsDisplayAvailable = lambda _: True
+```
+
+in your script before runnig your starting the `wxPython` `mainloop` event handler.
+
 
 
 ## `pyshortcut` GUI
