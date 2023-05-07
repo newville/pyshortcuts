@@ -135,9 +135,7 @@ def shortcut_cli():
         if args.scriptname is None:
             print("pyshortcut: must provide one script.  try 'pyshortcuts -h'")
         else:
-
-            desc = scriptname = args.scriptname
-            make_shortcut(scriptname, name=args.name, description=desc,
+            make_shortcut(args.scriptname, name=args.name, 
                           terminal=args.terminal, folder=args.folder,
                           icon=args.icon, desktop=args.desktop,
                           startmenu=args.startmenu, executable=args.exe)
