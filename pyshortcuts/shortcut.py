@@ -1,6 +1,9 @@
 #!/usr/bin/env python
-import os
 import sys
+import os
+from os.path import abspath, normpath, realpath
+from os.path import (split as path_split, join as path_join,
+                     exists as path_exists)
 from collections import namedtuple
 
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
@@ -22,6 +25,8 @@ def fix_filename(s, allow_multiple_dots=True):
                 t = "%s_%s" % (t[:idot], t[idot+1:])
     return t
 
+def get_pyexe():
+    return realpath(normpath(sys.executable))
 
 Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target', 'working_dir',
                                    'script', 'full_script', 'arguments',
@@ -63,18 +68,20 @@ def shortcut(script, userfolders, name=None, description=None, folder=None, work
     if not isinstance(script, str) or len(script) < 1:
         raise ValueError("`script` for shortcut must be a non-zero length string")
 
-    words = script.split(' ', 1)
+    words = script.strip().split(' ', 1)
     if len(words) < 2:
         words.append('')
 
     script, arguments = words[0], words[1]
-
-    full_script = os.path.normpath(os.path.abspath(script))
+    if script in ('_', '{}'):
+        script = words[0] = get_pyexe()
+        
+    full_script = normpath(abspath(script))
 
     if name is None:
         name = script
-
-    _path, name = os.path.split(name)
+    
+    _path, name = path_split(name)
     name = fix_filename(name)
     if name.endswith('.py'):
         name = name[:-3]
@@ -85,30 +92,31 @@ def shortcut(script, userfolders, name=None, description=None, folder=None, work
     target = '%s.%s' % (name, scut_ext)
 
     if icon is not None and len(str(icon)) > 0:
-        icon = os.path.normpath(os.path.abspath(icon))
-        if not os.path.exists(icon):
+        icon = normpath(abspath(icon))
+        if not path_exists(icon):
             for ext in ico_ext:
                 ticon = "{:s}.{:s}".format(icon, ext)
-                if os.path.exists(ticon):
+                if path_exists(ticon):
                     icon = ticon
                     break
 
-    if icon is None or not os.path.exists(icon):
-        _path, _fname = os.path.split(__file__)
-        icon = os.path.normpath(os.path.join(os.path.abspath(_path), 'icons',
-                                             'py.{:s}'.format(ico_ext[0])))
+    if icon is None or not path_exists(icon):
+        _path, _fname = path_split(__file__)
+        icon = normpath(path_join(abspath(_path), 'icons',
+                                  'py.{:s}'.format(ico_ext[0])))
 
     desktop_dir = userfolders.desktop
     if folder is not None:
         if folder.startswith(desktop_dir):
             folder = folder[len(desktop_dir)+1:]
-        desktop_dir = os.path.normpath(os.path.join(desktop_dir, folder))
+        desktop_dir = normpath(path_join(desktop_dir, folder))
 
     startmenu_dir = userfolders.startmenu
     if folder is not None and len(startmenu_dir) > 1:
         if folder.startswith(startmenu_dir):
             folder = folder[len(startmenu_dir)+1:]
-        startmenu_dir = os.path.normpath(os.path.join(startmenu_dir, folder))
+        startmenu_dir = normpath(path_join(startmenu_dir, folder))
 
-    return Shortcut(name, description, icon, target, working_dir, script, full_script,
-                    arguments, desktop_dir, startmenu_dir)
+    return Shortcut(name, description, icon, target, working_dir,
+                    script, full_script, arguments, desktop_dir,
+                    startmenu_dir)
