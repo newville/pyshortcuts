@@ -7,6 +7,15 @@
 
 # pyshortcuts
 
+# Table of contents
+
+1. [Installation](#installation)
+2. [Usage from Python](#frompytho)
+3. [`pyshortcut` command-line program](#cli)
+4. [Making a shortcut for single python command](#pycmd)
+5. [Note for running wxPython GUIs on macOS with Anaconda Python](#wxapps_macos)
+6. [`pyshortcut` graphical user interface](#wxgui)
+
 
 Pyshortcuts helps Python developers and users create shortcuts that will run
 python scripts and other applications.  The shortcuts created can go onto the
@@ -42,7 +51,7 @@ environment, the shortcut created will be sure to run in an Anaconda
 environment, explicitly selecting the "base" environment even if that has not
 been explicitly set by the user.
 
-## installation
+## installation <a name="installation"></a>
 
 To install `pyshortcuts`, use
 
@@ -55,7 +64,7 @@ if needed. There are no depenendencies on macOS or Linux.
 
 In order to use the pyshortcut GUI, the wxPython package is required.
 
-## usage from Python
+## Usage from Python <a name="frompython"></a>
 
 Shortcuts can be created from a Python script with
 
@@ -83,7 +92,7 @@ Note that the Start Menu does not exist for macOSX.
 The `executable` defaults to the version of Python executable used to make shortcut.
 
 
-##  `pyshortcut` command-line program
+##  `pyshortcut` command-line program <a name="cli"></a>
 
 Pyshortcuts installs a `pyshortcut` command-line program for creating a shortcut.
 From a shell or Command window with PATH set to include python programs and scripts,
@@ -133,7 +142,7 @@ window will be created for it.  For many command-line applications, this is
 appropriate.  The extra Terminal or Command window may be unwanted for some GUI
 applications, and can be disabled with the `-g` or `--gui` option.
 
-## Making a shortcut for single python command
+## Making a shortcut for single python command <a name="pycmd"></a>
 
 A common request and simple use-case for `pyshortcuts` is to wrap a single
 python command.  An example of this might look like this:
@@ -157,7 +166,7 @@ The above could be done from the command line with
 ~> pyshortcut -n "Update Pyshortcuts" "_ -m pip install pyshortcuts"
 ```
 
-## Note for running wxPython GUIs on macOS with Anaconda Python
+## Note for running wxPython GUIs on macOS with Anaconda Python <a name="wxapps_macos"></a>
 
 If your application uses wxPython and you are running with Anaconda Python on
 macOS, you may experience problems that your application does not start.  If
@@ -184,7 +193,7 @@ in your script before runnig your starting the `wxPython` `mainloop` event handl
 
 
 
-## `pyshortcut` GUI
+## `pyshortcut` GUI <a name="wxgui"></a>
 
 In addition to the `pyshortcut` command-line program, there is a small GUI
 application that provides a simple form to help the user browse for script
