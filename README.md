@@ -1,14 +1,13 @@
 [![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-ubuntu.yml/badge.svg)](https://github.com/newville/pyshortcuts/actions/workflows/test-ubuntu.yml)
 [![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-windows.yml/badge.svg)](https://github.com/newville/pyshortcuts/actions/workflows/test-windows.yml)
 [![Build status](https://github.com/newville/pyshortcuts/actions/workflows/test-macos.yml/badge.svg)](https://github.com/newville/pyshortcuts/actions/workflows/test-macos.yml)
-
 [![Version](https://img.shields.io/pypi/v/pyshortcuts.svg)](https://pypi.org/project/pyshortcuts)
 [![Downloads](https://pepy.tech/badge/pyshortcuts/month)](https://pepy.tech/project/pyshortcuts)
 
-# pyshortcuts
 
 # Table of contents
 
+1. [Pyshortcuts Overview](#about)
 1. [Installation](#installation)
 2. [Usage from Python](#frompytho)
 3. [`pyshortcut` command-line program](#cli)
@@ -16,6 +15,7 @@
 5. [Note for running wxPython GUIs on macOS with Anaconda Python](#wxapps_macos)
 6. [`pyshortcut` graphical user interface](#wxgui)
 
+## Pyshortcuts Overview <a name="about"></a>
 
 Pyshortcuts helps Python developers and users create shortcuts that will run
 python scripts and other applications.  The shortcuts created can go onto the
