@@ -29,7 +29,13 @@ def get_conda_active_env():
 conda_env = get_conda_active_env()
 ENVRUNNER = """
 @ECHO OFF
-call "%~dp0..\condabin\conda.bat" activate {0}
+if exist "%~dp0..\Scripts\activate.bat" (
+  call "%~dp0..\Scripts\activate.bat" {0} 
+) else (
+   if exist "%~dp0..\condabin\conda.bat" (
+      call "%~dp0..\condabin\conda.bat" activate {0}
+   )
+)
 echo # run in conda environment "%CONDA_DEFAULT_ENV%":
 echo # %*
 %*
