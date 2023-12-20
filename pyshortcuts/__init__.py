@@ -62,7 +62,7 @@ def shortcut_cli():
     command-line interface to creating desktop shortcuts
     '''
     desc = 'create desktop and start menu shortcuts'
-    version_string = 'pyshortcut %s' % (__version__)
+    version_string = 'pyshortcuts %s' % (__version__)
 
 
     parser = ArgumentParser(description=desc, # version=version_string,
@@ -108,7 +108,7 @@ def shortcut_cli():
     args = parser.parse_args()
 
     if args.version:
-        print("pyshortcuts {:s}".format(__version__))
+        print("pyshortcut {:s}".format(__version__))
 
     if (args.wxgui or args.bootstrap) and not HAS_WX:
         print("wxpython is required to run GUI")
@@ -133,9 +133,9 @@ def shortcut_cli():
             args.terminal = False
 
         if args.scriptname is None:
-            print("pyshortcut: must provide one script.  try 'pyshortcuts -h'")
+            print("pyshortcut: must provide one script.  try 'pyshortcut -h'")
         else:
-            make_shortcut(args.scriptname, name=args.name, 
+            make_shortcut(args.scriptname, name=args.name,
                           terminal=args.terminal, folder=args.folder,
                           icon=args.icon, desktop=args.desktop,
                           startmenu=args.startmenu, executable=args.exe)
