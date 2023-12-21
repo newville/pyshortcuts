@@ -84,6 +84,9 @@ def shortcut_cli():
     parser.add_argument('-e', '--executable', dest='exe', default=None,
                         help='name of executable to use (python)')
 
+    parser.add_argument('-x', '--no-executable', dest='noexe', action='store_true',
+                        default=False, help='use no implied executable [False]')
+
     parser.add_argument('-t', '--terminal', dest='terminal', action='store_true',
                         default=True, help='run script in a Terminal [True]')
 
@@ -138,4 +141,5 @@ def shortcut_cli():
             make_shortcut(args.scriptname, name=args.name,
                           terminal=args.terminal, folder=args.folder,
                           icon=args.icon, desktop=args.desktop,
-                          startmenu=args.startmenu, executable=args.exe)
+                          startmenu=args.startmenu, executable=args.exe,
+                          noexe=args.noexe)

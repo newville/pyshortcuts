@@ -97,7 +97,7 @@ def get_folders():
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
                   folder=None, terminal=True, desktop=True,
-                  startmenu=True, executable=None):
+                  startmenu=True, executable=None, noexe=False):
     """create shortcut
 
     Arguments:
@@ -112,6 +112,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     desktop     (bool) whether to add shortcut to Desktop [True]
     startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
     executable  (str, None) name of executable to use [this Python] (see Note 3)
+    noexe       (bool) whether to use no executable (script is entire command) [False]
 
     Notes:
     ------
@@ -125,14 +126,19 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     scut = shortcut(script, userfolders, name=name, description=description,
                     working_dir=working_dir, folder=folder, icon=icon)
 
-    if executable is None:
-        executable = get_pyexe()
-
-    executable = os.path.normpath(executable)
-    if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+    if noexe:
+        full_script =scut.script
         executable = ''
+    else:
+        full_script =scut.full_script
+        if executable is None:
+            executable = get_pyexe()
+        executable = os.path.normpath(executable)
 
-    execstring=f"{executable:s} {scut.full_script:s} {scut.arguments:s}".strip()
+        if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+            executable = ''
+
+    execstring=f"{executable:s} {full_script:s} {scut.arguments:s}".strip()
 
     text = DESKTOP_FORM.format(name=scut.name, desc=scut.description,
                                workdir=scut.working_dir,

@@ -30,7 +30,7 @@ conda_env = get_conda_active_env()
 ENVRUNNER = """
 @ECHO OFF
 if exist "%~dp0..\Scripts\activate.bat" (
-  call "%~dp0..\Scripts\activate.bat" {0} 
+  call "%~dp0..\Scripts\activate.bat" {0}
 ) else (
    if exist "%~dp0..\condabin\conda.bat" (
       call "%~dp0..\condabin\conda.bat" activate {0}
@@ -86,7 +86,7 @@ def get_folders():
 
 def make_shortcut(script, name=None, working_dir=None, description=None, icon=None,
                   folder=None, terminal=True, desktop=True,
-                  startmenu=True, executable=None):
+                  startmenu=True, executable=None, noexe=False):
     """create shortcut
 
     Arguments:
@@ -101,6 +101,7 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     desktop     (bool) whether to add shortcut to Desktop [True]
     startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
     executable  (str, None) name of executable to use [this Python] (see Note 3)
+    noexe       (bool) whether to use no executable (script is entire command) [False]
 
     Notes:
     ------
@@ -110,26 +111,34 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     """
     userfolders = get_folders()
 
-    scut = shortcut(script, userfolders, name=name, description=description, working_dir=working_dir,
-                    folder=folder, icon=icon)
-    full_script = scut.full_script
-    
-    if executable is None:
-        executable = get_pyexe()
+    scut = shortcut(script, userfolders, name=name, description=description,
+                    working_dir=working_dir, folder=folder, icon=icon)
+
+    if noexe:
+        full_script =scut.script
+        executable = ''
+    else:
+        full_script =scut.full_script
+        if executable is None:
+            executable = get_pyexe()
+        executable = os.path.normpath(executable)
+
+        if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+            executable = ''
 
     # Check for other valid ways to run the script
     # try appending .exe if script itself not found
-    if not os.path.exists(scut.full_script):
-        tname = scut.full_script + '.exe'
+    if not os.path.exists(full_script):
+        tname = full_script + '.exe'
         if os.path.exists(tname):
             executable = tname
             full_script = ''
 
     # If script is already executable use it directly instead of via pyexe
-    ext = os.path.splitext(scut.full_script)[1].lower()
+    ext = os.path.splitext(full_script)[1].lower()
     known_exes = [e.lower() for e in os.environ['PATHEXT'].split(os.pathsep)]
     if ext != '.py' and ext in known_exes:
-        executable = scut.full_script
+        executable = full_script
         full_script = ''
     full_script = ' '.join((full_script, scut.arguments))
 
