@@ -5,13 +5,33 @@ Create desktop shortcuts for Darwin / MacOS
 import os
 import sys
 import shutil
+from collections import namedtuple
 
-from .utils import  get_pyexe
+from .utils import  get_pyexe, get_homedir
+from .linux import get_desktop
 from .shortcut import shortcut
 
 def get_startmenu():
     "get start menu location"
-    return None
+    return ''
+
+def get_folders():
+    """get user-specific folders
+
+    Returns:
+    -------
+    Named tuple with fields 'home', 'desktop', 'startmenu'
+
+    Example:
+    -------
+    >>> from pyshortcuts import get_folders
+    >>> folders = get_folders()
+    >>> print("Home, Desktop, StartMenu ",
+    ...       folders.home, folders.desktop, folders.startmenu)
+    """
+    UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
+    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
                   folder=None, terminal=True, desktop=True,
@@ -40,7 +60,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     """
     if not desktop:
         return
-
+    from . import get_folders
     userfolders = get_folders()
     if working_dir is None:
         working_dir = ''
@@ -107,7 +127,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         text.append("cd {workdir:s}")
 
     if terminal:
-        text.append("""osascript -e 'tell application "Terminal"
+        text.append(r"""osascript -e 'tell application "Terminal"
    do script "'${{EXE}}\ {osascript:s}'"
 end tell
 '

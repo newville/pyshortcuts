@@ -4,6 +4,7 @@ from pyshortcuts.version import version as __version__
 
 import os
 import sys
+
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 from .utils import (fix_filename, new_filename, fix_varname, isotime,
@@ -11,40 +12,23 @@ from .utils import (fix_filename, new_filename, fix_varname, isotime,
 from .gformat import gformat
 from .debugtimer import debugtimer
 
-from .linux import make_shortcut, get_desktop, get_startmenu
+
+from .linux import make_shortcut, get_folders
 platform = "linux"
 
 if sys.platform.startswith('darwin'):
     platform = 'darwin'
-    from .darwin import make_shortcut, get_startmenu
+    from .darwin import make_shortcut, get_folders
 
-if os.name.startswith('win'):
+elif os.name.startswith('win'):
     platform = "win"
-    from .windows import make_shortcut, get_desktop, get_startmenu
+    from .windows import make_shortcut, get_folders
 
 uname = platform
 
 scut_ext = {'linux': 'desktop', 'darwin':'app', 'windows': 'lnk'}[platform]
-icon_ext = {'linux': ('ico', 'png'),
-            'darwin': ('icns',), 'windows': ('ico', )}[platform]
-
-
-def get_folders():
-    """get user-specific folders
-
-    Returns:
-    -------
-    Named tuple with fields 'home', 'desktop', 'startmenu'
-
-    Example:
-    -------
-    >>> from pyshortcuts import get_folders
-    >>> folders = get_folders()
-    >>> print("Home, Desktop, StartMenu ",
-    ...       folders.home, folders.desktop, folders.startmenu)
-    """
-    UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
-    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+ico_ext = {'linux': ('ico', 'png'),
+           'darwin': ('icns',), 'windows': ('ico', )}[platform]
 
 from .shortcut import shortcut, Shortcut
 

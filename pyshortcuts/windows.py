@@ -5,12 +5,12 @@ Create desktop shortcuts for Windows
 import os
 import sys
 import time
+from collections import namedtuple
 import win32com.client
 from win32com.shell import shell, shellcon
 
-from .util import get_pyexe
+from .util import get_pyexe, get_homedir
 from .shortcut import shortcut
-
 
 def get_conda_active_env():
     '''Return name of active conda environment or empty string'''
@@ -25,7 +25,7 @@ def get_conda_active_env():
 # batch file to activate the environment
 # for Anaconda Python before running command.
 conda_env = get_conda_active_env()
-ENVRUNNER = """
+ENVRUNNER = r"""
 @ECHO OFF
 if exist "%~dp0..\Scripts\activate.bat" (
   call "%~dp0..\Scripts\activate.bat" {0}
@@ -40,7 +40,7 @@ echo # %*
 """.format(conda_env)
 
 
-def get_desktop():
+def get_get_desktop():
     '''Return user Desktop folder'''
     return shell.SHGetFolderPath(0, shellcon.CSIDL_DESKTOP, None, 0)
 
@@ -49,6 +49,24 @@ def get_startmenu():
     note that we return CSIDL_PROGRAMS not CSIDL_COMMON_PROGRAMS
     '''
     return shell.SHGetFolderPath(0, shellcon.CSIDL_PROGRAMS, None, 0)
+
+def get_folders():
+    """get user-specific folders
+
+    Returns:
+    -------
+    Named tuple with fields 'home', 'desktop', 'startmenu'
+
+    Example:
+    -------
+    >>> from pyshortcuts import get_folders
+    >>> folders = get_folders()
+    >>> print("Home, Desktop, StartMenu ",
+    ...       folders.home, folders.desktop, folders.startmenu)
+    """
+    UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
+    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+
 
 def make_shortcut(script, name=None, working_dir=None, description=None, icon=None,
                   folder=None, terminal=True, desktop=True,
@@ -75,6 +93,7 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     2. Start Menu does not exist for Darwin / MacOSX
     3. executable defaults to the Python executable used to make shortcut.
     """
+    from . import get_folders
     userfolders = get_folders()
 
     scut = shortcut(script, userfolders, name=name, description=description,

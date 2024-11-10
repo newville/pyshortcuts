@@ -4,8 +4,9 @@ Create desktop shortcuts for Linux
 """
 import os
 import sys
+from collections import namedtuple
 
-from .utils import  get_pyexe
+from .utils import  get_pyexe, get_homedir
 from .shortcut import shortcut
 
 DESKTOP_FORM = """[Desktop Entry]
@@ -42,6 +43,24 @@ def get_startmenu():
     "get start menu location"
     homedir = get_homedir()
     return os.path.join(homedir, '.local', 'share', 'applications')
+
+
+def get_folders():
+    """get user-specific folders
+
+    Returns:
+    -------
+    Named tuple with fields 'home', 'desktop', 'startmenu'
+
+    Example:
+    -------
+    >>> from pyshortcuts import get_folders
+    >>> folders = get_folders()
+    >>> print("Home, Desktop, StartMenu ",
+    ...       folders.home, folders.desktop, folders.startmenu)
+    """
+    UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
+    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
