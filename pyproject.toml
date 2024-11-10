@@ -5,3 +5,60 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools_scm]
 write_to = "pyshortcuts/version.py"
 version_scheme = "post-release"
+
+[tool.setuptools.packages.find]
+include = ["pyshortcuts"]
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=pyshortcuts --cov-report html"
+
+[project]
+name = "pyshortcuts"
+dynamic = ["version"]
+dependencies = [
+    "charset-normalizer",
+    "pywin32; platform_system=='Windows'",
+]
+requires-python = ">= 3.8"
+authors = [
+    {name = "Matthew Newville", email = "matt.newville@gmail.com"},
+]
+description = "Create desktop and Start Menu shortcuts for python scripts"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["desktop shortcuts", "python utilities"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+[project.urls]
+Homepage = "https://github.com/newville/pyshortcuts/"
+Documentation = "https://github.com/newville/pyshortcuts/README.md"
+Changelog = "https://github.com/newville/pyshortcuts/issues"
+
+[project.scripts]
+pyshortcut = "pyshortcuts:shortcut_cli"
+
+[project.optional-dependencies]
+dev = ["build", "twine"]
+
+doc = ["Sphinx" ]
+test = ["coverage", "pytest", "pytest-cov"]
+
+all = ["pyshortcuts[dev, doc, test]"]
