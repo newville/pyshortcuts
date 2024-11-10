@@ -5,11 +5,12 @@ Create desktop shortcuts for Windows
 import os
 import sys
 import time
-from .shortcut import shortcut, get_pyexe
-from . import UserFolders
-
 import win32com.client
 from win32com.shell import shell, shellcon
+
+from .util import get_pyexe
+from .shortcut import shortcut
+
 
 scut_ext = 'lnk'
 ico_ext = ('ico',)
@@ -65,24 +66,6 @@ def get_startmenu():
     note that we return CSIDL_PROGRAMS not CSIDL_COMMON_PROGRAMS
     '''
     return shell.SHGetFolderPath(0, shellcon.CSIDL_PROGRAMS, None, 0)
-
-
-def get_folders():
-    """get user-specific folders
-
-    Returns:
-    -------
-    Named tuple with fields 'home', 'desktop', 'startmenu'
-
-    Example:
-    -------
-    >>> from pyshortcuts import get_folders
-    >>> folders = get_folders()
-    >>> print("Home, Desktop, StartMenu ",
-    ...       folders.home, folders.desktop, folders.startmenu)
-    """
-    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
-
 
 def make_shortcut(script, name=None, working_dir=None, description=None, icon=None,
                   folder=None, terminal=True, desktop=True,

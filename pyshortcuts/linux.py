@@ -5,18 +5,8 @@ Create desktop shortcuts for Linux
 import os
 import sys
 
-HAS_PWD = False
-try:
-    import pwd
-    HAS_PWD = True
-except ImportError:
-    pass
-
-from .shortcut import shortcut, get_pyexe
-from . import UserFolders
-
-scut_ext = 'desktop'
-ico_ext = ('ico', 'svg', 'png')
+from .utils import  get_pyexe
+from .shortcut import shortcut
 
 DESKTOP_FORM = """[Desktop Entry]
 Name={name:s}
@@ -59,40 +49,25 @@ def get_desktop():
     homedir = get_homedir()
     desktop = os.path.join(homedir, 'Desktop')
 
-    # search for .config/user-dirs.dirs in HOMEDIR
-    ud_file = os.path.join(homedir, '.config', 'user-dirs.dirs')
-    if os.path.exists(ud_file):
-        val = desktop
-        with open(ud_file, 'r') as fh:
-            text = fh.readlines()
-        for line in text:
-            if 'DESKTOP' in line:
-                line = line.replace('$HOME', homedir)[:-1]
-                key, val = line.split('=')
-                val = val.replace('"', '').replace("'", "")
-        desktop = val
+    if sys.platform.startswith('linux'):
+        # search for .config/user-dirs.dirs in HOMEDIR
+        ud_file = os.path.join(homedir, '.config', 'user-dirs.dirs')
+        if os.path.exists(ud_file):
+            val = desktop
+            with open(ud_file, 'r') as fh:
+                text = fh.readlines()
+            for line in text:
+                if 'DESKTOP' in line:
+                    line = line.replace('$HOME', homedir)[:-1]
+                    key, val = line.split('=')
+                    val = val.replace('"', '').replace("'", "")
+            desktop = val
     return desktop
 
 def get_startmenu():
     "get start menu location"
     homedir = get_homedir()
     return os.path.join(homedir, '.local', 'share', 'applications')
-
-def get_folders():
-    """get user-specific folders
-
-    Returns:
-    -------
-    Named tuple with fields 'home', 'desktop', 'startmenu'
-
-    Example:
-    -------
-    >>> from pyshortcuts import get_folders
-    >>> folders = get_folders()
-    >>> print("Home, Desktop, StartMenu ",
-    ...       folders.home, folders.desktop, folders.startmenu)
-    """
-    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,

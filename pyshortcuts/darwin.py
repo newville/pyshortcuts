@@ -6,34 +6,13 @@ import os
 import sys
 import shutil
 
-from .shortcut import shortcut, get_pyexe
-from .linux import get_homedir, get_desktop
-from . import UserFolders
-
-scut_ext = 'app'
-ico_ext = ('icns',)
+from .utils import  get_pyexe
+from .shortcut import shortcut
 
 
 def get_startmenu():
     "get start menu location"
     return ''
-
-
-def get_folders():
-    """get user-specific folders
-
-    Returns:
-    -------
-    Named tuple with fields 'home', 'desktop', 'startmenu'
-
-    Example:
-    -------
-    >>> from pyshortcuts import get_folders
-    >>> folders = get_folders()
-    >>> print("Home, Desktop, StartMenu ",
-    ...       folders.home, folders.desktop, folders.startmenu)
-    """
-    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
 
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,

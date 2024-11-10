@@ -5,34 +5,30 @@ from pyshortcuts.version import version as __version__
 import os
 import sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from collections import namedtuple
 
-UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
+from .gformat import gformat
+from .debugtimer import debugtimer
 
-uname = sys.platform
-if os.name == "nt":
-    uname = "win"
-if uname == "linux2":
-    uname = "linux"
+from .utils import (fix_filename, new_filename, fix_varname, isotime,
+                    get_pyexe, bytes2str, str2bytes)
 
-from .linux import (scut_ext, ico_ext, make_shortcut,
-                    get_folders, get_homedir, get_desktop)
+from .linux import (make_shortcut, get_homedir, get_desktop, get_startmenu)
+platform = "linux"
 
-if uname.startswith('win'):
-    from .windows import (scut_ext, ico_ext, make_shortcut,
-                          get_folders, get_homedir, get_desktop)
+if sys.platform.startswith('darwin'):
+    platform = 'darwin'
+    from .darwin import (make_shortcut, get_startmenu)
 
-elif uname.startswith('darwin'):
-    from .darwin import (scut_ext, ico_ext, make_shortcut,
-                         get_folders, get_homedir, get_desktop)
+if os.name.startswith('win'):
+    platform = "win"
+    from .windows import (make_shortcut, get_homedir, get_desktop, get_startmenu)
 
-from .shortcut import shortcut, Shortcut, fix_filename
+uname = platform
 
-# for back-compat
-from . import utils
-utils.get_homedir = get_homedir
-utils.get_folders = get_folders
-utils.platform = platform = uname
+scut_ext = {'linux': 'desktop', 'darwin':'app', 'windows': 'lnk'}[platform]
+icon_ext = {'linux': ('ico', 'png'),
+            'darwin': ('icns',), 'windows': ('ico', )}[platform]
+
 
 def get_cwd():
     """get current working directory
@@ -49,12 +45,46 @@ def get_cwd():
         os.chdir(home)
         return home
 
+def get_folders():
+    """get user-specific folders
+
+    Returns:
+    -------
+    Named tuple with fields 'home', 'desktop', 'startmenu'
+
+    Example:
+    -------
+    >>> from pyshortcuts import get_folders
+    >>> folders = get_folders()
+    >>> print("Home, Desktop, StartMenu ",
+    ...       folders.home, folders.desktop, folders.startmenu)
+    """
+    UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
+    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+
+from .shortcut import shortcut, Shortcut
+
 try:
     import wx
-    HAS_WX = True
     from .wxgui import ShortcutFrame
 except ImportError:
-    HAS_WX = False
+    ShortCutFrame = None
+
+
+def get_cwd():
+    """get current working directory
+    Note: os.getcwd() can fail with permission error.
+
+    when that happens, this changes to the users `HOME` directory
+    and returns that directory so that it always returns an existing
+    and readable directory.
+    """
+    try:
+        return os.getcwd()
+    except:
+        home = get_homedir()
+        os.chdir(home)
+        return home
 
 
 def shortcut_cli():
@@ -111,20 +141,23 @@ def shortcut_cli():
     args = parser.parse_args()
 
     if args.version:
-        print("pyshortcut {:s}".format(__version__))
+        print(f"pyshortcut {__version__}")
 
-    if (args.wxgui or args.bootstrap) and not HAS_WX:
+    if (args.wxgui or args.bootstrap) and ShortcutFrame is None:
         print("wxpython is required to run GUI")
         sys.exit()
 
     if args.bootstrap:
         bindir = 'bin'
-        if uname.startswith('win'):
+        if platform.startswith('win'):
             bindir = 'Scripts'
-        here, this = os.path.split(os.path.abspath(__file__))
-        icon = os.path.join(here, 'icons', 'ladder.%s' % ico_ext[0])
-        script = "%s --wxgui" % os.path.join(sys.prefix, bindir, 'pyshortcut')
-        make_shortcut(script, name='PyShortcut', terminal=False, icon=icon)
+        fpath = Path(__file__)
+        here, this =fpath.parent, fpath.stem
+
+        icon = Path(here, 'icons', f'ladder.{ico_ext[0]}').resolve().as_posix()
+        script = Path(sys.prefix, bindir, 'pyshortcut').resolve().as_posix()
+        make_shortcut(f"{script} --wxgui", name='PyShortcut',
+                      terminal=False, icon=icon)
 
     elif args.wxgui:
         app = wx.App()
