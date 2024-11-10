@@ -7,6 +7,55 @@ from pathlib import Path
 from datetime import datetime
 from string import ascii_letters
 
+try:
+    from pwd import getpwnam
+except ImportError:
+    getpwnam = None
+
+def get_homedir():
+    "determine home directory"
+    # for Unixes, allow for sudo case
+    susername = os.environ.get("SUDO_USER", None)
+    if susername is not None and getpwnam is not None:
+        return getpwnam(susername).pw_dir
+
+    homedir = Path.home()
+
+    # For Windows, ask for parent of Roaming 'Application Data' directory
+    if homedir is None and os.name == 'nt':
+        try:
+            from win32com.shell import shellcon, shell
+            homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
+        except ImportError:
+            pass
+
+    # try the HOME environmental variable
+    if homedir is  None:
+        test = os.path.expandvars('$HOME')
+        if test not in (None, '$HOME'):
+            homedir = test
+
+    # finally, use current folder
+    if homedir is None:
+        homedir = '.'
+
+    return Path(homedir).resolve().as_posix()
+
+def get_cwd():
+    """get current working directory
+    Note: os.getcwd() can fail with permission error.
+
+    when that happens, this changes to the users `HOME` directory
+    and returns that directory so that it always returns an existing
+    and readable directory.
+    """
+    try:
+        return Path('.').absolute().as_posix()
+    except:
+        home = get_homedir()
+        os.chdir(home)
+        return home
+
 
 def isotime(dtime=None, timepec='seconds'):
     """return ISO format of current timestamp:
