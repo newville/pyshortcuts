@@ -4,37 +4,18 @@ import os
 from os.path import abspath, normpath, realpath
 from os.path import (split as path_split, join as path_join,
                      exists as path_exists)
+from pathlib import Path
 from collections import namedtuple
 
-BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
-GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
+from .utils import get_pyexe, fix_filename
+
+Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target',
+                      'working_dir', 'script', 'full_script', 'arguments',
+                      'desktop_dir', 'startmenu_dir'))
 
 
-def fix_filename(s, allow_multiple_dots=True):
-    """
-    fix string to be a 'good' filename, with very few special
-    characters and (optionally) no more than 1 '.'.
-
-    More restrictive than most OSes, but avoids nasty cases.
-    """
-    t = str(s).translate(str.maketrans(BAD_FILECHARS, GOOD_FILECHARS))
-    if not allow_multiple_dots:
-        if t.count('.') > 1:
-            for i in range(t.count('.') - 1):
-                idot = t.find('.')
-                t = "%s_%s" % (t[:idot], t[idot+1:])
-    return t
-
-def get_pyexe():
-    return realpath(normpath(sys.executable))
-
-Shortcut = namedtuple("Shortcut", ('name', 'description', 'icon', 'target', 'working_dir',
-                                   'script', 'full_script', 'arguments',
-                                   'desktop_dir', 'startmenu_dir'))
-
-
-def shortcut(script, userfolders, name=None, description=None, folder=None, working_dir=None,
-             icon=None):
+def shortcut(script, userfolders, name=None, description=None,
+             folder=None, working_dir=None, icon=None):
     """representation of a Shortcuts parameters.
 
     Arguments:
@@ -53,7 +34,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None, work
 
       name           name for shortcut
       description    long description of shortcut
-      icon           full path of icon file
+      icon           path for icon file
       target         name of the shortcut file (without folder name)
       working_dir    directory where to run the script in
       script         shortname of python script to be run (without arguments)
@@ -63,7 +44,7 @@ def shortcut(script, userfolders, name=None, description=None, folder=None, work
       startmenu_dir  full path of startmenu folder (may need to be created)
 
     """
-    from . import platform, scut_ext, ico_ext
+    from . import scut_ext, ico_ext
 
     if not isinstance(script, str) or len(script) < 1:
         raise ValueError("`script` for shortcut must be a non-zero length string")
@@ -75,12 +56,12 @@ def shortcut(script, userfolders, name=None, description=None, folder=None, work
     script, arguments = words[0], words[1]
     if script in ('_', '{}'):
         script = words[0] = get_pyexe()
-        
-    full_script = normpath(abspath(script))
+
+    full_script = Path(script).resolve().as_posix()
 
     if name is None:
         name = script
-    
+
     _path, name = path_split(name)
     name = fix_filename(name)
     if name.endswith('.py'):
@@ -89,15 +70,15 @@ def shortcut(script, userfolders, name=None, description=None, folder=None, work
     if description is None:
         description = name
 
-    target = '%s.%s' % (name, scut_ext)
+    target = f'{name}.{scut_ext}'
 
     if icon is not None and len(str(icon)) > 0:
-        icon = normpath(abspath(icon))
-        if not path_exists(icon):
+        picon = Path(icon).resolve()
+        if not picon.exists():
             for ext in ico_ext:
-                ticon = "{:s}.{:s}".format(icon, ext)
-                if path_exists(ticon):
-                    icon = ticon
+                ticon = Path(f"{icon:s}.{ext:s}").resolve()
+                if ticon.exists():
+                    picon = ticon
                     break
 
     if icon is None or not path_exists(icon):

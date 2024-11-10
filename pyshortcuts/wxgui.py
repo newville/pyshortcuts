@@ -5,7 +5,8 @@ import wx
 
 import wx.lib.filebrowsebutton as filebrowse
 
-from pyshortcuts import (make_shortcut, platform, get_folders,
+from .utils import fix_filename
+from . import (make_shortcut, platform, get_folders,
                          get_cwd, fix_filename)
 
 
