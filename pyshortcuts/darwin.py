@@ -9,15 +9,13 @@ import shutil
 from .utils import  get_pyexe
 from .shortcut import shortcut
 
-
 def get_startmenu():
     "get start menu location"
-    return ''
-
+    return None
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
                   folder=None, terminal=True, desktop=True,
-                  startmenu=True, executable=None, noexe=False):
+                  startmenu=False, executable=None, noexe=False):
     """create shortcut
 
     Arguments:
@@ -30,7 +28,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
     terminal    (bool) whether to run in a Terminal [True]
     desktop     (bool) whether to add shortcut to Desktop [True]
-    startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
+    startmenu   (bool) whether to add shortcut to Start Menu [False] (See Note 2)
     executable  (str, None) name of executable to use [this Python] (see Note 3)
     noexe       (bool) whether to use no executable (script is entire command) [False]
 

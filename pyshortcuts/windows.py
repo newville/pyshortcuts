@@ -12,9 +12,6 @@ from .util import get_pyexe
 from .shortcut import shortcut
 
 
-scut_ext = 'lnk'
-ico_ext = ('ico',)
-
 def get_conda_active_env():
     '''Return name of active conda environment or empty string'''
     conda_env = None
@@ -42,24 +39,10 @@ echo # %*
 %*
 """.format(conda_env)
 
-_WSHELL = win32com.client.Dispatch("Wscript.Shell")
-
-
-# Windows Special Folders
-# see: https://docs.microsoft.com/en-us/windows/win32/shell/csidl
-
-def get_homedir():
-    '''Return home directory:
-    note that we return CSIDL_PROFILE, not
-    CSIDL_APPDATA, CSIDL_LOCAL_APPDATA,  or CSIDL_COMMON_APPDATA
-    '''
-    return shell.SHGetFolderPath(0, shellcon.CSIDL_PROFILE, None, 0)
-
 
 def get_desktop():
     '''Return user Desktop folder'''
     return shell.SHGetFolderPath(0, shellcon.CSIDL_DESKTOP, None, 0)
-
 
 def get_startmenu():
     '''Return user Start Menu Programs folder
@@ -143,6 +126,7 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
                 os.makedirs(folder)
             dest = os.path.normpath(os.path.join(folder, scut.target))
 
+            _WSHELL = win32com.client.Dispatch("Wscript.Shell")
             wscript = _WSHELL.CreateShortCut(dest)
             wscript.Targetpath = '"%s"' % executable
             wscript.Arguments = full_script

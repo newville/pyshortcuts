@@ -18,32 +18,6 @@ Icon={icon:s}
 Exec={execstring:s}
 """
 
-_HOME = None
-def get_homedir():
-    "determine home directory of current user"
-    global _HOME
-    if _HOME is None:
-        home = None
-        susername = os.environ.get("SUDO_USER", None)
-        if susername is not None:
-            try:
-                from pwd import getpwnam
-                home = getpwnam(susername).pw_dir
-            except ImportError:
-                pass
-        if home is None:
-            try:
-                from pathlib import Path
-                home = str(Path.home())
-            except:
-                pass
-        if home is None:
-            home = os.path.expanduser("~")
-        if home is None:
-            home = os.environ.get("HOME", os.path.abspath("."))
-        _HOME = os.path.normpath(home)
-    return _HOME
-
 def get_desktop():
     "get desktop location"
     homedir = get_homedir()

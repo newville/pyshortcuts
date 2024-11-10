@@ -6,22 +6,21 @@ import os
 import sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
+from .utils import (fix_filename, new_filename, fix_varname, isotime,
+                    get_pyexe, bytes2str, str2bytes, get_homedir, get_cwd)
 from .gformat import gformat
 from .debugtimer import debugtimer
 
-from .utils import (fix_filename, new_filename, fix_varname, isotime,
-                    get_pyexe, bytes2str, str2bytes)
-
-from .linux import (make_shortcut, get_homedir, get_desktop, get_startmenu)
+from .linux import make_shortcut, get_desktop, get_startmenu
 platform = "linux"
 
 if sys.platform.startswith('darwin'):
     platform = 'darwin'
-    from .darwin import (make_shortcut, get_startmenu)
+    from .darwin import make_shortcut, get_startmenu
 
 if os.name.startswith('win'):
     platform = "win"
-    from .windows import (make_shortcut, get_homedir, get_desktop, get_startmenu)
+    from .windows import make_shortcut, get_desktop, get_startmenu
 
 uname = platform
 
@@ -29,21 +28,6 @@ scut_ext = {'linux': 'desktop', 'darwin':'app', 'windows': 'lnk'}[platform]
 icon_ext = {'linux': ('ico', 'png'),
             'darwin': ('icns',), 'windows': ('ico', )}[platform]
 
-
-def get_cwd():
-    """get current working directory
-    Note: os.getcwd() can fail with permission error.
-
-    when that happens, this changes to the users `HOME` directory
-    and returns that directory so that it always returns an existing
-    and readable directory.
-    """
-    try:
-        return os.getcwd()
-    except:
-        home = get_homedir()
-        os.chdir(home)
-        return home
 
 def get_folders():
     """get user-specific folders
