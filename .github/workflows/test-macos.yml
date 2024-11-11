@@ -9,7 +9,7 @@ jobs:
       max-parallel: 5
       fail-fast: false
       matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python from Miniconda
@@ -24,8 +24,7 @@ jobs:
         printenv
         echo '###'
         python -m pip install --upgrade pip
-        python -m pip install pytest
-        python -m pip install .
+        python -m pip install ".[all]"
     - name: Run test suite
       run: |
         cd tests
