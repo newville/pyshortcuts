@@ -18,8 +18,8 @@ def gformat(val, length=11):
     Except that:
         a) the length of the output string will be of the requested length.
         b) positive numbers will have a leading blank.
-        b) the precision will be as high as possible.
-        c) trailing zeros will not be trimmed.
+        c) the precision will be as high as possible.
+        d) trailing zeros will not be trimmed.
 
     The precision will typically be ``length-7``.
 

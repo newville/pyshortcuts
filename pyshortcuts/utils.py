@@ -17,7 +17,7 @@ def get_homedir():
     # for Unixes, allow for sudo case
     susername = os.environ.get("SUDO_USER", None)
     if susername is not None and getpwnam is not None:
-        return getpwnam(susername).pw_dir
+        return Path(getpwnam(susername).pw_dir).resolve().as_posix()
 
     homedir = Path.home()
 
@@ -25,7 +25,7 @@ def get_homedir():
     if homedir is None and os.name == 'nt':
         try:
             from win32com.shell import shellcon, shell
-            homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
+            homedir = Path(shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0))
         except ImportError:
             pass
 
@@ -33,13 +33,12 @@ def get_homedir():
     if homedir is  None:
         test = os.path.expandvars('$HOME')
         if test not in (None, '$HOME'):
-            homedir = test
+            homedir = Path(test)
 
     # finally, use current folder
     if homedir is None:
-        homedir = '.'
-
-    return Path(homedir).resolve().as_posix()
+        homedir = Path('.')
+    return homedir.resolve().as_posix()
 
 def get_cwd():
     """get current working directory
@@ -50,20 +49,20 @@ def get_cwd():
     and readable directory.
     """
     try:
-        return Path('.').absolute().as_posix()
+        return Path('.').resolve().as_posix()
     except:
         home = get_homedir()
         os.chdir(home)
         return home
 
 
-def isotime(dtime=None, timepec='seconds'):
+def isotime(dtime=None, timepec='seconds', sep=' '):
     """return ISO format of current timestamp:
           2024-04-27 17:31:12
     """
     if dtime is None:
         dtime = datetime.now()
-    return datetime.isoformat(dtime, sep=' ', timespec=timespec)
+    return datetime.isoformat(dtime, timespec=timespec, sep=sep)
 
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
