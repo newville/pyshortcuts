@@ -56,9 +56,9 @@ Changelog = "https://github.com/newville/pyshortcuts/issues"
 pyshortcut = "pyshortcuts:shortcut_cli"
 
 [project.optional-dependencies]
-dev = ["build", "twine"]
-
+gui = ["wxPython"]
 doc = ["Sphinx" ]
+dev = ["build", "twine"]
 test = ["coverage", "pytest", "pytest-cov"]
 
-all = ["pyshortcuts[dev, doc, test]"]
+all = ["pyshortcuts[dev,gui,doc,test]"]
