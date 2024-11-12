@@ -24,7 +24,7 @@ jobs:
         printenv
         echo '###'
         python -m pip install --upgrade pip
-        python -m pip install ".[all]"
+        python -m pip install ".[doc,test]"
     - name: Run test suite
       run: |
         cd tests
