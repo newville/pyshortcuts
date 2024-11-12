@@ -9,7 +9,6 @@ BUILDDIR      = _build
 
 INSTALLDIR = /home/newville/public_html/pyshortcuts
 
-
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
@@ -18,10 +17,10 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 .PHONY: html pdf all help clean dirhtml latex
 
 
-all: html pdf
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) _build/html
-	cd $(BUILDDIR)/latex && make all-pdf
-	@echo "Build finished. The HTML pages are in _build/html."
+all:
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
