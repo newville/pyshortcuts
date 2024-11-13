@@ -5,7 +5,16 @@
 [![Downloads]( https://img.shields.io/pypi/dm/pyshortcuts?color=red)](https://pypi.org/project/pyshortcuts)
 
 
-[Pyshortcut Documentation[(https://newville.github.io/pyshortcuts/)
+Install `pyshortcuts` with
+
+```
+pip install pyshortcuts
+```
+
+
+Full documentation is at: [Pyshortcuts Documentation](https://newville.github.io/pyshortcuts/)
+
+
 
 # Table of contents
 
