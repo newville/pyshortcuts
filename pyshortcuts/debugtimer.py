@@ -40,7 +40,7 @@ class DebugTimer():
 
     def get_report(self, precision=None):
         "get report text"
-        if precision is not None:
+        if precision is None:
             precision = self.precision
 
         cols = [("Message", "Delta Time (s)", "Total Time (s)")]
@@ -56,7 +56,7 @@ class DebugTimer():
             w2 = max(len(tt)+1,  w2)
 
         tline = f"+-{'-'*w0}+{'-'*w1}-+{'-'*w2}-+"
-        out = [f"# {self.title:{w0}s}|  {self.start_time:>{w1+w2}s} #", tline]
+        out = [f"# {self.title:{w0}s}    {self.start_time:>{w1+w2}s}", tline]
 
         for i, col in enumerate(cols):
             out.append(f"| {col[0]:{w0}s}|{col[1]:>{w1}s} |{col[2]:>{w2}s} |")

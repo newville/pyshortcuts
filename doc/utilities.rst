@@ -100,42 +100,46 @@ An example::
     ' 13.1153846'
     >>> gformat(10.2, length=11)
     ' 10.2000000'
-    >>> gformat(102.e-8/78, length=11)
-   ' 1.30769e-8'
+    >>> gformat(-102.e-8/78, length=11)
+    '-1.30769e-8'
 
 :func:`debugtimer`: debugging runtime of code in a function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Debugging run time in a function can be a painful process.  Using Python's
-`timeit` module is really good at timing a single statement, but not good at
-answering "how long is each section of code taking to run".
+Debugging run time in a function or section of code can be a painful process.
+Using Python's `timeit` module is really good at timing a single statement, but
+not good at answering "how long is each section of code taking to run".
+Sometimes you just want to print out times to find where code is slow.  That
+can somewhat challenging to track run times and gets cumbersome to manage.
+
+The :func:`debugtimer` helps with this process by creating a DebugTimer object,
+with methods :meth:`.add`, that marks time with a message, and the
+:meth:`get_report`, and :meth:`.show()` methods to show a report of total and
+incremental run times. An example usage would be::
 
 
-The :func:`debugtimer` creates a Debug Timer, with methods
-:meth:`.add`, :meth:`get_report`, :meth:`clear`, and :meth:`.show()`.
-An example usage would be::
-
-
+    import time
     import numpy as np
-    dtimer = debugtimer('test timer')
-    time.sleep(1.1010)
-    dtimer.add('slept for 1.101 seconds')
+    from pyshortcuts import debugtimer
+    dtimer = debugtimer('test timer', precision=3)
+    time.sleep(0.50)
+    dtimer.add('slept for 0.500 seconds')
     nx = 10_000_000
     x = np.arange(nx, dtype='float64')/3.0
     dtimer.add(f'created numpy array len={nx}')
     s = np.sqrt(x)
     dtimer.add('took sqrt')
-    dtimer.show(precision=4)
+    dtimer.show()
 
 which would print out a report like::
 
-    # test timer                       |            2024-10-15 14:02:13.4935 #
-    +----------------------------------+------------------+------------------+
-    | Message                          |   Delta Time (s) |   Total Time (s) |
-    +==================================+==================+==================+
-    | start                            |           0.0000 |           0.0000 |
-    | slept for 1.101 seconds          |           1.1062 |           1.1062 |
-    | created numpy array len=10000000 |           0.0699 |           1.1761 |
-    | took sqrt                        |           0.0314 |           1.2074 |
-    +----------------------------------+------------------+------------------+
+   # test timer                                      2024-10-11 14:07:27.868
+   +----------------------------------+------------------+------------------+
+   | Message                          |   Delta Time (s) |   Total Time (s) |
+   +==================================+==================+==================+
+   | start                            |            0.000 |            0.000 |
+   | slept for 0.500 seconds          |            0.502 |            0.502 |
+   | created numpy array len=10000000 |            0.073 |            0.575 |
+   | took sqrt                        |            0.038 |            0.613 |
+   +----------------------------------+------------------+------------------+
