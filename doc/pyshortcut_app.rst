@@ -71,8 +71,8 @@ This application can be launched from the command line with::
 
 which will show a form like
 
-  .. image:: pyshortcutgui_screenshot.png
-   :width: 85 %
+  .. image:: _static/pyshortcutgui_screenshot.png
+     :width: 85 %
 
 for building shortcuts.
 
@@ -121,4 +121,4 @@ If you do see that, it can be fixed and your script run properly by adding::
     import wx
     wx.PyApp.IsDisplayAvailable = lambda _: True
 
-in your script before runnig your starting the `wxPython` `mainloop` event handler.
+in your script before running your starting the `wxPython` `mainloop` event handler.

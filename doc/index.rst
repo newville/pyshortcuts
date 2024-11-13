@@ -28,7 +28,7 @@ that exists) and in $HOME/.local/share/applications (if that exists), which
 will often get presented in a Start Menu for windowing desktop themes that use
 a one.
 
-On all platforms, the shortcuts created on the Deskop or Start Menu can be put
+On all platforms, the shortcuts created on the Desktop or Start Menu can be put
 either directly onto the Desktop / Start Menu or in a sub-folder of the Desktop
 / Start Menu.  Shortcuts can have a custom icon (`.ico` files on Windows or
 Linux, or `.icns` files on macOS) specified, defaulting to a Python icon
@@ -46,46 +46,17 @@ Pyshortcuts can be made part of an installation (or post-installation process)
 process for larger packages.
 
 
-In addition, Pyshortcuts provides a number of :ref:`utility_funcs` for working with Paths
+Pyshortcuts also provides a number of :ref:`utility_funcs` for working with Paths
 and filenames that may be of general use.
 
 
 Contents
---------------------
-
-1. :ref:`install_section`.
-2. :ref:`python_section`.
-3. :ref:`pyshortcut_app`
-4. :ref:`utility_funcs`
-
-
-.. _install_section:
-
-Installation
-------------
-
-To install `pyshortcuts`, use::
-
-    pip install pyshortcuts
-
-
-Pyshortcuts requires the `charset-normalizer` package.  On Windows, pyshortcuts
-also requires the `pywin32` package.  Both of these will be installed if
-needed.
-
-To use the pyshortcut GUI, the wxPython package is required, which can be
-installed with::
-
-    pip install "pyshortcuts[gui]"
-
-Acknowelgements
 -----------------
-
-
 
 .. toctree::
    :maxdepth: 2
 
-   python
+   install
    pyshortcut_app
+   python
    utilities
