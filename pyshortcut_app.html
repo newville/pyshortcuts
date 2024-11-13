@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The pyshortcut command-line program &#8212; PyShortcuts: create desktop shortcuts to python scripts on Windows, Mac, or Linux</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=658d757c" />
+    
+    <script src="_static/documentation_options.js?v=c0181375"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using pyshortcuts from Python" href="python.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="python.html" title="Using pyshortcuts from Python"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyShortcuts: create desktop shortcuts to python scripts</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">The <cite>pyshortcut</cite> command-line program</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="the-pyshortcut-command-line-program">
+<span id="pyshortcut-app"></span><h1>The <cite>pyshortcut</cite> command-line program<a class="headerlink" href="#the-pyshortcut-command-line-program" title="Link to this heading">¶</a></h1>
+<p>Pyshortcuts installs a command-line program <cite>pyshortcut</cite> to build shortcuts.
+If wxPython is installed, this can also be used to launch a Graphical User
+Interface application for build shortcuts.</p>
+<p>From a shell or Command window with PATH set to include python programs and
+scripts, a command to create a shortcut might look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">pyshortcut</span> <span class="o">-</span><span class="n">n</span> <span class="n">MyApp</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">icons</span><span class="o">/</span><span class="n">myicon</span><span class="o">.</span><span class="n">icns</span>  <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">myapp</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>To include command-line options for the script, put them in double quotes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">pyshortcut</span> <span class="o">-</span><span class="n">n</span> <span class="n">MyApp</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">icons</span><span class="o">/</span><span class="n">myicon</span><span class="o">.</span><span class="n">icns</span> <span class="s2">&quot;/home/user/bin/myapp.py  -t 10&quot;</span>
+</pre></div>
+</div>
+<p>The <cite>pyshortcut</cite> command line program has a form of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyshortcut</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">ICON</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">FOLDER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">e</span> <span class="n">EXE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span><span class="p">]</span> <span class="p">[</span><span class="n">scriptname</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where <cite>scriptname</cite> is the name of the script.  To include arguments to that
+script, enclose the script name and arguments in quotes (double quotes on
+Windows).</p>
+<p>There are several optional arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>-h</cite>, <cite>–help</cite>      show help message and exit</p></li>
+<li><p><cite>-v</cite>, <cite>–version</cite>   show program’s version number and exit</p></li>
+<li><p><cite>-n NAME</cite>, <cite>–name=NAME</cite> name for shortcut</p></li>
+<li><p><cite>-i ICON</cite>, <cite>–icon=ICON</cite> name of icon file</p></li>
+<li><p><cite>-f FOLDER</cite>, <cite>–folder=Folder</cite> subfolder on desktop to put icon</p></li>
+<li><p><cite>-e EXE</cite>, <cite>–executable EXE</cite>     name of executable to use (python)</p></li>
+<li><p><cite>-t</cite>, <cite>–terminal</cite> run script in a Terminal Window [True]</p></li>
+<li><p><cite>-g</cite>, <cite>–gui</cite>      run script as a GUI, with no Terminal Window [False]</p></li>
+<li><p><cite>-d</cite>,` –desktop`         create desktop shortcut [True]</p></li>
+<li><p><cite>-s</cite>, <cite>–startmenu</cite>       create Start Menu shortcut [True]</p></li>
+<li><p><cite>-w</cite>, <cite>–wxgui</cite>    run GUI version of pyshortcut</p></li>
+<li><p><cite>-b</cite>, <cite>–bootstrap</cite>   create a desktop shortcut to run GUI version of pyshortcut</p></li>
+</ul>
+</div></blockquote>
+<p>Note that running in the Terminal is True by default, which means that each
+time the shortcut is used to launch the application, a new Terminal or Command
+window will be created for it.  For many command-line applications, this is
+appropriate.  The extra Terminal or Command window may be unwanted for some GUI
+applications, and can be disabled with the <cite>-g</cite> or <cite>–gui</cite> option.</p>
+</section>
+<section id="the-pyshortcut-gui">
+<h1>The <cite>pyshortcut</cite> GUI<a class="headerlink" href="#the-pyshortcut-gui" title="Link to this heading">¶</a></h1>
+<p>In addition to the <cite>pyshortcut</cite> command-line program, there is a small GUI
+application that provides a simple form to help the user browse for script
+and icons, and set options before creating a shortcut or generating an
+example Python script to create the shortcut.</p>
+<p>This requires the <cite>wxPython</cite> package which can be installed using <cite>pip</cite> or
+<cite>conda</cite> but is not automatically installed when installing <cite>pyshortcuts</cite>.
+This application can be launched from the command line with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">pyshortcut</span> <span class="o">--</span><span class="n">wxgui</span>
+</pre></div>
+</div>
+<p>which will show a form like</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/pyshortcutgui_screenshot.png"><img alt="_images/pyshortcutgui_screenshot.png" src="_images/pyshortcutgui_screenshot.png" style="width: 85%;" /></a>
+</div></blockquote>
+<p>for building shortcuts.</p>
+<p>Of course, that command might be the sort of command you might want to be able
+to launch by clicking on a desktop shortcut.  We have just the tool for that!  Doing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">pyshortcut</span> <span class="o">--</span><span class="n">bootstrap</span>
+</pre></div>
+</div>
+<p>will create a desktop shortcut with an icon of a ladder that will launch
+the pyshortcut GUI.  This essentially runs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pyshortcuts</span> <span class="kn">import</span> <span class="n">make_shortcut</span><span class="p">,</span> <span class="n">platform</span>
+
+<span class="n">bindir</span> <span class="o">=</span> <span class="s1">&#39;Scripts&#39;</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;win&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;bin&#39;</span>
+<span class="n">pyshortcut</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">bindir</span><span class="p">,</span> <span class="s1">&#39;pyshortcut&#39;</span><span class="p">))</span>
+<span class="n">scut</span> <span class="o">=</span> <span class="n">make_shortcut</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pyshortcut</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2"> --wxgui&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;PyShortcut&#39;</span><span class="p">,</span> <span class="n">terminal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ladder icon was made by Left Martinez, and downloaded from
+(<a class="reference external" href="https://www.iconfinder.com/iconsets/free-construction-tools">https://www.iconfinder.com/iconsets/free-construction-tools</a>)</p>
+</section>
+<section id="note-for-running-wxpython-guis-on-macos-with-anaconda-python">
+<h1>Note for running wxPython GUIs on macOS with Anaconda Python<a class="headerlink" href="#note-for-running-wxpython-guis-on-macos-with-anaconda-python" title="Link to this heading">¶</a></h1>
+<p>If your application uses wxPython and you are running with Anaconda Python on
+macOS, you may experience problems that your application does not start.  If
+you try to run your script from the command line, you may see the following
+error message:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">python</span> <span class="n">my_wxpython_app</span><span class="o">.</span><span class="n">py</span>
+<span class="n">This</span> <span class="n">program</span> <span class="n">needs</span> <span class="n">access</span> <span class="n">to</span> <span class="n">the</span> <span class="n">screen</span><span class="o">.</span> <span class="n">Please</span> <span class="n">run</span> <span class="k">with</span> <span class="n">a</span>
+<span class="n">Framework</span> <span class="n">build</span> <span class="n">of</span> <span class="n">python</span><span class="p">,</span> <span class="ow">and</span> <span class="n">only</span> <span class="n">when</span> <span class="n">you</span> <span class="n">are</span> <span class="n">logged</span> <span class="ow">in</span>
+<span class="n">on</span> <span class="n">the</span> <span class="n">main</span> <span class="n">display</span> <span class="n">of</span> <span class="n">your</span> <span class="n">Mac</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>If you do see that, it can be fixed and your script run properly by adding:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wx</span>
+<span class="n">wx</span><span class="o">.</span><span class="n">PyApp</span><span class="o">.</span><span class="n">IsDisplayAvailable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>in your script before running your starting the <cite>wxPython</cite> <cite>mainloop</cite> event handler.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">The <cite>pyshortcut</cite> command-line program</a></li>
+<li><a class="reference internal" href="#the-pyshortcut-gui">The <cite>pyshortcut</cite> GUI</a></li>
+<li><a class="reference internal" href="#note-for-running-wxpython-guis-on-macos-with-anaconda-python">Note for running wxPython GUIs on macOS with Anaconda Python</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="install.html"
+                          title="previous chapter">Installation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="python.html"
+                          title="next chapter">Using <cite>pyshortcuts</cite>  from Python</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pyshortcut_app.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="python.html" title="Using pyshortcuts from Python"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyShortcuts: create desktop shortcuts to python scripts</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">The <cite>pyshortcut</cite> command-line program</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Matthew Newville, The University of Chicago.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.6.
+    </div>
+  </body>
+</html>

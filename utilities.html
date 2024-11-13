@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Utility Functions &#8212; PyShortcuts: create desktop shortcuts to python scripts on Windows, Mac, or Linux</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=658d757c" />
+    
+    <script src="_static/documentation_options.js?v=c0181375"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Using pyshortcuts from Python" href="python.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="python.html" title="Using pyshortcuts from Python"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyShortcuts: create desktop shortcuts to python scripts</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Utility Functions</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="utility-functions">
+<span id="utility-funcs"></span><h1>Utility Functions<a class="headerlink" href="#utility-functions" title="Link to this heading">¶</a></h1>
+<p>Pyshortcuts provides a number of utility functions, especially for working
+with text files.  These may seem like an assorted mix of functions.  The author
+found many of these useful in multiple projects, and rather than having
+different versions in different packages, used this package to host those.  The
+utilities here are small (adding no extra dependencies), but useful for many
+projects.</p>
+<section id="isotime-get-time-is-iso-format">
+<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">isotime()</span></code>: get time is ISO format<a class="headerlink" href="#isotime-get-time-is-iso-format" title="Link to this heading">¶</a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">isotime()</span></code> is a shorthand for:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="k">def</span> <span class="nf">isotime</span><span class="p">(</span><span class="n">dtime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timepec</span><span class="o">=</span><span class="s1">&#39;seconds&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;return ISO format of current timestamp:</span>
+<span class="sd">          2024-04-27 17:31:12</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dtime</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">dtime</span><span class="p">,</span> <span class="n">timespec</span><span class="o">=</span><span class="n">timespec</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There isn’t more to it than that, it’s just shorter.</p>
+</section>
+<section id="get-homedir-get-home-directory">
+<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">get_homedir()</span></code>: get home directory<a class="headerlink" href="#get-homedir-get-home-directory" title="Link to this heading">¶</a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">get_homedir()</span></code> is sort of shorthand for:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>except that it also checks for <code class="docutils literal notranslate"><span class="pre">SUDO_USER</span></code> on POSIX systems, and it always uses the
+<code class="docutils literal notranslate"><span class="pre">win32com</span></code> module on Windows.</p>
+</section>
+<section id="get-cwd-get-current-working-directory">
+<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">get_cwd()</span></code>: get current working directory<a class="headerlink" href="#get-cwd-get-current-working-directory" title="Link to this heading">¶</a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">get_cwd()</span></code> is mostly shorthand for:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-filename-turn-a-string-into-a-valid-filename">
+<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code>: turn a string into a valid filename<a class="headerlink" href="#fix-filename-turn-a-string-into-a-valid-filename" title="Link to this heading">¶</a></h2>
+<p>Given a string, <code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code> will return a “good” file name that
+will work on any operating system.  Most of the disallowed or even
+“inconvenient” characters will be converted to ‘_’.   The filename will not
+have more than 1 ‘.’ character.</p>
+</section>
+<section id="new-filename-make-sure-a-filename-is-not-in-use">
+<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">new_filename()</span></code>: make sure a filename is not in use<a class="headerlink" href="#new-filename-make-sure-a-filename-is-not-in-use" title="Link to this heading">¶</a></h2>
+<p>Given a string (perhaps first run through <code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code>),
+<code class="xref py py-func docutils literal notranslate"><span class="pre">new_filename()</span></code> will return a file name that is not in use in the
+current working folder.  Generally, numbers will be incremented in order so
+that an input of <cite>file.001</cite> might become <cite>file.002</cite> or <cite>file.004</cite> if the
+interim files exist.   If a file named <cite>foo.dat</cite>  exists, the <cite>001</cite> will be
+inserted before the dot: <cite>foo_001.dat</cite>.   The filenumbers are not limited to
+1000.</p>
+</section>
+<section id="gformat-fixed-formatting-of-floating-point-numbers">
+<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code>: fixed formatting of floating point numbers<a class="headerlink" href="#gformat-fixed-formatting-of-floating-point-numbers" title="Link to this heading">¶</a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code> converts a floating point number to a string with
+exactly the specified length, and maximizing the displayed precision.  This is
+very useful for creating tables of floating point numbers.</p>
+<p>The  formatting will be similar to  ‘%g’-like format, expect that:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>the length of the output string will be of the requested length.</p></li>
+<li><p>positive numbers will have a leading blank.</p></li>
+<li><p>the precision will be as high as possible.</p></li>
+<li><p>trailing zeros will not be trimmed.</p></li>
+</ol>
+</div></blockquote>
+<p>The precision will determined by the length of the string.</p>
+<p>An example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;from pyshortcuts import gformat</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="mi">1023</span><span class="o">/</span><span class="mi">78</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="go">&#39; 13.1153846&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="mf">10.2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="go">&#39; 10.2000000&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="o">-</span><span class="mf">102.e-8</span><span class="o">/</span><span class="mi">78</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="go">&#39;-1.30769e-8&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="debugtimer-debugging-runtime-of-code-in-a-function">
+<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code>: debugging runtime of code in a function<a class="headerlink" href="#debugtimer-debugging-runtime-of-code-in-a-function" title="Link to this heading">¶</a></h2>
+<p>Debugging run time in a function or section of code can be a painful process.
+Using Python’s <cite>timeit</cite> module is really good at timing a single statement, but
+not good at answering “how long is each section of code taking to run”.
+Sometimes you just want to print out times to find where code is slow.  That
+can somewhat challenging to track run times and gets cumbersome to manage.</p>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code> helps with this process by creating a DebugTimer object,
+with methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code>, that marks time with a message, and the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_report()</span></code>, and <code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code> methods to show a report of total and
+incremental run times. An example usage would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pyshortcuts</span> <span class="kn">import</span> <span class="n">debugtimer</span>
+<span class="n">dtimer</span> <span class="o">=</span> <span class="n">debugtimer</span><span class="p">(</span><span class="s1">&#39;test timer&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.50</span><span class="p">)</span>
+<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;slept for 0.500 seconds&#39;</span><span class="p">)</span>
+<span class="n">nx</span> <span class="o">=</span> <span class="mi">10_000_000</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span>
+<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;created numpy array len=</span><span class="si">{</span><span class="n">nx</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;took sqrt&#39;</span><span class="p">)</span>
+<span class="n">dtimer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which would print out a report like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># test timer                                      2024-10-11 14:07:27.868</span>
+<span class="o">+----------------------------------+------------------+------------------+</span>
+<span class="o">|</span> <span class="n">Message</span>                          <span class="o">|</span>   <span class="n">Delta</span> <span class="n">Time</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">|</span>   <span class="n">Total</span> <span class="n">Time</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+==================================+==================+==================+</span>
+<span class="o">|</span> <span class="n">start</span>                            <span class="o">|</span>            <span class="mf">0.000</span> <span class="o">|</span>            <span class="mf">0.000</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">slept</span> <span class="k">for</span> <span class="mf">0.500</span> <span class="n">seconds</span>          <span class="o">|</span>            <span class="mf">0.502</span> <span class="o">|</span>            <span class="mf">0.502</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">created</span> <span class="n">numpy</span> <span class="n">array</span> <span class="nb">len</span><span class="o">=</span><span class="mi">10000000</span> <span class="o">|</span>            <span class="mf">0.073</span> <span class="o">|</span>            <span class="mf">0.575</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">took</span> <span class="n">sqrt</span>                        <span class="o">|</span>            <span class="mf">0.038</span> <span class="o">|</span>            <span class="mf">0.613</span> <span class="o">|</span>
+<span class="o">+----------------------------------+------------------+------------------+</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Utility Functions</a><ul>
+<li><a class="reference internal" href="#isotime-get-time-is-iso-format"><code class="xref py py-func docutils literal notranslate"><span class="pre">isotime()</span></code>: get time is ISO format</a></li>
+<li><a class="reference internal" href="#get-homedir-get-home-directory"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_homedir()</span></code>: get home directory</a></li>
+<li><a class="reference internal" href="#get-cwd-get-current-working-directory"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_cwd()</span></code>: get current working directory</a></li>
+<li><a class="reference internal" href="#fix-filename-turn-a-string-into-a-valid-filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code>: turn a string into a valid filename</a></li>
+<li><a class="reference internal" href="#new-filename-make-sure-a-filename-is-not-in-use"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_filename()</span></code>: make sure a filename is not in use</a></li>
+<li><a class="reference internal" href="#gformat-fixed-formatting-of-floating-point-numbers"><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code>: fixed formatting of floating point numbers</a></li>
+<li><a class="reference internal" href="#debugtimer-debugging-runtime-of-code-in-a-function"><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code>: debugging runtime of code in a function</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="python.html"
+                          title="previous chapter">Using <cite>pyshortcuts</cite>  from Python</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/utilities.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="python.html" title="Using pyshortcuts from Python"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyShortcuts: create desktop shortcuts to python scripts</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Utility Functions</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Matthew Newville, The University of Chicago.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using pyshortcuts from Python &#8212; PyShortcuts: create desktop shortcuts to python scripts on Windows, Mac, or Linux</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=658d757c" />
+    
+    <script src="_static/documentation_options.js?v=c0181375"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utility Functions" href="utilities.html" />
+    <link rel="prev" title="The pyshortcut command-line program" href="pyshortcut_app.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="utilities.html" title="Utility Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyshortcut_app.html" title="The pyshortcut command-line program"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyShortcuts: create desktop shortcuts to python scripts</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using <cite>pyshortcuts</cite>  from Python</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="using-pyshortcuts-from-python">
+<span id="python-section"></span><h1>Using <cite>pyshortcuts</cite>  from Python<a class="headerlink" href="#using-pyshortcuts-from-python" title="Link to this heading">¶</a></h1>
+<p>Shortcuts can be created from a Python script with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyshortcuts</span> <span class="kn">import</span> <span class="n">make_shortcut</span>
+<span class="n">make_shortcut</span><span class="p">(</span><span class="s1">&#39;/home/user/bin/myapp.py&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;MyApp&#39;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;/home/user/icons/myicon.ico&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="make_shortcut">
+<span class="sig-name descname"><span class="pre">make_shortcut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desktop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startmenu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">executable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noexe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_shortcut" title="Link to this definition">¶</a></dt>
+<dd><p>create a desktop shortcut</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>script</strong> (<em>string</em>) – path to script, may include command-line arguments</p></li>
+<li><p><strong>name</strong> (string or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – name to display for shortcut [name of script]</p></li>
+<li><p><strong>description</strong> (string or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – longer description of script [name]</p></li>
+<li><p><strong>icon</strong> (string or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – filename for icon file [python icon]</p></li>
+<li><p><strong>working_dir</strong> (string or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – directory where to run the script in</p></li>
+<li><p><strong>folder</strong> (string or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – name of subfolder of Desktop for shortcut [None] (See Note 1)</p></li>
+<li><p><strong>terminal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether to run in a Terminal [True]</p></li>
+<li><p><strong>desktop</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether to add shortcut to Desktop [True]</p></li>
+<li><p><strong>start_menu</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether to add shortcut to Start Menu [True, except on macOS]</p></li>
+<li><p><strong>executable</strong> (string or <code class="docutils literal notranslate"><span class="pre">None</span></code>.) – name of executable to use [this Python] (see Note 3)</p></li>
+<li><p><strong>noexe</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether to use no executable, so that the script is entire command  [False]</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Notes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><cite>folder</cite> will place shortcut in a subfolder of Desktop and/or Start Menu</p></li>
+<li><p>Start Menu does not exist for Darwin / MacOSX</p></li>
+<li><p>executable defaults to the Python executable used to make shortcut.</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="making-a-shortcut-for-single-python-command">
+<h1>Making a shortcut for single python command<a class="headerlink" href="#making-a-shortcut-for-single-python-command" title="Link to this heading">¶</a></h1>
+<p>A common request and simple use-case for <cite>pyshortcuts</cite> is to wrap a single
+python command.  An example of this might look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pyshortcuts</span> <span class="kn">import</span> <span class="n">make_shortcut</span>
+
+<span class="n">pycmd</span> <span class="o">=</span> <span class="s2">&quot;_ -m pip install --upgrade pyshortcuts&quot;</span>
+
+<span class="n">make_shortcut</span><span class="p">(</span><span class="n">pycmd</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Update Pyshortcuts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that using <cite>_</cite> or <cite>{}</cite> as the command name will indicate that the
+current Python executable should be be used. An example that includes
+an icon is given in the examples folder.</p>
+<p>The above could be done from the command line with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">pyshortcut</span> <span class="o">-</span><span class="n">n</span> <span class="s2">&quot;Update Pyshortcuts&quot;</span> <span class="s2">&quot;_ -m pip install pyshortcuts&quot;</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Using <cite>pyshortcuts</cite>  from Python</a><ul>
+<li><a class="reference internal" href="#make_shortcut"><code class="docutils literal notranslate"><span class="pre">make_shortcut()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#making-a-shortcut-for-single-python-command">Making a shortcut for single python command</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pyshortcut_app.html"
+                          title="previous chapter">The <cite>pyshortcut</cite> command-line program</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="utilities.html"
+                          title="next chapter">Utility Functions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/python.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="utilities.html" title="Utility Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyshortcut_app.html" title="The pyshortcut command-line program"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyShortcuts: create desktop shortcuts to python scripts</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using <cite>pyshortcuts</cite>  from Python</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Matthew Newville, The University of Chicago.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.6.
+    </div>
+  </body>
+</html>
