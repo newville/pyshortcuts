@@ -5,6 +5,7 @@
 [![Downloads]( https://img.shields.io/pypi/dm/pyshortcuts?color=red)](https://pypi.org/project/pyshortcuts)
 
 
+[Pyshortcut Documentation[(https://newville.github.io/pyshortcuts/)
 
 # Table of contents
 
