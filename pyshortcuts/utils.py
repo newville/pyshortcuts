@@ -56,7 +56,7 @@ def get_cwd():
         return home
 
 
-def isotime(dtime=None, timepec='seconds', sep=' '):
+def isotime(dtime=None, timespec='seconds', sep=' '):
     """return ISO format of current timestamp:
           2024-04-27 17:31:12
     """
