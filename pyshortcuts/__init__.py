@@ -54,6 +54,10 @@ def get_cwd():
         os.chdir(home)
         return home
 
+def get_desktop():
+    "for back compatibility"
+    return get_folders().desktop
+
 
 def shortcut_cli():
     '''
