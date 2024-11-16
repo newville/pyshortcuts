@@ -2,7 +2,8 @@
 """
 utilities for pyshortcuts
 """
-import os, sys
+import os
+import sys
 from pathlib import Path
 from datetime import datetime
 from string import ascii_letters
@@ -11,6 +12,24 @@ try:
     from pwd import getpwnam
 except ImportError:
     getpwnam = None
+
+uname = "unknown"
+scut_ext = "lnk"
+ico_ext = ("ico",)
+
+if sys.platform.startswith('lin'):
+    uname = "linux"
+    scut_ext = "desktop"
+    ico_ext = ("ico", "png")
+
+elif sys.platform.startswith('darwin'):
+    uname = 'darwin'
+    scut_ext = "app"
+    ico_ext = ("icns",)
+elif os.name.startswith('win'):
+    uname = "win"
+    scut_ext = "lnk"
+    ico_ext = ("ico",)
 
 def get_homedir():
     "determine home directory"
@@ -50,7 +69,7 @@ def get_cwd():
     """
     try:
         return Path('.').resolve().as_posix()
-    except:
+    except Exception:
         home = get_homedir()
         os.chdir(home)
         return home
@@ -96,6 +115,7 @@ def fix_varname(varname):
     return vname
 
 def get_pyexe():
+    "python executable"
     return Path(sys.executable).resolve().as_posix()
 
 def new_filename(filename):
@@ -136,7 +156,7 @@ def bytes2str(s):
     'byte to string conversion'
     if isinstance(s, str):
         return s
-    elif isinstance(s, bytes):
+    if isinstance(s, bytes):
         return s.decode(sys.stdout.encoding)
     return str(s, sys.stdout.encoding)
 

@@ -5,22 +5,22 @@ Create desktop shortcuts for Windows
 import os
 import sys
 import time
+from pathlib import Path
 from collections import namedtuple
 import win32com.client
 from win32com.shell import shell, shellcon
 
-from .util import get_pyexe, get_homedir
-from .shortcut import shortcut
+from .utils import get_pyexe, get_homedir
 
 def get_conda_active_env():
     '''Return name of active conda environment or empty string'''
-    conda_env = None
+    c_env = None
     try:
-        conda_env = os.environ['CONDA_DEFAULT_ENV']
+        c_env = os.environ['CONDA_DEFAULT_ENV']
     except KeyError:
         print("No conda env active, defaulting to base")
-        conda_env = "base"
-    return conda_env
+        c_env = "base"
+    return c_env
 
 # batch file to activate the environment
 # for Anaconda Python before running command.
@@ -40,7 +40,7 @@ echo # %*
 """.format(conda_env)
 
 
-def get_get_desktop():
+def get_desktop():
     '''Return user Desktop folder'''
     return shell.SHGetFolderPath(0, shellcon.CSIDL_DESKTOP, None, 0)
 
@@ -93,7 +93,7 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     2. Start Menu does not exist for Darwin / MacOSX
     3. executable defaults to the Python executable used to make shortcut.
     """
-    from . import get_folders
+    from .shortcut import shortcut
     userfolders = get_folders()
 
     scut = shortcut(script, userfolders, name=name, description=description,
@@ -106,16 +106,16 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
         full_script =scut.full_script
         if executable is None:
             executable = get_pyexe()
-        executable = os.path.normpath(executable)
+        executable = Path(executable).resolve().as_posix()
 
-        if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+        if Path(scut.full_script).resolve() == Path(executable).resolve():
             executable = ''
 
     # Check for other valid ways to run the script
     # try appending .exe if script itself not found
-    if not os.path.exists(full_script):
+    if not Path(full_script).exists():
         tname = full_script + '.exe'
-        if os.path.exists(tname):
+        if Path(tname).exists():
             executable = tname
             full_script = ''
 
@@ -129,25 +129,25 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
 
     # If we're on Anaconda Python, we need to wrap this
     # script in a batch file that activates an environment
-    if os.path.exists(os.path.join(sys.prefix, 'conda-meta')):
-        runnerbat = 'envrunner-{}.bat'.format(conda_env)
-        runner = os.path.normpath(os.path.join(sys.prefix, 'Scripts', runnerbat))
+    if Path(sys.prefix, 'conda-meta').exists():
+        runnerbat = f'envrunner-{conda_env}.bat'
+        runner = Path(sys.prefix, 'Scripts', runnerbat).resolve().as_posix()
         with open(runner, 'w') as fh:
             fh.write(ENVRUNNER)
         time.sleep(0.05)
-        full_script = "{:s} {:s}".format(executable, full_script).strip()
+        full_script = f"{executable} {full_script}".strip()
         executable = runner
 
-    for (create, folder) in ((desktop, scut.desktop_dir),
+    for (create, ofolder) in ((desktop, scut.desktop_dir),
                              (startmenu, scut.startmenu_dir)):
         if create:
-            if not os.path.exists(folder):
-                os.makedirs(folder)
-            dest = os.path.normpath(os.path.join(folder, scut.target))
+            if not Path(ofolder).exists():
+                os.makedirs(ofolder)
+            dest = Path(ofolder, scut.target).resolve().as_posix()
 
             _WSHELL = win32com.client.Dispatch("Wscript.Shell")
             wscript = _WSHELL.CreateShortCut(dest)
-            wscript.Targetpath = '"%s"' % executable
+            wscript.Targetpath = f'"{executable}"'
             wscript.Arguments = full_script
             wscript.WorkingDirectory = scut.working_dir or userfolders.home
             wscript.WindowStyle = 0

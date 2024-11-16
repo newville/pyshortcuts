@@ -1,3 +1,5 @@
+"""fixed length formatting of floats"""
+
 from math import log10
 
 def getfloat_attr(obj, attr, length=11):
@@ -63,7 +65,8 @@ def gformat(val, length=11):
             prec -= expon
 
     def fmt(val, length, prec, form):
-        if prec < 0: prec = 0
+        "format "
+        prec = max(prec, 0)
         out = f'{val:{length}.{prec}{form}}'
         if form == 'e' and 'e+0' in out or 'e-0' in out:
             out = f'{val:{length+1}.{prec+1}{form}}'.replace('e-0', 'e-').replace('e+0', 'e+')
@@ -91,9 +94,3 @@ def fcompact(val):
     if val.endswith('.'):
         val = val + '0'
     return val
-
-def test_gformat():
-    for x in range(-10, 12):
-        for a in [0.2124312134, 0.54364253, 0.812312, .96341312124, 1.028456789]:
-            v = a*(10**(x))
-            print(f" :{gformat(v, length=13):s}::{gformat(v, length=12):s}::{gformat(v, length=11):s}::{gformat(v, length=10):s}::{gformat(v, length=9):s}::{gformat(v, length=8):s}:")

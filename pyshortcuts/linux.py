@@ -4,10 +4,10 @@ Create desktop shortcuts for Linux
 """
 import os
 import sys
+from pathlib import Path
 from collections import namedtuple
 
 from .utils import  get_pyexe, get_homedir
-from .shortcut import shortcut
 
 DESKTOP_FORM = """[Desktop Entry]
 Name={name:s}
@@ -22,19 +22,19 @@ Exec={execstring:s}
 def get_desktop():
     "get desktop location"
     homedir = get_homedir()
-    desktop = os.path.join(homedir, 'Desktop')
+    desktop = Path(homedir, 'Desktop').resolve().as_posix()
 
     if sys.platform.startswith('linux'):
         # search for .config/user-dirs.dirs in HOMEDIR
-        ud_file = os.path.join(homedir, '.config', 'user-dirs.dirs')
-        if os.path.exists(ud_file):
+        ud_file = Path(homedir, '.config', 'user-dirs.dirs').resolve().as_posix()
+        if Path(ud_file).exists():
             val = desktop
             with open(ud_file, 'r') as fh:
                 text = fh.readlines()
             for line in text:
                 if 'DESKTOP' in line:
                     line = line.replace('$HOME', homedir)[:-1]
-                    key, val = line.split('=')
+                    _, val = line.split('=')
                     val = val.replace('"', '').replace("'", "")
             desktop = val
     return desktop
@@ -42,7 +42,7 @@ def get_desktop():
 def get_startmenu():
     "get start menu location"
     homedir = get_homedir()
-    return os.path.join(homedir, '.local', 'share', 'applications')
+    return Path(homedir, '.local', 'share', 'applications').resolve().as_posix()
 
 
 def get_folders():
@@ -88,6 +88,8 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     2. Start Menu does not exist for Darwin / MacOSX
     3. executable defaults to the Python executable used to make shortcut.
     """
+    from .shortcut import shortcut
+
     userfolders = get_folders()
     if working_dir is None:
         working_dir = userfolders.home
@@ -101,9 +103,9 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         full_script =scut.full_script
         if executable is None:
             executable = get_pyexe()
-        executable = os.path.normpath(executable)
+        executable = Path(executable).resolve().as_posix()
 
-        if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+        if Path(scut.full_script).resolve() == Path(executable).resolve():
             executable = ''
 
     execstring=f"{executable:s} {full_script:s} {scut.arguments:s}".strip()
@@ -114,12 +116,12 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
                                icon=scut.icon,
                                term='true' if terminal else 'false')
 
-    for (create, folder) in ((desktop, scut.desktop_dir),
+    for (create, ofolder) in ((desktop, scut.desktop_dir),
                              (startmenu, scut.startmenu_dir)):
         if create:
-            if not os.path.exists(folder):
-                os.makedirs(folder)
-            dest = os.path.join(folder, scut.target)
+            if not Path(ofolder).exists():
+                os.makedirs(ofolder)
+            dest = Path(ofolder, scut.target).resolve().as_posix()
             with open(dest, 'w') as fout:
                 fout.write(text)
             os.chmod(dest, 493) ## = octal 755 / rwxr-xr-x

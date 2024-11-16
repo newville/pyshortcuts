@@ -1,34 +1,30 @@
 #!/usr/bin/env python
-
-from pyshortcuts.version import version as __version__
-
+"""
+pyshortcuts
+"""
 import os
 import sys
-
+from pathlib import Path
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
+from .version import version as __version__
 from .utils import (fix_filename, new_filename, fix_varname, isotime,
-                    get_pyexe, bytes2str, str2bytes, get_homedir, get_cwd)
+                    get_pyexe, bytes2str, str2bytes, get_homedir, get_cwd,
+                    uname, scut_ext, ico_ext)
+
 from .gformat import gformat
 from .debugtimer import debugtimer
 
-
-from .linux import make_shortcut, get_folders
-platform = "linux"
-
-if sys.platform.startswith('darwin'):
-    platform = 'darwin'
+make_shortcut =  get_folders = None
+if uname == 'linux':
+    from .linux import make_shortcut, get_folders
+elif uname == 'darwin':
     from .darwin import make_shortcut, get_folders
-
-elif os.name.startswith('win'):
-    platform = "win"
+elif uname == 'win':
     from .windows import make_shortcut, get_folders
 
-uname = platform
-
-scut_ext = {'linux': 'desktop', 'darwin':'app', 'windows': 'lnk'}[platform]
-ico_ext = {'linux': ('ico', 'png'),
-           'darwin': ('icns',), 'windows': ('ico', )}[platform]
+# back compat
+platform = uname
 
 from .shortcut import shortcut, Shortcut
 
@@ -39,35 +35,17 @@ except ImportError:
     ShortCutFrame = None
 
 
-def get_cwd():
-    """get current working directory
-    Note: os.getcwd() can fail with permission error.
-
-    when that happens, this changes to the users `HOME` directory
-    and returns that directory so that it always returns an existing
-    and readable directory.
-    """
-    try:
-        return os.getcwd()
-    except:
-        home = get_homedir()
-        os.chdir(home)
-        return home
-
 def get_desktop():
     "for back compatibility"
     return get_folders().desktop
-
 
 def shortcut_cli():
     '''
     command-line interface to creating desktop shortcuts
     '''
     desc = 'create desktop and start menu shortcuts'
-    version_string = 'pyshortcuts %s' % (__version__)
 
-
-    parser = ArgumentParser(description=desc, # version=version_string,
+    parser = ArgumentParser(description=desc,
                             formatter_class=RawDescriptionHelpFormatter)
 
 
@@ -121,12 +99,11 @@ def shortcut_cli():
 
     if args.bootstrap:
         bindir = 'bin'
-        if platform.startswith('win'):
+        if uname.startswith('win'):
             bindir = 'Scripts'
         fpath = Path(__file__)
-        here, this =fpath.parent, fpath.stem
-
-        icon = Path(here, 'icons', f'ladder.{ico_ext[0]}').resolve().as_posix()
+        icon = Path(fpath.parent, 'icons', f'ladder.{ico_ext[0]}'
+                        ).resolve().as_posix()
         script = Path(sys.prefix, bindir, 'pyshortcut').resolve().as_posix()
         make_shortcut(f"{script} --wxgui", name='PyShortcut',
                       terminal=False, icon=icon)

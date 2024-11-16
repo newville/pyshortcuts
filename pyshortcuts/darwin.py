@@ -5,15 +5,19 @@ Create desktop shortcuts for Darwin / MacOS
 import os
 import sys
 import shutil
+from pathlib import Path
 from collections import namedtuple
 
 from .utils import  get_pyexe, get_homedir
-from .linux import get_desktop
-from .shortcut import shortcut
+
 
 def get_startmenu():
     "get start menu location"
     return ''
+
+def get_desktop():
+    "get desktop location"
+    return Path(get_homedir(), 'Desktop').resolve().as_posix()
 
 def get_folders():
     """get user-specific folders
@@ -59,11 +63,14 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     3. executable defaults to the Python executable used to make shortcut.
     """
     if not desktop:
-        return
-    from . import get_folders
+        return None
+
     userfolders = get_folders()
     if working_dir is None:
         working_dir = ''
+
+    from .shortcut import shortcut
+
 
     scut = shortcut(script, userfolders, name=name, description=description,
                     working_dir=working_dir, folder=folder, icon=icon)
@@ -75,34 +82,34 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         full_script =scut.full_script
         if executable is None:
             executable = get_pyexe()
-        executable = os.path.normpath(executable)
-        if os.path.realpath(scut.full_script) == os.path.realpath(executable):
+        executable = Path(executable).resolve().as_posix()
+        if Path(scut.full_script).resolve() == Path(executable).resolve():
             executable = ''
 
-    if not os.path.exists(scut.desktop_dir):
+    if not Path(scut.desktop_dir).exists():
         os.makedirs(scut.desktop_dir)
 
-    osascript = '%s %s' % (full_script, scut.arguments)
+    osascript = f'{full_script} {scut.arguments}'
     osascript = osascript.replace(' ', '\\ ')
 
-    dest = os.path.join(scut.desktop_dir, scut.target)
+    dest = Path(scut.desktop_dir, scut.target).resolve().as_posix()
 
-    if os.path.exists(dest):
+    if Path(dest).exists():
         shutil.rmtree(dest)
 
     os.mkdir(dest)
-    os.mkdir(os.path.join(dest, 'Contents'))
-    os.mkdir(os.path.join(dest, 'Contents', 'MacOS'))
-    os.mkdir(os.path.join(dest, 'Contents', 'Resources'))
+    os.mkdir(Path(dest, 'Contents'))
+    os.mkdir(Path(dest, 'Contents', 'MacOS'))
+    os.mkdir(Path(dest, 'Contents', 'Resources'))
 
-    opts = dict(name=scut.name,
-                desc=scut.description,
-                script=full_script,
-                workdir=scut.working_dir,
-                args=scut.arguments,
-                prefix=os.path.normpath(sys.prefix),
-                exe=executable,
-                osascript=osascript)
+    opts = {'name': scut.name,
+            'desc': scut.description,
+            'script': full_script,
+            'workdir': scut.working_dir,
+            'args': scut.arguments,
+            'prefix': Path(sys.prefix).resolve().as_posix(),
+            'exe': executable,
+            'osascript': osascript}
 
     info = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
@@ -138,14 +145,14 @@ end tell
     text.append('\n')
     text = '\n'.join(text)
 
-    with open(os.path.join(dest, 'Contents', 'Info.plist'), 'w') as fout:
+    with open(Path(dest, 'Contents', 'Info.plist'), 'w') as fout:
         fout.write(info.format(**opts))
 
-    ascript_name = os.path.join(dest, 'Contents', 'MacOS', scut.name)
+    ascript_name = Path(dest, 'Contents', 'MacOS', scut.name).as_posix()
     with open(ascript_name, 'w') as fout:
         fout.write(text.format(**opts))
 
     os.chmod(ascript_name, 493)  # = octal 755 / rwxr-xr-x
-    icon_dest = os.path.join(dest, 'Contents', 'Resources', scut.name + '.icns')
+    icon_dest = Path(dest, 'Contents', 'Resources', scut.name + '.icns').as_posix()
     shutil.copy(scut.icon, icon_dest)
     return scut

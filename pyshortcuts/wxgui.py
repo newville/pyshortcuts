@@ -5,10 +5,15 @@ import wx
 
 import wx.lib.filebrowsebutton as filebrowse
 
-from .utils import fix_filename
-from . import (make_shortcut, platform, get_folders,
-                         get_cwd, fix_filename)
+from .utils import (fix_filename, get_cwd, uname)
 
+make_shortcut =  get_folders = None
+if uname == 'linux':
+    from .linux import make_shortcut, get_folders
+elif uname == 'darwin':
+    from .darwin import make_shortcut, get_folders
+elif uname == 'win':
+    from .windows import make_shortcut, get_folders
 
 USERFOLDERS = get_folders()
 DESKTOP = USERFOLDERS.desktop
@@ -18,18 +23,18 @@ ALL_FILES = "All files (*.*)|*.*"
 ICO_FILES = "Icon files (*.ico)|*.ico"
 ICNS_FILES = "Mac Icon files (*.icns)|*.icns"
 
-CEN = wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL
-LEFT = wx.ALIGN_LEFT|wx.ALIGN_CENTER_VERTICAL
-RIGHT = wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL
+CEN = wx.ALIGN_CENTER
+LEFT = wx.ALIGN_LEFT
+RIGHT = wx.ALIGN_RIGHT
 ALL_CEN =  wx.ALL|CEN
 ALL_LEFT =  wx.ALL|LEFT
 ALL_RIGHT =  wx.ALL|RIGHT
 
 FONTSIZE = 11
-if platform == 'linux':
+if uname == 'linux':
     FONTSIZE = 10
 
-if platform.startswith('darwin'):
+if uname.startswith('darwin'):
     wx.PyApp.IsDisplayAvailable = lambda _: True
 
 class ShortcutFrame(wx.Frame):
@@ -44,7 +49,7 @@ class ShortcutFrame(wx.Frame):
         menu_exit = menu.Append(-1, "Q&uit", "Exit")
 
         menuBar = wx.MenuBar()
-        menuBar.Append(menu, "&File");
+        menuBar.Append(menu, "&File")
         self.SetMenuBar(menuBar)
 
         self.Bind(wx.EVT_MENU, self.onExit, menu_exit)
@@ -88,7 +93,7 @@ class ShortcutFrame(wx.Frame):
         self.targetchoice = wx.Choice(panel, choices=targets,
                                        size=(275, -1))
         self.targetchoice.SetSelection(0)
-        self.targetchoice.Enable(platform!='darwin')
+        self.targetchoice.Enable(uname!='darwin')
 
         btn_script = wx.Button(panel, -1, label='Browse', size=(100, -1))
         btn_script.Bind(wx.EVT_BUTTON, self.onBrowseScript)
@@ -195,7 +200,7 @@ class ShortcutFrame(wx.Frame):
     def onBrowseIcon(self, event=None):
 
         wildcards = "%s|%s" % (ICO_FILES, ALL_FILES)
-        if platform.startswith('darwin'):
+        if uname.startswith('darwin'):
             wildcards = "%s|%s" % (ICNS_FILES, ALL_FILES)
 
         dlg = wx.FileDialog(self, message='Select Icon file',
