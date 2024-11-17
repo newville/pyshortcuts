@@ -80,37 +80,45 @@ def isotime(dtime=None, timespec='seconds', sep=' '):
     """
     if dtime is None:
         dtime = datetime.now()
+    elif isinstance(dtime, (float, int)):
+        dtime = datetime.fromtimestamp(dtime)
     return datetime.isoformat(dtime, timespec=timespec, sep=sep)
 
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
 TRANS_FILE = str.maketrans(BAD_FILECHARS, GOOD_FILECHARS)
 
-def fix_filename(filename):
+def fix_filename(filename, allow_spaces=False):
     """
     fix string to be a 'good' filename, with very few special
     characters and (optionally) no more than 1 '.'.
 
     More restrictive than most OSes, but avoids hard-to-deal with filenames
+
+    argument `allow_spaces` [default is False] allows spaces in filenames.
     """
     fname = str(filename).translate(TRANS_FILE)
+    if not allow_spaces:
+        fname = fname.replace(' ', '_')
     if fname.count('.') > 1:
         words = fname.split('.')
         ext = words.pop()
         fname = f"{'_'.join(words)}.{ext}"
+    while '__' in fname:
+        fname = fname.replace('__', '_')
     return fname
 
 def fix_varname(varname):
     """fix string to be a 'good' variable name."""
-    vname = fix_filename(varname)
+    vname = fix_filename(varname, allow_spaces=False)
     if vname[0] not in (ascii_letters+'_'):
         vname = f'_{vname}'
     for c in '=+-.':
         vname = vname.replace(c, '_')
-    while vname.endswith('_'):
-        vname = vname[:-1]
     while '__' in vname:
         vname = vname.replace('__', '_')
+    if vname.endswith('_'):
+        vname = vname[:-1]
     return vname
 
 def get_pyexe():
