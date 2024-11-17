@@ -120,8 +120,18 @@ def shortcut_cli():
         if args.scriptname is None:
             print("pyshortcut: must provide one script.  try 'pyshortcut -h'")
         else:
+            p_icon = Path(args.icon).resolve()
+            if p_icon.exists():
+                icon = p_icon.resolve().as_posix()
+            else:
+                parent = p_icon.parent
+                stem  = p_icon.stem
+                for ext in ico_ext:
+                    x = Path(parent, f"{stem}.{ext}").absolute()
+                    if x.exists():
+                        icon = x.resolve().as_posix()
             make_shortcut(args.scriptname, name=args.name,
                           terminal=args.terminal, folder=args.folder,
-                          icon=args.icon, desktop=args.desktop,
+                          icon=icon, desktop=args.desktop,
                           startmenu=args.startmenu, executable=args.exe,
                           noexe=args.noexe)
