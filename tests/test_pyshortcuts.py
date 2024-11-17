@@ -33,7 +33,7 @@ def test_shortcut():
     if platform.startswith('darwin'):
         iext = 'icns'
 
-    icon = f"%{icon}.{iext}"
+    icon = f"{icon}.{iext}"
     scut = make_shortcut(script, name='Timer', icon=icon, folder=folders.desktop)
     assert isinstance(scut, Shortcut) # , 'it returns a shortcut instance'
 
