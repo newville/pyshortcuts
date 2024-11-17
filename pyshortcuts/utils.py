@@ -21,12 +21,11 @@ if sys.platform.startswith('lin'):
     uname = "linux"
     scut_ext = "desktop"
     ico_ext = ("ico", "png")
-
 elif sys.platform.startswith('darwin'):
     uname = 'darwin'
     scut_ext = "app"
     ico_ext = ("icns",)
-elif os.name.startswith('win'):
+elif sys.platform.startswith('win')  or os.name.startswith('nt'):
     uname = "win"
     scut_ext = "lnk"
     ico_ext = ("ico",)

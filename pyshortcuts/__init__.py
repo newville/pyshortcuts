@@ -16,11 +16,11 @@ from .gformat import gformat
 from .debugtimer import debugtimer
 
 make_shortcut =  get_folders = None
-if uname == 'linux':
+if uname.startswith('lin'):
     from .linux import make_shortcut, get_folders
-elif uname == 'darwin':
+elif uname.startswith('darwin'):
     from .darwin import make_shortcut, get_folders
-elif uname == 'win':
+elif uname.startswith('win'):
     from .windows import make_shortcut, get_folders
 
 # back compat
