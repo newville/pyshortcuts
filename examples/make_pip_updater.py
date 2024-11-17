@@ -16,7 +16,7 @@ from pyshortcuts import make_shortcut, uname, get_cwd
 
 pycmd = "_ -m pip install --upgrade pyshortcuts"
 
-iconfile = 'shovel.icns' if unmame=='darwin' else 'shovel.ico'
+iconfile = 'shovel.icns' if uname=='darwin' else 'shovel.ico'
 icon = Path(get_cwd(), 'icons', iconfile).absolute().as_posix()
 
 make_shortcut(pycmd, name='Update Pyshortcuts', icon=icon)

@@ -1,14 +1,17 @@
 #!/usr/bin/env python
-import os
+from pathlib import Path
 import sys
-from pyshortcuts import make_shortcut, platform
+from pyshortcuts import make_shortcut, uname, __file__
 
-bindir = 'bin'
-if platform.startswith('win'):
-    bindir = 'Scripts'
+bindir = 'Scripts' if uname.startswith('win') else 'bin'
 
-scut = make_shortcut(
-    "%s --wxgui" % os.path.join(sys.prefix, bindir, 'pyshortcut'),
-    name='PyShortcut', terminal=False)
+script = Path(sys.prefix, bindir, 'pyshortcut').resolve().as_posix()
+
+
+iconfile = 'ladder.icns' if uname=='darwin' else 'shovel.ico'
+icon = Path(Path(__file__).parent, 'icons', iconfile).absolute().as_posix()
+
+scut = make_shortcut(f"{script} --wxgui", name='PyShortcuts',
+                      icon=icon, terminal=False)
 
 print("pyshortcuts GUI: %s" % scut.target)
