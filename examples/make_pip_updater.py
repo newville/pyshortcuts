@@ -8,17 +8,15 @@ Here, the comand to run is
 to update to the latest version of this library.
 
 
-Note that putting '_' or '{}' as the beginning of the command will tell 
+Note that putting '_' or '{}' as the beginning of the command will tell
 the script to use the current Python executable.
 """
-
-import os
-import sys
-from pyshortcuts import make_shortcut, platform
+from pathlib import Path
+from pyshortcuts import make_shortcut, uname, get_cwd
 
 pycmd = "_ -m pip install --upgrade pyshortcuts"
 
-iconfile = 'shovel.icns' if platform.startswith('darwin') else 'shovel.ico'
-icon = os.path.abspath(os.path.join(os.getcwd(), 'icons', iconfile))
+iconfile = 'shovel.icns' if unmame=='darwin' else 'shovel.ico'
+icon = Path(get_cwd(), 'icons', iconfile).absolute().as_posix()
 
 make_shortcut(pycmd, name='Update Pyshortcuts', icon=icon)
