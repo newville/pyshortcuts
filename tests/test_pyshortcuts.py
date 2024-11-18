@@ -11,14 +11,11 @@ import time
 
 import pytest
 from pyshortcuts import (make_shortcut, platform, Shortcut, get_folders,
-                        fix_filename, fix_varname, gformat, isotime)
-
+                        fix_filename, fix_varname, gformat, isotime,
+                        get_homedir, get_desktop)
 
 folders = get_folders()
 root = Path(__file__).parent.parent.as_posix()
-
-print("Root ", root)
-
 
 def test_shortcut():
     '''Create a shortcut from examples dir'''
@@ -52,6 +49,11 @@ def test_empty_string_script():
         cmd = ""
         scut = make_shortcut(cmd, name="My Script is empty string")
 
+def test_get_homedir():
+    assert len(get_homedir()) > 2
+
+def test_get_desktop():
+    assert len(get_desktop()) > len(get_homedir())
 
 def test_fix_filename():
     assert 'a_file_.txt' == fix_filename('a file#.txt')
@@ -92,5 +94,7 @@ if __name__ == '__main__':
     test_none_script()
     test_empty_string_script()
     test_fix_filename()
+    test_get_homedir()
+    test_get_desktop()
     test_isotime()
     test_gformat()
