@@ -8,11 +8,12 @@ from pathlib import Path
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 from .version import version as __version__
-from .utils import (fix_filename, new_filename, fix_varname, isotime,
-                    get_pyexe, bytes2str, str2bytes, get_homedir, get_cwd,
-                    uname, scut_ext, ico_ext)
+from .utils import (fix_filename, new_filename, fix_varname,
+                    isotime, bytes2str, str2bytes, strict_ascii,
+                    get_homedir, get_cwd, mkdir,
+                    uname, scut_ext, ico_ext, get_pyexe)
 
-from .gformat import gformat
+from .gformat import gformat, fcompact
 from .debugtimer import debugtimer
 
 make_shortcut =  get_folders = None
@@ -36,8 +37,9 @@ except ImportError:
 
 
 def get_desktop():
-    "for back compatibility"
+    "get desktop folder, for back compatibility"
     return get_folders().desktop
+
 
 def shortcut_cli():
     '''
