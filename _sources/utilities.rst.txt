@@ -127,16 +127,13 @@ An example::
 Python's `time.sleep` function can be somewhat inaccurate, often
 sleeping 10 or more milliseconds more than requested. Some
 applications may want a higher-precision precision `sleep`.  The
-version provided here is just
+version provided here is just::
 
-```
     def sleep(duration):
         "more accurate sleep()"
         end = perf_counter() + duration
         while perf_counter() < end:
             pass
-```
-
 
 
 :func:`debugtimer`: debugging runtime of code in a function

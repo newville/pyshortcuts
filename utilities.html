@@ -142,20 +142,14 @@ numbers.</p>
 <p>Python’s <cite>time.sleep</cite> function can be somewhat inaccurate, often
 sleeping 10 or more milliseconds more than requested. Some
 applications may want a higher-precision precision <cite>sleep</cite>.  The
-version provided here is just</p>
-<dl>
-<dt><a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></dt><dd><dl>
-<dt>def sleep(duration):</dt><dd><p>“more accurate sleep()”
-end = perf_counter() + duration
-while perf_counter() &lt; end:</p>
-<blockquote>
-<div><p>pass</p>
-</div></blockquote>
-</dd>
-</dl>
-</dd>
-</dl>
-<p><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a></p>
+version provided here is just:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sleep</span><span class="p">(</span><span class="n">duration</span><span class="p">):</span>
+    <span class="s2">&quot;more accurate sleep()&quot;</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">+</span> <span class="n">duration</span>
+    <span class="k">while</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
 </section>
 <section id="debugtimer-debugging-runtime-of-code-in-a-function">
 <h2><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code>: debugging runtime of code in a function<a class="headerlink" href="#debugtimer-debugging-runtime-of-code-in-a-function" title="Link to this heading">¶</a></h2>
