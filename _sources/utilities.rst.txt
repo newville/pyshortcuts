@@ -76,22 +76,34 @@ inserted before the dot: `foo_001.dat`.   The filenumbers are not limited to
 1000.
 
 
+:func:`read_textfile`: read a text file to string
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Given a filename or file-like object (`io.IOBase` instance), this
+returns a '\n'-delimited string from the file. This handles the
+possibility of different unicode encodings by reading the file
+contents as bytes, and then using
+`str(charset_normalizer.from_bytest(data).best())` to convert to a
+string.  Line endings of `\r` and `\r\n` are replaced by `\n'.
+
+
 :func:`gformat`: fixed formatting of floating point numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-:func:`gformat` converts a floating point number to a string with
-exactly the specified length, and maximizing the displayed precision.  This is
-very useful for creating tables of floating point numbers.
+:func:`gformat` converts a floating point number to a string with a
+specified length, and maximizing the displayed precision for that
+length.  This is very useful for creating tables of floating point
+numbers.
 
-The  formatting will be similar to  '%g'-like format, expect that:
+The formatting will be similar to  '%g'-like format, expect that:
 
      a) the length of the output string will be of the requested length.
      b) positive numbers will have a leading blank.
      c) the precision will be as high as possible.
      d) trailing zeros will not be trimmed.
 
-The precision will determined by the length of the string.
+The precision displayed will be determined by the length of the string.
 
 An example::
 
@@ -100,46 +112,80 @@ An example::
     ' 13.1153846'
     >>> gformat(10.2, length=11)
     ' 10.2000000'
-    >>> gformat(-102.e-8/78, length=11)
-    '-1.30769e-8'
+    >>> gformat(-1/732023, length=11))
+    '-1.36608e-6'
+    >>> gformat(-1/732023, length=15)
+    '-0.000001366077'
+    >>> gformat(6/80030, length=7)
+    ' 7.5e-5'
+
+
+
+:func:`sleep`: a higher-precision sleep
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Python's `time.sleep` function can be somewhat inaccurate, often
+sleeping 10 or more milliseconds more than requested. Some
+applications may want a higher-precision precision `sleep`.  The
+version provided here is just
+
+```
+    def sleep(duration):
+        "more accurate sleep()"
+        end = perf_counter() + duration
+        while perf_counter() < end:
+            pass
+```
+
+
 
 :func:`debugtimer`: debugging runtime of code in a function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Debugging run time in a function or section of code can be a painful process.
-Using Python's `timeit` module is really good at timing a single statement, but
-not good at answering "how long is each section of code taking to run".
-Sometimes you just want to print out times to find where code is slow.  That
-can somewhat challenging to track run times and gets cumbersome to manage.
+Debugging the run time for a function or section of code is a common
+need, and can be a painful process.  Using Python's `timeit` module is
+really good at timing a single statement, but not good at answering
+"how long is each section of code taking to run".  Sometimes you just
+want to print out times to find where code is slow.  That gets
+cumbersome to manage.
 
-The :func:`debugtimer` helps with this process by creating a DebugTimer object,
-with methods :meth:`.add`, that marks time with a message, and the
-:meth:`get_report`, and :meth:`.show()` methods to show a report of total and
-incremental run times. An example usage would be::
+The :func:`debugtimer` helps with this process by creating a
+DebugTimer object, with a method :meth:`.add` to mark the time with a
+message, and methods :meth:`get_report` and :meth:`.show()` methods to
+show a report of total and incremental run times for a section of
+code. An example usage would be::
 
 
-    import time
     import numpy as np
-    from pyshortcuts import debugtimer
-    dtimer = debugtimer('test timer', precision=3)
-    time.sleep(0.50)
+    from pyshortcuts import debugtimer, sleep
+
+    SHOW_TIMING = True
+    dtimer = debugtimer('test timer', precision=4)
+    sleep(0.50)
     dtimer.add('slept for 0.500 seconds')
     nx = 10_000_000
     x = np.arange(nx, dtype='float64')/3.0
     dtimer.add(f'created numpy array len={nx}')
     s = np.sqrt(x)
     dtimer.add('took sqrt')
-    dtimer.show()
+    if SHOW_TIMING:
+        dtimer.show()
 
 which would print out a report like::
 
-   # test timer                                      2024-10-11 14:07:27.868
+   # test timer                                     2025-11-21 11:44:54.3327
    +----------------------------------+------------------+------------------+
    | Message                          |   Delta Time (s) |   Total Time (s) |
    +==================================+==================+==================+
-   | start                            |            0.000 |            0.000 |
-   | slept for 0.500 seconds          |            0.502 |            0.502 |
-   | created numpy array len=10000000 |            0.073 |            0.575 |
-   | took sqrt                        |            0.038 |            0.613 |
+   | start                            |           0.0000 |           0.0000 |
+   | slept for 0.500 seconds          |           0.5002 |           0.5002 |
+   | created numpy array len=10000000 |           0.0276 |           0.5278 |
+   | took sqrt                        |           0.0201 |           0.5478 |
    +----------------------------------+------------------+------------------+
+
+
+Note that setting `SHOW_TIMING` to `False` would suppess the printing
+of the timing report. This approach can be helpful during development
+(or even in production code), as the creation of the `dtimer` object
+and the `dtimer.add()` calls add very little runtime cost.
