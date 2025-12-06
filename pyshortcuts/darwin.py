@@ -5,6 +5,7 @@ Create desktop shortcuts for Darwin / MacOS
 import os
 import sys
 import shutil
+import subprocess
 from pathlib import Path
 from collections import namedtuple
 
@@ -125,34 +126,180 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
 </plist>
 """
 
-    text = ['#!/bin/bash',
-            "export EXE={exe:s}",
-            "export SCRIPT={script:s}",
-            "export ARGS='{args:s}'"]
-
-    if scut.working_dir not in (None, ''):
-        text.append("cd {workdir:s}")
-
-    if terminal:
-        text.append(r"""osascript -e 'tell application "Terminal"
-   do script "'${{EXE}}\ {osascript:s}'"
-end tell
-'
-""")
+    # Build command string
+    if executable:
+        cmd = f"{executable} {full_script} {scut.arguments}"
     else:
-        text.append("$EXE $SCRIPT $ARGS")
+        cmd = f"{full_script} {scut.arguments}"
+    
+    # For GUI apps, create an Automator-style app that CrowdStrike trusts
+    if not terminal:
+        automator_dir = Path(dest, 'Contents', 'Resources')
+        
+        workflow = f'''<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>AMApplicationBuild</key>
+    <string>523</string>
+    <key>AMApplicationVersion</key>
+    <string>2.10</string>
+    <key>AMDocumentVersion</key>
+    <string>2</string>
+    <key>actions</key>
+    <array>
+        <dict>
+            <key>action</key>
+            <dict>
+                <key>AMActionVersion</key>
+                <string>1.0.2</string>
+                <key>AMApplication</key>
+                <array>
+                    <string>Automator</string>
+                </array>
+                <key>AMParameterProperties</key>
+                <dict>
+                    <key>source</key>
+                    <dict/>
+                </dict>
+                <key>AMProvides</key>
+                <dict>
+                    <key>Container</key>
+                    <string>List</string>
+                    <key>Types</key>
+                    <array>
+                        <string>com.apple.applescript.object</string>
+                    </array>
+                </dict>
+                <key>ActionBundlePath</key>
+                <string>/System/Library/Automator/Run Shell Script.action</string>
+                <key>ActionName</key>
+                <string>Run Shell Script</string>
+                <key>ActionParameters</key>
+                <dict>
+                    <key>COMMAND_STRING</key>
+                    <string>{cmd} &gt; /dev/null 2&gt;&amp;1 &amp;</string>
+                    <key>CheckedForUserDefaultShell</key>
+                    <true/>
+                    <key>inputMethod</key>
+                    <integer>0</integer>
+                    <key>shell</key>
+                    <string>/bin/bash</string>
+                    <key>source</key>
+                    <string></string>
+                </dict>
+                <key>BundleIdentifier</key>
+                <string>com.apple.RunShellScript</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>'''
+        
+        workflow_path = Path(automator_dir, 'document.wflow').as_posix()
+        with open(workflow_path, 'w') as f:
+            f.write(workflow)
+        
+        # Update Info.plist for Automator app with stable bundle ID
+        import hashlib
+        # Create stable bundle ID based on app name and command
+        bundle_id_base = f"{scut.name}-{hashlib.md5(cmd.encode()).hexdigest()[:8]}"
+        
+        info_automator = f'''<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>English</string>
+    <key>CFBundleExecutable</key>
+    <string>Application Stub</string>
+    <key>CFBundleIconFile</key>
+    <string>{scut.name}</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.pyshortcuts.{bundle_id_base}</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>{scut.name}</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleVersion</key>
+    <string>1.0</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>10.5</string>
+    <key>LSUIElement</key>
+    <false/>
+    <key>NSMainNibFile</key>
+    <string>ApplicationStub</string>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+</dict>
+</plist>'''
+        
+        with open(Path(dest, 'Contents', 'Info.plist'), 'w') as fout:
+            fout.write(info_automator)
+        
+        # Copy Automator stub executable
+        automator_stub_paths = [
+            '/System/Library/CoreServices/Automator Application Stub.app/Contents/MacOS/Automator Application Stub',
+            '/System/Library/CoreServices/Automator Launcher.app/Contents/MacOS/Automator Launcher',
+        ]
+        
+        automator_stub = None
+        for stub_path in automator_stub_paths:
+            if Path(stub_path).exists():
+                automator_stub = stub_path
+                break
+        
+        if not automator_stub:
+            raise FileNotFoundError(
+                'Could not find Automator Application Stub. '
+                'This may not be supported on your macOS version. '
+                'Please use terminal=True.'
+            )
+        
+        stub_dest = Path(dest, 'Contents', 'MacOS', 'Application Stub').as_posix()
+        shutil.copy(automator_stub, stub_dest)
+        
+        icon_dest = Path(dest, 'Contents', 'Resources', scut.name + '.icns').as_posix()
+        shutil.copy(scut.icon, icon_dest)
+    else:
+        # For terminal apps, use AppleScript to open Terminal
+        with open(Path(dest, 'Contents', 'Info.plist'), 'w') as fout:
+            fout.write(info.format(**opts))
 
-    text.append('\n')
-    text = '\n'.join(text)
-
-    with open(Path(dest, 'Contents', 'Info.plist'), 'w') as fout:
-        fout.write(info.format(**opts))
-
-    ascript_name = Path(dest, 'Contents', 'MacOS', scut.name).as_posix()
-    with open(ascript_name, 'w') as fout:
-        fout.write(text.format(**opts))
-
-    os.chmod(ascript_name, 493)  # = octal 755 / rwxr-xr-x
-    icon_dest = Path(dest, 'Contents', 'Resources', scut.name + '.icns').as_posix()
-    shutil.copy(scut.icon, icon_dest)
+        # Create AppleScript launcher
+        cmd_escaped = cmd.replace('"', '\\"')
+        text = ['#!/usr/bin/osascript',
+                'tell application "Terminal"',
+                f'    do script "{cmd_escaped}"',
+                'end tell',
+                '']
+        
+        ascript_name = Path(dest, 'Contents', 'MacOS', scut.name).as_posix()
+        with open(ascript_name, 'w') as fout:
+            fout.write('\n'.join(text))
+        os.chmod(ascript_name, 0o755)
+        
+        icon_dest = Path(dest, 'Contents', 'Resources', scut.name + '.icns').as_posix()
+        shutil.copy(scut.icon, icon_dest)
+    
+    # Remove quarantine attributes so macOS will launch the app
+    try:
+        subprocess.run(['xattr', '-cr', dest], capture_output=True, check=False)
+    except Exception:
+        pass
+    
+    # Try to ad-hoc sign to give it a stable code identity for TCC
+    if not terminal:
+        try:
+            subprocess.run(['codesign', '--force', '--deep', '--sign', '-', dest], 
+                          capture_output=True, check=False)
+        except Exception:
+            pass
+    
     return scut
