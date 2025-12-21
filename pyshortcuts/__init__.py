@@ -107,7 +107,7 @@ def shortcut_cli():
         fpath = Path(__file__)
         icon = Path(fpath.parent, 'icons', f'ladder.{ico_ext[0]}'
                         ).resolve().as_posix()
-        script = Path(sys.prefix, bindir, 'pyshortcut').resolve().as_posix()
+        script = Path(sys.prefix, bindir, 'pyshortcut').as_posix()
         make_shortcut(f"{script} --wxgui", name='PyShortcut',
                       terminal=False, icon=icon)
 
@@ -123,16 +123,18 @@ def shortcut_cli():
         if args.scriptname is None:
             print("pyshortcut: must provide one script.  try 'pyshortcut -h'")
         else:
-            p_icon = Path(args.icon).resolve()
-            if p_icon.exists():
-                icon = p_icon.resolve().as_posix()
-            else:
-                parent = p_icon.parent
-                stem  = p_icon.stem
-                for ext in ico_ext:
-                    x = Path(parent, f"{stem}.{ext}").absolute()
-                    if x.exists():
-                        icon = x.resolve().as_posix()
+            icon = None
+            if args.icon is not None:
+                p_icon = Path(args.icon).resolve()
+                if p_icon.exists():
+                    icon = p_icon.resolve().as_posix()
+                else:
+                    parent = p_icon.parent
+                    stem  = p_icon.stem
+                    for ext in ico_ext:
+                        x = Path(parent, f"{stem}.{ext}").absolute()
+                        if x.exists():
+                            icon = x.resolve().as_posix()
             make_shortcut(args.scriptname, name=args.name,
                           terminal=args.terminal, folder=args.folder,
                           icon=icon, desktop=args.desktop,
