@@ -11,7 +11,6 @@ from collections import namedtuple
 
 from .utils import  get_pyexe, get_homedir
 
-
 def get_startmenu():
     "get start menu location"
     return ''
@@ -72,7 +71,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
 
     from .shortcut import shortcut
 
-
+    print(f" A: {executable=} {noexe=}")
     scut = shortcut(script, userfolders, name=name, description=description,
                     working_dir=working_dir, folder=folder, icon=icon)
 
@@ -80,12 +79,15 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         full_script =scut.script
         executable = ''
     else:
-        full_script =scut.full_script
+        full_script = scut.full_script
         if executable is None:
             executable = get_pyexe()
-        executable = Path(executable).resolve().as_posix()
-        if Path(scut.full_script).resolve() == Path(executable).resolve():
+        print(f" B: {executable=} ")
+        executable = Path(executable).as_posix()
+        if Path(scut.full_script) == Path(executable):
             executable = ''
+        print(f" C: {executable=} ")
+        print(f" : {sys.executable=} / {executable=}")
 
     if not Path(scut.desktop_dir).exists():
         os.makedirs(scut.desktop_dir)
@@ -108,7 +110,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
             'script': full_script,
             'workdir': scut.working_dir,
             'args': scut.arguments,
-            'prefix': Path(sys.prefix).resolve().as_posix(),
+            'prefix': Path(sys.prefix).as_posix(),
             'exe': executable,
             'osascript': osascript}
 
@@ -131,11 +133,11 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         cmd = f"{executable} {full_script} {scut.arguments}"
     else:
         cmd = f"{full_script} {scut.arguments}"
-    
+
     # For GUI apps, create an Automator-style app that CrowdStrike trusts
     if not terminal:
         automator_dir = Path(dest, 'Contents', 'Resources')
-        
+
         workflow = f'''<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -195,16 +197,16 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     </array>
 </dict>
 </plist>'''
-        
+
         workflow_path = Path(automator_dir, 'document.wflow').as_posix()
         with open(workflow_path, 'w') as f:
             f.write(workflow)
-        
+
         # Update Info.plist for Automator app with stable bundle ID
         import hashlib
         # Create stable bundle ID based on app name and command
         bundle_id_base = f"{scut.name}-{hashlib.md5(cmd.encode()).hexdigest()[:8]}"
-        
+
         info_automator = f'''<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -239,32 +241,32 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     <string>NSApplication</string>
 </dict>
 </plist>'''
-        
+
         with open(Path(dest, 'Contents', 'Info.plist'), 'w') as fout:
             fout.write(info_automator)
-        
+
         # Copy Automator stub executable
         automator_stub_paths = [
             '/System/Library/CoreServices/Automator Application Stub.app/Contents/MacOS/Automator Application Stub',
             '/System/Library/CoreServices/Automator Launcher.app/Contents/MacOS/Automator Launcher',
         ]
-        
+
         automator_stub = None
         for stub_path in automator_stub_paths:
             if Path(stub_path).exists():
                 automator_stub = stub_path
                 break
-        
+
         if not automator_stub:
             raise FileNotFoundError(
                 'Could not find Automator Application Stub. '
                 'This may not be supported on your macOS version. '
                 'Please use terminal=True.'
             )
-        
+
         stub_dest = Path(dest, 'Contents', 'MacOS', 'Application Stub').as_posix()
         shutil.copy(automator_stub, stub_dest)
-        
+
         icon_dest = Path(dest, 'Contents', 'Resources', scut.name + '.icns').as_posix()
         shutil.copy(scut.icon, icon_dest)
     else:
@@ -279,27 +281,27 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
                 f'    do script "{cmd_escaped}"',
                 'end tell',
                 '']
-        
+
         ascript_name = Path(dest, 'Contents', 'MacOS', scut.name).as_posix()
         with open(ascript_name, 'w') as fout:
             fout.write('\n'.join(text))
         os.chmod(ascript_name, 0o755)
-        
+
         icon_dest = Path(dest, 'Contents', 'Resources', scut.name + '.icns').as_posix()
         shutil.copy(scut.icon, icon_dest)
-    
+
     # Remove quarantine attributes so macOS will launch the app
     try:
         subprocess.run(['xattr', '-cr', dest], capture_output=True, check=False)
     except Exception:
         pass
-    
+
     # Try to ad-hoc sign to give it a stable code identity for TCC
     if not terminal:
         try:
-            subprocess.run(['codesign', '--force', '--deep', '--sign', '-', dest], 
+            subprocess.run(['codesign', '--force', '--deep', '--sign', '-', dest],
                           capture_output=True, check=False)
         except Exception:
             pass
-    
+
     return scut

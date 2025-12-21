@@ -53,7 +53,7 @@ def shortcut(script, userfolders, name=None, description=None,
     if script in ('_', '{}'):
         script = words[0] = get_pyexe()
 
-    full_script = Path(script).resolve().as_posix()
+    full_script = Path(script).as_posix()
 
     if name is None:
         name = script

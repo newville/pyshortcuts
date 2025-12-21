@@ -33,7 +33,7 @@ elif sys.platform.startswith('win')  or os.name.startswith('nt'):
 
 def get_pyexe():
     "python executable"
-    return Path(sys.executable).resolve().as_posix()
+    return Path(sys.executable).as_posix()
 
 def get_homedir():
     "determine home directory"

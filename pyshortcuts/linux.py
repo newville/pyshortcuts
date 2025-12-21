@@ -103,9 +103,9 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         full_script =scut.full_script
         if executable is None:
             executable = get_pyexe()
-        executable = Path(executable).resolve().as_posix()
+        executable = Path(executable).as_posix()
 
-        if Path(scut.full_script).resolve() == Path(executable).resolve():
+        if Path(scut.full_script) == Path(executable):
             executable = ''
 
     execstring=f"{executable:s} {full_script:s} {scut.arguments:s}".strip()

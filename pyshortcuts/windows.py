@@ -106,9 +106,9 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
         full_script =scut.full_script
         if executable is None:
             executable = get_pyexe()
-        executable = Path(executable).resolve().as_posix()
+        executable = Path(executable).as_posix()
 
-        if Path(scut.full_script).resolve() == Path(executable).resolve():
+        if Path(scut.full_script) == Path(executable):
             executable = ''
 
     # Check for other valid ways to run the script
@@ -131,7 +131,7 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     # script in a batch file that activates an environment
     if Path(sys.prefix, 'conda-meta').exists():
         runnerbat = f'envrunner-{conda_env}.bat'
-        runner = Path(sys.prefix, 'Scripts', runnerbat).resolve().as_posix()
+        runner = Path(sys.prefix, 'Scripts', runnerbat).as_posix()
         with open(runner, 'w') as fh:
             fh.write(ENVRUNNER)
         time.sleep(0.05)
