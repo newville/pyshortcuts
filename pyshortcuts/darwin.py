@@ -71,7 +71,6 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
 
     from .shortcut import shortcut
 
-    print(f" A: {executable=} {noexe=}")
     scut = shortcut(script, userfolders, name=name, description=description,
                     working_dir=working_dir, folder=folder, icon=icon)
 
@@ -82,12 +81,9 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         full_script = scut.full_script
         if executable is None:
             executable = get_pyexe()
-        print(f" B: {executable=} ")
         executable = Path(executable).as_posix()
         if Path(scut.full_script) == Path(executable):
             executable = ''
-        print(f" C: {executable=} ")
-        print(f" : {sys.executable=} / {executable=}")
 
     if not Path(scut.desktop_dir).exists():
         os.makedirs(scut.desktop_dir)
