@@ -1,9 +1,6 @@
-import time
-import os
-import sys
+from pathlib import Path
+from sys import executable as sys_exec
 import wx
-
-import wx.lib.filebrowsebutton as filebrowse
 
 from .utils import (fix_filename, get_cwd, uname)
 
@@ -34,9 +31,6 @@ ALL_RIGHT =  wx.ALL|RIGHT
 FONTSIZE = 11
 if uname == 'linux':
     FONTSIZE = 10
-
-if uname.startswith('darwin'):
-    wx.PyApp.IsDisplayAvailable = lambda _: True
 
 class ShortcutFrame(wx.Frame):
     def __init__(self):
@@ -72,7 +66,7 @@ class ShortcutFrame(wx.Frame):
 
         sopts = dict(size=(400, -1), style=wx.TE_PROCESS_ENTER)
 
-        self.txt_exec = wx.TextCtrl(panel, value=sys.executable, **sopts)
+        self.txt_exec = wx.TextCtrl(panel, value=sys_exec, **sopts)
         self.txt_script = wx.TextCtrl(panel, value='', **sopts)
         self.txt_args = wx.TextCtrl(panel, value='', **opts)
         self.txt_name = wx.TextCtrl(panel, value='', **sopts)
@@ -180,11 +174,10 @@ class ShortcutFrame(wx.Frame):
                             style=wx.FD_OPEN)
 
         if dlg.ShowModal() == wx.ID_OK:
-            path = os.path.abspath(dlg.GetPath())
-            self.txt_script.SetValue(path)
+            path = Path(dlg.GetPath()).absolute()
+            self.txt_script.SetValue(path.as_posix())
 
-            _, name = os.path.split(path)
-            name = fix_filename(name)
+            name = fix_filename(path.name)
             if name.endswith('.py'):
                 name = name[:-3]
 
@@ -210,8 +203,8 @@ class ShortcutFrame(wx.Frame):
                             style=wx.FD_OPEN)
 
         if dlg.ShowModal() == wx.ID_OK:
-            path = os.path.abspath(dlg.GetPath())
-            self.txt_icon.SetValue(path)
+
+            self.txt_icon.SetValue(Path(dlg.GetPath()).asbsolute().as_posix())
         dlg.Destroy()
 
 
@@ -225,7 +218,7 @@ class ShortcutFrame(wx.Frame):
                            style = wx.DD_DEFAULT_STYLE)
 
         if dlg.ShowModal() == wx.ID_OK:
-            folder = os.path.abspath(dlg.GetPath())
+            folder = Path(dlg.GetPath()).asbolute().as_posix()
             desktop = DESKTOP
             if folder.startswith(desktop):
                 folder.replace(desktop, '')
@@ -236,10 +229,8 @@ class ShortcutFrame(wx.Frame):
 
 
     def onScriptEnter(self, event=None):
-        path = self.txt_script.GetValue()
-
-        _, name = os.path.split(path)
-        name = fix_filename(name)
+        path = Path(self.txt_script.GetValue())
+        name = fix_filename(path.name)
         if name.endswith('.py'):
             name = name[:-3]
 
@@ -325,7 +316,7 @@ class ShortcutFrame(wx.Frame):
                             style=wx.FD_SAVE)
 
         if dlg.ShowModal() == wx.ID_OK:
-            path = os.path.abspath(dlg.GetPath())
+            path = Path(dlg.GetPath()).absolute()
             opts = self.read_form(as_string=True)
             if opts is None:
                 return
