@@ -2,7 +2,7 @@
 """
 debug timer: measure run times of code, display results
 """
-from time import time, perf_counter
+from time import perf_counter
 from datetime import datetime
 
 def isotime(dtime=None, sep=' '):

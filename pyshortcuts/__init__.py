@@ -14,8 +14,8 @@ from .utils import (fix_filename, new_filename, fix_varname,
                     get_homedir, get_cwd, mkdir,
                     uname, scut_ext, ico_ext, get_pyexe)
 
-from .gformat import gformat, fcompact
-from .debugtimer import debugtimer, sleep
+from .gformat import gformat
+from .debugtimer import debugtimer
 
 make_shortcut =  get_folders = None
 if uname.startswith('lin'):
@@ -28,7 +28,7 @@ elif uname.startswith('win'):
 # back compat
 platform = uname
 
-from .shortcut import shortcut, Shortcut
+from .shortcut import Shortcut
 
 try:
     import wx
