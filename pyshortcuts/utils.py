@@ -5,6 +5,7 @@ utilities for pyshortcuts
 import os
 import sys
 import io
+from time import perf_counter
 from pathlib import Path
 from datetime import datetime
 from string import ascii_letters
@@ -81,9 +82,9 @@ def get_cwd():
 def mkdir(name, mode=0o775):
     """create directory (and any intermediate subdirectories)
 
-    Options:
-    --------
-      mode   permission mask to use for creating directory (default=0775)
+    Arguments
+    ----------
+    mode : permission mask to use for creating directory (default=0775)
     """
     path = Path(name)
     if path.exists():
@@ -96,8 +97,8 @@ def mkdir(name, mode=0o775):
 
 
 def isotime(dtime=None, timespec='seconds', sep=' '):
-    """return ISO format of current timestamp:
-          2024-04-27 17:31:12
+    """
+    return ISO format of current timestamp: 2024-04-27 17:31:12
     """
     if dtime is None:
         dtime = datetime.now()
@@ -105,6 +106,11 @@ def isotime(dtime=None, timespec='seconds', sep=' '):
         dtime = datetime.fromtimestamp(dtime)
     return datetime.isoformat(dtime, timespec=timespec, sep=sep)
 
+def sleep(duration):
+    "more accurate sleep()"
+    end = perf_counter() + duration
+    while perf_counter() < end:
+        pass
 
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
@@ -218,8 +224,8 @@ def pathname(input):
 def read_textfile(filename, size=None):
     """read text from a file as string
 
-    Argument
-    --------
+    Arguments
+    ---------
     filename  (str or file): name of file to read or file-like object
     size  (int or None): maximum number of bytes to read
 
@@ -231,8 +237,8 @@ def read_textfile(filename, size=None):
     ------
     1. the encoding is detected with charset_normalizer.from_bytes()
        which is then used to decode bytes read from file.
-    2. line endings are normalized to be '\n', so that
-       splitting on '\n' will give a list of lines.
+    2. line endings are normalized to be newlines ('\\\\n'), so that
+       splitting on newline will give a list of lines.
     """
     text = ''
 
