@@ -1,5 +1,7 @@
 .. _utility_funcs:
 
+.. module:: pyshortcuts.utils
+
 Utility Functions
 ---------------------------
 
@@ -11,12 +13,12 @@ utilities here are small (adding no extra dependencies), but useful for many
 projects.
 
 
-
 :func:`isotime`: get time is ISO format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:func:`isotime` is a shorthand for::
+.. autofunction:: isotime
 
+This is shorthand for::
 
     from datetime import datetime
     def isotime(dtime=None, timepec='seconds', sep=' '):
@@ -35,8 +37,9 @@ There isn't more to it than that, it's just shorter.
 :func:`get_homedir`: get home directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:func:`get_homedir` is sort of shorthand for::
+.. autofunction:: get_homedir
 
+This sort of shorthand for::
 
         pathlib.Path.home().resolve().as_posix()
 
@@ -45,27 +48,32 @@ except that it also checks for ``SUDO_USER`` on POSIX systems, and it always use
 
 
 
-
 :func:`get_cwd`: get current working directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:func:`get_cwd` is mostly shorthand for::
+.. autofunction:: get_cwd
+
+
+This mostly shorthand for::
 
         pathlib.Path('.').resolve().as_posix()
 
 
-
-
 :func:`fix_filename`: turn a string into a valid filename
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: fix_filename
 
 Given a string, :func:`fix_filename` will return a "good" file name that
 will work on any operating system.  Most of the disallowed or even
 "inconvenient" characters will be converted to '_'.   The filename will not
 have more than 1 '.' character.
 
+
 :func:`new_filename`: make sure a filename is not in use
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: new_filename
 
 Given a string (perhaps first run through :func:`fix_filename`),
 :func:`new_filename` will return a file name that is not in use in the
@@ -79,17 +87,21 @@ inserted before the dot: `foo_001.dat`.   The filenumbers are not limited to
 :func:`read_textfile`: read a text file to string
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Given a filename or file-like object (`io.IOBase` instance), this
-returns a '\n'-delimited string from the file. This handles the
-possibility of different unicode encodings by reading the file
-contents as bytes, and then using
-`str(charset_normalizer.from_bytest(data).best())` to convert to a
-string.  Line endings of `\r` and `\r\n` are replaced by `\n'.
+.. autofunction:: read_textfile
+
+Given a filename or file-like object (`io.IOBase` instance), this returns a
+'\\n'-delimited string from the file. This handles the possibility of different
+unicode encodings by reading the file contents as bytes, and then using
+``str(charset_normalizer.from_bytest(data).best())`` to convert to a string.
+Line endings of `\\r` and `\\r\\n` are replaced by `\\n`.
 
 
 :func:`gformat`: fixed formatting of floating point numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. module:: pyshortcuts.gformat
+
+.. autofunction:: gformat
 
 :func:`gformat` converts a floating point number to a string with a
 specified length, and maximizing the displayed precision for that
@@ -120,7 +132,6 @@ An example::
     ' 7.5e-5'
 
 
-
 :func:`sleep`: a higher-precision sleep
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -139,6 +150,7 @@ version provided here is just::
 :func:`debugtimer`: debugging runtime of code in a function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. module:: pyshortcuts.debugtimer
 
 Debugging the run time for a function or section of code is a common
 need, and can be a painful process.  Using Python's `timeit` module is
@@ -159,7 +171,7 @@ code. An example usage would be::
 
     SHOW_TIMING = True
     dtimer = debugtimer('test timer', precision=4)
-    sleep(0.50)
+    sleep(0.502)
     dtimer.add('slept for 0.500 seconds')
     nx = 10_000_000
     x = np.arange(nx, dtype='float64')/3.0
@@ -171,18 +183,39 @@ code. An example usage would be::
 
 which would print out a report like::
 
-   # test timer                                     2025-11-21 11:44:54.3327
-   +----------------------------------+------------------+------------------+
-   | Message                          |   Delta Time (s) |   Total Time (s) |
-   +==================================+==================+==================+
-   | start                            |           0.0000 |           0.0000 |
-   | slept for 0.500 seconds          |           0.5002 |           0.5002 |
-   | created numpy array len=10000000 |           0.0276 |           0.5278 |
-   | took sqrt                        |           0.0201 |           0.5478 |
-   +----------------------------------+------------------+------------------+
+   +----------------------------------+--------------+--------------+
+   | Message                          |   Delta Time |   Total Time |
+   +==================================+==============+==============+
+   | test timer: 2026-05-13 10:30:54  |       0.0000 |       0.0000 |
+   | slept for 0.500 seconds          |       0.5020 |       0.5020 |
+   | created numpy array len=10000000 |       0.4010 |       0.9030 |
+   | took sqrt                        |       0.4349 |       1.3379 |
+   +----------------------------------+--------------+--------------+
 
 
 Note that setting `SHOW_TIMING` to `False` would suppess the printing
 of the timing report. This approach can be helpful during development
 (or even in production code), as the creation of the `dtimer` object
 and the `dtimer.add()` calls add very little runtime cost.
+
+The timing data stored uses Python's `time.perf_counter()` function, so should
+be a high-precision time measurement.
+
+The `debugtimer function` also stores the number of imported modules (from
+`len(sys.modules)`)at each event, which can be displayed with the optional
+`use_mod_count` option either when createing the `debugtimer` or when getting
+the output.
+
+.. autofunction:: debugtimer
+
+The returned `debgugTimer` object will have several methods:
+
+.. autoclass:: DebugTimer
+
+.. automethod:: DebugTimer.clear
+
+.. automethod:: DebugTimer.add
+
+.. automethod:: DebugTimer.get_report
+
+.. automethod:: DebugTimer.show
