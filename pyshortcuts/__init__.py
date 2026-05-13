@@ -9,7 +9,8 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 from .version import version as __version__
 from .utils import (fix_filename, new_filename, fix_varname,
-                    isotime, bytes2str, str2bytes, strict_ascii,
+                    isotime, sleep,
+                    bytes2str, str2bytes, strict_ascii,
                     pathname, read_textfile,
                     get_homedir, get_cwd, mkdir,
                     uname, scut_ext, ico_ext, get_pyexe)

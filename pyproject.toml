@@ -19,6 +19,7 @@ addopts = "--cov=pyshortcuts --cov-report html"
 name = "pyshortcuts"
 dynamic = ["version"]
 dependencies = [
+    "tabulate",
     "charset-normalizer",
     "pywin32; platform_system=='Windows'",
 ]

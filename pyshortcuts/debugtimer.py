@@ -2,125 +2,135 @@
 """
 debug timer: measure run times of code, display results
 """
+import sys
 from time import perf_counter
 from datetime import datetime
+from tabulate import tabulate
 
-def isotime(dtime=None, sep=' '):
-    "return datetime isoformat"
-    if dtime is None:
-        dtime = datetime.now()
-    return datetime.isoformat(dtime, sep=sep)
-
-def sleep(duration):
-    "more accurate sleep()"
-    end = perf_counter() + duration
-    while perf_counter() < end:
-        pass
+from .utils import isotime, sleep
 
 class DebugTimer():
     '''
     Measure run times for lines of code and summarize results
+
+    Arguments
+    ----------
+    title (str): title used for starting message ['DebugTimer']
+    verbose (bool): whether to print at each event [False]
+    precision (int): timing precision [4]
+    with_mod_count (bool): whether to include module count in report [False]
+
     '''
-    def __init__(self, title=None, verbose=False, precision=4):
+    def __init__(self, title=None, verbose=False, precision=4,
+                 with_mod_count=False):
         self.verbose = verbose
         if title is None:
             title = "DebugTimer"
         self.title = title
         self.precision = precision
+        self.with_mod_count = with_mod_count
         self.clear(title=title)
 
     def clear(self, title=None):
-        """clear debugtimer"""
+        """clear/reset debugtimer, optionally setting
+        the `title` for the next run.
+        """
         self.data = []
         if title is None:
             title = self.title
-        self.add('start')
-        tparts = isotime().split('.')
-        self.start_time = tparts[0] + '.' + tparts[1][:self.precision]
+        self.add(f'{title}: {isotime()}')
 
     def add(self, msg):
         "add message point to debugtimer"
-        self.data.append((msg, perf_counter()))
+        self.data.append((msg, len(sys.modules), perf_counter()))
         if self.verbose:
             print(msg)
 
-    def get_report(self, precision=None):
-        "get report text"
-        if precision is None:
-            precision = self.precision
+    def get_report(self, precision=None, with_mod_count=None,
+                 tablefmt='simple_outline'):
+        """get tabular report of results
 
-        cols = [("Message", "Delta Time (s)", "Total Time (s)")]
-        w0, w1, w2 = max(len(self.title), 32), 17, 17
-        tlast = tstart = self.data[0][1]
-        for msg, t in self.data:
-            tt = f"{t-tstart:.{precision}f}"
-            dt = f"{t-tlast:.{precision}f}"
-            tlast = t
-            cols.append((msg, dt, tt))
-            w0 = max(len(msg)+1, w0)
-            w1 = max(len(dt)+1,  w1)
-            w2 = max(len(tt)+1,  w2)
+        Arguments
+        ------------
+        precision:  int, precision for timing results [4]
+        with_mod_count: bool, whether to include number of imported modules [False]
+        tablefmt:  tabular format style
 
-        tline = f"+-{'-'*w0}+{'-'*w1}-+{'-'*w2}-+"
-        out = [f"# {self.title:{w0}s}    {self.start_time:>{w1+w2}s}", tline]
+        Notes
+        ------
+        the output is formatted using the `tabulate` module, and the
+        `tablefmt` option can be any of the formatting options it supports.
+        An incomplete list of options is:
 
-        for i, col in enumerate(cols):
-            out.append(f"| {col[0]:{w0}s}|{col[1]:>{w1}s} |{col[2]:>{w2}s} |")
-            if i == 0:
-                out.append(tline.replace('-', '='))
-        out.append(tline)
-        out.append('')
+             "plain", "simple", "simple_grid", "pretty", "psql", "grid",
+             "fancy_grid", "rounded_grid", "heavy_grid", "mixed_grid",
+             "double_grid", "outline", "simple_outline", "rounded_outline",
+             "heavy_outline", "mixed_outline", "double_outline",
+             "fancy_outline", "pipe", "github", "orgtbl" (Emacs), "rst",,
+             "mediawiki", "html", "textile", "latex", "latex_raw",
+             "latex_booktabs", "latex_longtable", "jira", "tsv".
 
-        return "\n".join(out)
+        """
+        prec = self.precision
+        if precision is not None:
+            prec = precision
+        with_nmod= self.with_mod_count
+        if with_mod_count is None:
+            with_mod_count = self.with_mod_count
+        m0, n0, t0 = self.data[0]
+        tprev= t0
+        header = ['Message','Delta Time', 'Total Time']
+        row  = [m0, 0, 0]
+        if with_mod_count:
+            header.append('# Modules')
+            row.append(n0)
+        table = [row[:]]
+        for m, n, t in self.data[1:]:
+            tt, dt = t-t0, t-tprev
+            row = [m, dt, tt, n] if with_mod_count else [m, dt, tt]
+            table.append(row[:])
+            tprev = t
+        ffmt = f'.{prec}f'
+        return tabulate(table, header, floatfmt=ffmt, tablefmt=tablefmt)
+
+    def show(self, precision=None, with_mod_count=False,
+             tablefmt='outline'):
+        """print the table generated by `get_report`"""
+        print(self.get_report(precision=precision,
+                             with_mod_count=with_mod_count,
+                             tablefmt=tablefmt))
 
 
-    def show(self, precision=None, clear=True):
-        "print report text"
-        print(self.get_report(precision=precision))
-        if clear:
-            self.clear(title=self.title)
-
-
-def debugtimer(title=None, precision=4, verbose=False):
-    '''return a DebugTimer object to measure the run time of
-    portions of code, and write a simple report.
+def debugtimer(title='DebugTimer', with_mod_count=False,
+               verbose=False, precision=3):
+    '''debugtimer returns a DebugTimer object to measure the runtime of
+    portions of code, and then write a simple report of the results.
 
     Arguments
-    ------------
-    title:      str, optional initial message ['DebugTimer']
+    ----------
+    title:      str, optional title message ['DebugTimer']
     precision:  int, precision for timing results [4]
+    with_mod_count: bool, whether to include number of imported modules [False]
     verbose:    bool, whether to print() each message when entered [False]
 
     Returns
     --------
     DebugTimer object, with methods:
 
-      clear(title=None)  : reset Timer
-      add(message)       : record an event, saving message and time
-      get_report()       : return text of report
-      show()             : print out text of report and optionally clear
+    -  clear(title=None)  : reset Timer
+    -  add(message)       : record time, with message
+    -  get_report(tablefmt=='simple_outline')  : return text of report
+    -  show(tablefmt='simple_outline')  : print timer report
 
-    Example:
-    -------
-      timer = debugtimer('timer testing', precision=4)
-      result = foo(x=100)
-      timer.add('ran function foo')
-      bar(result)
-      timer.add('ran bar')
-      timer.show()
+
+    Example
+    --------
+    >>> timer = debugtimer('timer testing', precision=4)
+    >>> result = foo(x=100)
+    >>> timer.add('ran function foo')
+    >>> bar(result)
+    >>> timer.add('ran bar')
+    >>> timer.show()
     '''
-    return DebugTimer(title=title, precision=precision, verbose=verbose)
-
-
-
-if __name__ == '__main__':
-    import numpy as np
-    dtimer = debugtimer('test timer')
-    sleep(1.1010)
-    dtimer.add('slept for 1.101 seconds')
-    nx = 10_000_000
-    x = np.arange(nx, dtype='float64')/3.0
-    dtimer.add(f'created numpy array len={nx}')
-    s = np.sqrt(x)
-    dtimer.add('took sqrt')
-    dtimer.show(precision=4)
+    return DebugTimer(title=title, precision=precision,
+                      with_mod_count=with_mod_count, verbose=verbose)
