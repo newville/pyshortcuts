@@ -66,7 +66,7 @@ class DebugTimer():
              "fancy_grid", "rounded_grid", "heavy_grid", "mixed_grid",
              "double_grid", "outline", "simple_outline", "rounded_outline",
              "heavy_outline", "mixed_outline", "double_outline",
-             "fancy_outline", "pipe", "github", "orgtbl" (Emacs), "rst",,
+             "fancy_outline", "pipe", "github", "orgtbl", "rst",,
              "mediawiki", "html", "textile", "latex", "latex_raw",
              "latex_booktabs", "latex_longtable", "jira", "tsv".
 
