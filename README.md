@@ -211,7 +211,7 @@ application that provides a simple form to help the user browse for script
 and icons, and set options before creating a shortcut or generating an
 example Python script to create the shortcut.
 
-![PyShortcut Screenshot](doc/pyshortcutgui_screenshot.png)
+![PyShortcut Screenshot](doc/_static/pyshortcutgui_screenshot.png)
 
 This requires the `wxPython` package which can be installed using `pip` or
 `conda` but is not automatically installed when installing `pyshortcuts`.
