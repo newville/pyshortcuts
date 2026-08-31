@@ -9,6 +9,7 @@ from pathlib import Path
 from collections import namedtuple
 import win32com.client
 from win32com.shell import shell, shellcon
+import platformdirs
 
 from .utils import get_pyexe, get_homedir
 
@@ -42,14 +43,14 @@ echo # %*
 
 def get_desktop(public=False):
     '''Return user Desktop folder'''
-    return Path(get_homedir(public=public), 'Desktop')
+    return Path(get_homedir(public=public), 'Desktop').resolve().as_posix()
 
 def get_startmenu(public=False):
     '''Return user Start Menu Programs folder'''
     if public:
-        return platformdirs.site_applications_path()
+        return platformdirs.site_applications_path().resolve().as_posix()
     else:
-        return palatformdirs.user_applications_path()
+        return platformdirs.user_applications_path().resolve().as_posix()
 
 def get_folders(public=False):
     """get user-specific folders
