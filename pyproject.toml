@@ -59,7 +59,11 @@ pyshortcut = "pyshortcuts:shortcut_cli"
 
 [project.optional-dependencies]
 gui = ["wxPython"]
-doc = ["Sphinx" ]
+doc = ["sphinx",
+       "sphinx-copybutton",
+       "sphinx-design",
+       "sphinx-breeze-theme"]
+
 dev = ["build", "twine"]
 test = ["coverage", "pytest", "pytest-cov"]
 
