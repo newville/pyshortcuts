@@ -65,13 +65,13 @@ def get_folders(public=False):
     ...       folders.home, folders.desktop, folders.startmenu)
     """
     UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
-    return UserFolders(get_homedir(oublic=public),
+    return UserFolders(get_homedir(public=public),
                        get_desktop(public=public),
-                       get_startmenu(public))
+                       get_startmenu(public=public))
 
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
-                  folder=None, terminal=True, desktop=True,
+                  folder=None, terminal=True, public=False, desktop=True,
                   startmenu=True, executable=None, noexe=False):
     """create shortcut
 
@@ -84,6 +84,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     working_dir (str, None) directory where to run the script in
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
     terminal    (bool) whether to run in a Terminal [True]
+    public      (bool) whether to use public folders [False]
     desktop     (bool) whether to add shortcut to Desktop [True]
     startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
     executable  (str, None) name of executable to use [this Python] (see Note 3)
@@ -97,7 +98,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     """
     from .shortcut import shortcut
 
-    userfolders = get_folders()
+    userfolders = get_folders(public=public)
     if working_dir is None:
         working_dir = userfolders.home
     scut = shortcut(script, userfolders, name=name, description=description,

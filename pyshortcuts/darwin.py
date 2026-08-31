@@ -45,7 +45,7 @@ def get_folders(public=False):
 
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
-                  folder=None, terminal=True, desktop=True,
+                  folder=None, terminal=True, public=False, desktop=True,
                   startmenu=False, executable=None, noexe=False):
     """create shortcut
 
@@ -58,6 +58,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     working_dir (str, None) directory where to run the script in
     folder      (str, None) subfolder of Desktop for shortcut [None] (See Note 1)
     terminal    (bool) whether to run in a Terminal [True]
+    public      (bool) whether to use public folders [False]
     desktop     (bool) whether to add shortcut to Desktop [True]
     startmenu   (bool) whether to add shortcut to Start Menu [False] (See Note 2)
     executable  (str, None) name of executable to use [this Python] (see Note 3)
@@ -72,7 +73,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     if not desktop:
         return None
 
-    userfolders = get_folders()
+    userfolders = get_folders(public=public)
     if working_dir is None:
         working_dir = ''
 

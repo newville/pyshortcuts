@@ -64,8 +64,11 @@ def shortcut_cli():
     parser.add_argument('-f', '--folder', dest='folder', default=None,
                         help='subfolder on desktop to put shortcut')
 
-    parser.add_argument('-e', '--executable', dest='exe', default=None,
-                        help='name of executable to use (python)')
+    parser.add_argument('-p', '--public', dest='public', action='store_true',
+                        default=False, help='use public folders [False]')
+
+    parser.add_argument('-e', '--executable', dest='exe', action='store_true',
+                        default=None, help='name of executable to use (python)')
 
     parser.add_argument('-x', '--no-executable', dest='noexe', action='store_true',
                         default=False, help='use no implied executable [False]')
@@ -108,8 +111,11 @@ def shortcut_cli():
         icon = Path(fpath.parent, 'icons', f'ladder.{ico_ext[0]}'
                         ).resolve().as_posix()
         script = Path(sys.prefix, bindir, 'pyshortcut').as_posix()
-        make_shortcut(f"{script} --wxgui", name='PyShortcut',
-                      terminal=False, icon=icon)
+        make_shortcut(f"{script} --wxgui",
+                      name='PyShortcut',
+                      terminal=False,
+                      public=args.public,
+                      icon=icon)
 
     elif args.wxgui:
         app = wx.App()
@@ -136,7 +142,11 @@ def shortcut_cli():
                         if x.exists():
                             icon = x.resolve().as_posix()
             make_shortcut(args.scriptname, name=args.name,
-                          terminal=args.terminal, folder=args.folder,
-                          icon=icon, desktop=args.desktop,
-                          startmenu=args.startmenu, executable=args.exe,
+                          terminal=args.terminal,
+                          folder=args.folder,
+                          icon=icon,
+                          desktop=args.desktop,
+                          startmenu=args.startmenu,
+                          public=args.public,
+                          executable=args.exe,
                           noexe=args.noexe)

@@ -38,7 +38,7 @@ def get_pyexe():
     "python executable"
     return Path(sys.executable).as_posix()
 
-def get_homedir(public=public):
+def get_homedir(public=False):
     """determine home directory
     with 'public=True', returns the Public Share folder
     """
