@@ -94,7 +94,8 @@ The arguments to the `make_shortcut` function are:
   * `icon`        (str or None) path to icon file [defaults to python icon]
   * `folder`      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
   * `terminal`    (bool) whether to run in a Terminal [True]
-  * `desktop`  ((bool) whether to add shortcut to Desktop [True]
+  * `public``     (bool) whether to write to Public folder instead of User's Home [False]
+  * `desktop`     (bool) whether to add shortcut to Desktop [True]
   * `startmenu`   (bool) whether to add shortcut to Start Menu [True]
   * `executable`  (str or None) name of executable to use [this Python]
 
@@ -122,7 +123,7 @@ To include command-line options for the script, put them in double quotes
 The `pyshortcut` command line program has a form of
 
 ```
-pyshortcut [-h] [-v] [-n NAME] [-i ICON] [-f FOLDER] [-e EXE] [-t] [-g] [-d] [-s] [-w] [scriptname]
+pyshortcut [-h] [-v] [-n NAME] [-i ICON] [-f FOLDER] [-p] [-e] [-x] [-t] [-g] [-d] [-s] [-w] [-b] [scriptname]
 ```
 
 where `scriptname` is the name of the script.  To include arguments to that
@@ -138,14 +139,14 @@ There are several optional arguments:
   * `-n NAME`, `--name=NAME` name for shortcut
   * `-i ICON`, `--icon=ICON` name of icon file
   * `-f FOLDER`, `--folder=Folder` subfolder on desktop to put icon
-  * `-e EXE`, `--executable EXE`     name of executable to use (python)
-
-  * `-t`, `--terminal` run script in a Terminal Window [True]
-  * `-g`, `--gui`      run script as a GUI, with no Terminal Window [False]
-  * `-d`,` --desktop`         create desktop shortcut [True]
-  * `-s`, `--startmenu`       create Start Menu shortcut [True]
-  * `-w`, `--wxgui`    run GUI version of pyshortcut
-  * `-b`, `--bootstrap`   create a desktop shortcut to run GUI version of pyshortcut
+  * `-e EXE`, `--executable EXE`   name of executable to use (python)
+  * `-t`, `--terminal`       run script in a Terminal Window [True]
+  * `-g`, `--gui`            run script as a GUI, with no Terminal Window [False]
+  * `-p`, `--public`         create shortcuts in Publi folder [False]
+  * `-d`,` --desktop`        create desktop shortcut [True]
+  * `-s`, `--startmenu`      create Start Menu shortcut [True]
+  * `-w`, `--wxgui`          run GUI version of pyshortcut
+  * `-b`, `--bootstrap`      create a desktop shortcut to run GUI version of pyshortcut
 
 Note that running in the Terminal is True by default, which means that each
 time the shortcut is used to launch the application, a new Terminal or Command

@@ -1,6 +1,6 @@
 .. _pyshortcut_app:
 
-The `pyshortcut` command-line program
+The `pyshortcut` CLI
 ----------------------------------------------
 
 Pyshortcuts installs a command-line program `pyshortcut` to build shortcuts.
@@ -24,7 +24,7 @@ To include command-line options for the script, put them in double quotes::
 The `pyshortcut` command line program has a form of::
 
 
-    pyshortcut [-h] [-v] [-n NAME] [-i ICON] [-f FOLDER] [-e EXE] [-t] [-g] [-d] [-s] [-w] [scriptname]
+    pyshortcut [-h] [-v] [-n NAME] [-i ICON] [-f FOLDER] [-p] [-e] [-x] [-t] [-g] [-d] [-s] [-w] [-b] [scriptname]
 
 where `scriptname` is the name of the script.  To include arguments to that
 script, enclose the script name and arguments in quotes (double quotes on
@@ -42,12 +42,13 @@ There are several optional arguments:
 
   * `-t`, `--terminal` run script in a Terminal Window [True]
   * `-g`, `--gui`      run script as a GUI, with no Terminal Window [False]
-  * `-d`,` --desktop`         create desktop shortcut [True]
+  * `-p`, `--public`          create shortcuts in Public Desktop folder [False]
+  * `-d`, `--desktop`         create desktop shortcut [True]
   * `-s`, `--startmenu`       create Start Menu shortcut [True]
   * `-w`, `--wxgui`    run GUI version of pyshortcut
   * `-b`, `--bootstrap`   create a desktop shortcut to run GUI version of pyshortcut
 
-Note that running in the Terminal is True by default, which means that each
+Note that running in the Terminal is ``True`` by default, which means that each
 time the shortcut is used to launch the application, a new Terminal or Command
 window will be created for it.  For many command-line applications, this is
 appropriate.  The extra Terminal or Command window may be unwanted for some GUI
@@ -102,7 +103,7 @@ The ladder icon was made by Left Martinez, and downloaded from
 
 
 Note for running wxPython GUIs on macOS with Anaconda Python
-------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your application uses wxPython and you are running with Anaconda Python on
 macOS, you may experience problems that your application does not start.  If
