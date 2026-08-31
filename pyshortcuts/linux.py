@@ -19,9 +19,9 @@ Icon={icon:s}
 Exec={execstring:s}
 """
 
-def get_desktop():
+def get_desktop(public=False):
     "get desktop location"
-    homedir = get_homedir()
+    homedir = get_homedir(public=public)
     desktop = Path(homedir, 'Desktop').resolve().as_posix()
 
     if sys.platform.startswith('linux'):
@@ -39,14 +39,19 @@ def get_desktop():
             desktop = val
     return desktop
 
-def get_startmenu():
+def get_startmenu(public=False):
     "get start menu location"
-    homedir = get_homedir()
+    homedir = get_homedir(public=public)
     return Path(homedir, '.local', 'share', 'applications').resolve().as_posix()
 
 
-def get_folders():
+def get_folders(public=False):
     """get user-specific folders
+
+    Arguments:
+    ----------
+    public (bool) whether to use Public Desktop folder [False]
+
 
     Returns:
     -------
@@ -60,7 +65,9 @@ def get_folders():
     ...       folders.home, folders.desktop, folders.startmenu)
     """
     UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
-    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+    return UserFolders(get_homedir(oublic=public),
+                       get_desktop(public=public),
+                       get_startmenu(public))
 
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,

@@ -40,17 +40,18 @@ echo # %*
 """.format(conda_env)
 
 
-def get_desktop():
+def get_desktop(public=False):
     '''Return user Desktop folder'''
-    return shell.SHGetFolderPath(0, shellcon.CSIDL_DESKTOP, None, 0)
+    return Path(get_homedir(public=public), 'Desktop')
 
-def get_startmenu():
-    '''Return user Start Menu Programs folder
-    note that we return CSIDL_PROGRAMS not CSIDL_COMMON_PROGRAMS
-    '''
-    return shell.SHGetFolderPath(0, shellcon.CSIDL_PROGRAMS, None, 0)
+def get_startmenu(public=False):
+    '''Return user Start Menu Programs folder'''
+    if public:
+        return platformdirs.site_applications_path()
+    else:
+        return palatformdirs.user_applications_path()
 
-def get_folders():
+def get_folders(public=False):
     """get user-specific folders
 
     Returns:
@@ -65,7 +66,9 @@ def get_folders():
     ...       folders.home, folders.desktop, folders.startmenu)
     """
     UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
-    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+    return UserFolders(get_homedir(public=public),
+                       get_desktop(public=public),
+                       get_startmenu(public=public))
 
 
 def make_shortcut(script, name=None, working_dir=None, description=None, icon=None,

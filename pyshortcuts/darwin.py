@@ -8,19 +8,24 @@ import shutil
 import subprocess
 from pathlib import Path
 from collections import namedtuple
+import platformdirs
 
 from .utils import  get_pyexe, get_homedir
 
-def get_startmenu():
+def get_startmenu(public=False):
     "get start menu location"
     return ''
 
-def get_desktop():
+def get_desktop(public=False):
     "get desktop location"
-    return Path(get_homedir(), 'Desktop').resolve().as_posix()
+    return Path(get_homedir(public=public), 'Desktop').resolve().as_posix()
 
-def get_folders():
+def get_folders(public=False):
     """get user-specific folders
+
+    Arguments:
+    ----------
+    public (bool) whether to use Public Desktop folder [False]
 
     Returns:
     -------
@@ -34,7 +39,9 @@ def get_folders():
     ...       folders.home, folders.desktop, folders.startmenu)
     """
     UserFolders = namedtuple("UserFolders", ("home", "desktop", "startmenu"))
-    return UserFolders(get_homedir(), get_desktop(), get_startmenu())
+    return UserFolders(get_homedir(public=public),
+                       get_desktop(public=public),
+                       get_startmenu(public=public))
 
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,

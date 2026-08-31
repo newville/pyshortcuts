@@ -37,10 +37,9 @@ try:
 except ImportError:
     ShortcutFrame = None
 
-
-def get_desktop():
+def get_desktop(public=False):
     "get desktop folder, for back compatibility"
-    return get_folders().desktop
+    return get_folders(public=public).desktop
 
 
 def shortcut_cli():
