@@ -10,6 +10,8 @@ from pathlib import Path
 from datetime import datetime
 from string import ascii_letters
 from charset_normalizer import from_bytes
+import platformdirs
+
 try:
     from pwd import getpwnam
 except ImportError:
@@ -36,14 +38,18 @@ def get_pyexe():
     "python executable"
     return Path(sys.executable).as_posix()
 
-def get_homedir():
-    "determine home directory"
+def get_homedir(public=public):
+    """determine home directory
+    with 'public=True', returns the Public Share folder
+    """
     # for Unixes, allow for sudo case
     susername = os.environ.get("SUDO_USER", None)
     if susername is not None and getpwnam is not None:
         return Path(getpwnam(susername).pw_dir).resolve().as_posix()
 
     homedir = Path.home()
+    if public:
+        homedir = platformdirs.user_publicshare_path()
 
     # For Windows, ask for parent of Roaming 'Application Data' directory
     if homedir is None and os.name == 'nt':
