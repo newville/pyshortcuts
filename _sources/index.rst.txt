@@ -7,6 +7,9 @@ PyShortcuts: create desktop shortcuts
 .. _numpy_financial: https://numpy.org/numpy-financial/
 
 
+:bdg-link-info:`GitHub <https://github.com/newville/pyshortcuts>`
+:bdg-link-info:`PyPI <https://pypi.org/project/pyshortcuts/>`
+
 Pyshortcuts helps Python developers and users create Desktop Shortcuts or links
 that will launch a python script and other applications.  The shortcuts created
 can go onto the user's desktop or into the Start Menu (for systems with Start
@@ -50,8 +53,6 @@ Pyshortcuts also provides a number of :ref:`utility_funcs` for working with Path
 and filenames that may be of general use.
 
 
-Contents
------------------
 
 .. toctree::
    :maxdepth: 2

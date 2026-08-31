@@ -1,6 +1,6 @@
 .. _python_section:
 
-Using `pyshortcuts`  from Python
+`pyshortcuts` Python API
 -------------------------------------
 
 Shortcuts can be created from a Python script with::
@@ -8,7 +8,7 @@ Shortcuts can be created from a Python script with::
     from pyshortcuts import make_shortcut
     make_shortcut('/home/user/bin/myapp.py', name='MyApp', icon='/home/user/icons/myicon.ico')
 
-.. function:: make_shortcut(script, name=None, description=None, icon=None, working_dir=None, folder=None, terminal=True, desktop=True,  startmenu=True, executable=None, noexe=False)
+.. function:: make_shortcut(script, name=None, description=None, icon=None, working_dir=None, folder=None, terminal=True, public=False, desktop=True,  startmenu=True, executable=None, noexe=False)
 
    create a desktop shortcut
 
@@ -26,6 +26,8 @@ Shortcuts can be created from a Python script with::
    :type folder:   string or ``None``
    :param terminal: whether to run in a Terminal [True]
    :type terminal:   bool
+   :param public: whether to create shortcuts in Public Desktop instead of User's Desktop [False]
+   :type publicl:   bool
    :param desktop: whether to add shortcut to Desktop [True]
    :type desktop:   bool
    :param start_menu: whether to add shortcut to Start Menu [True, except on macOS]
@@ -43,8 +45,8 @@ Notes:
 
 
 
-Making a shortcut for single python command
----------------------------------------------
+Making a shortcut for a python command
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 A common request and simple use-case for `pyshortcuts` is to wrap a single
