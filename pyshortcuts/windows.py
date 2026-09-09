@@ -43,7 +43,9 @@ echo # %*
 
 def get_desktop(public=False):
     '''Return user Desktop folder'''
-    return Path(get_homedir(public=public), 'Desktop').resolve().as_posix()
+    shell = win32com.client.Dispatch("WScript.Shell")
+    folder = "AllUsersDesktop" if public else "Desktop"
+    return Path(shell.SpecialFolders(folder)).resolve().as_posix()
 
 def get_startmenu(public=False):
     '''Return user Start Menu Programs folder'''
