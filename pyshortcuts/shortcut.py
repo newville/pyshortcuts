@@ -74,6 +74,7 @@ def shortcut(script, userfolders, name=None, description=None,
                 if ticon.exists():
                     picon = ticon
                     break
+        icon = picon.as_posix()
 
     if icon is None or not Path(icon).exists():
         _parent = Path(__file__).parent
