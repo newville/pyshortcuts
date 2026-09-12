@@ -85,6 +85,9 @@ def shortcut_cli():
     parser.add_argument('-s', '--startmenu', dest='startmenu', action='store_true',
                         default=True, help='create Start Menu shortcut [True]')
 
+    parser.add_argument('-a', '--macos_app', dest='macos_app', action='store_true',
+                        default=False, help='add shortcut to /Applications folder (macOS only) [False]')
+
     parser.add_argument('-w', '--wxgui', dest='wxgui', action='store_true',
                         default=False, help='run GUI version of pyshortcut [False]')
 
@@ -141,12 +144,19 @@ def shortcut_cli():
                         x = Path(parent, f"{stem}.{ext}").absolute()
                         if x.exists():
                             icon = x.resolve().as_posix()
-            make_shortcut(args.scriptname, name=args.name,
-                          terminal=args.terminal,
-                          folder=args.folder,
-                          icon=icon,
-                          desktop=args.desktop,
-                          startmenu=args.startmenu,
-                          public=args.public,
-                          executable=args.exe,
-                          noexe=args.noexe)
+
+            kws = dict(name=args.name,
+                       terminal=args.terminal,
+                       folder=args.folder,
+                       icon=icon,
+                       desktop=args.desktop,
+                       startmenu=args.startmenu,
+                       public=args.public,
+                       executable=args.exe,
+                       noexe=args.noexe)
+
+            if uname.startswith('darwin'):
+                kws['macos_app'] = args.macos_app
+
+            make_shortcut(args.scriptname, **kws)
+

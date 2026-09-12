@@ -46,7 +46,7 @@ def get_folders(public=False):
 
 def make_shortcut(script, name=None, description=None, icon=None, working_dir=None,
                   folder=None, terminal=True, public=False, desktop=True,
-                  startmenu=False, executable=None, noexe=False):
+                  startmenu=False, executable=None, noexe=False, macos_app=False):
     """create shortcut
 
     Arguments:
@@ -63,6 +63,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     startmenu   (bool) whether to add shortcut to Start Menu [False] (See Note 2)
     executable  (str, None) name of executable to use [this Python] (see Note 3)
     noexe       (bool) whether to use no executable (script is entire command) [False]
+    macos_app   (bool) whether to also add shortcut to /Applications [False] (macOS only)
 
     Notes:
     ------
@@ -70,7 +71,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     2. Start Menu does not exist for Darwin / MacOSX
     3. executable defaults to the Python executable used to make shortcut.
     """
-    if not desktop:
+    if not desktop and not macos_app:
         return None
 
     userfolders = get_folders(public=public)
@@ -93,13 +94,31 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         if Path(scut.full_script) == Path(executable):
             executable = ''
 
-    if not Path(scut.desktop_dir).exists():
-        os.makedirs(scut.desktop_dir)
-
     osascript = f'{full_script} {scut.arguments}'
     osascript = osascript.replace(' ', '\\ ')
 
-    dest = Path(scut.desktop_dir, scut.target).resolve().as_posix()
+    if executable:
+        cmd = f"{executable} {full_script} {scut.arguments}"
+    else:
+        cmd = f"{full_script} {scut.arguments}"
+
+    dest_dirs = []
+    if desktop:
+        if not Path(scut.desktop_dir).exists():
+            os.makedirs(scut.desktop_dir)
+        dest_dirs.append(scut.desktop_dir)
+    if macos_app:
+        dest_dirs.append('/Applications')
+
+    for dest_dir in dest_dirs:
+        _build_app_bundle(Path(dest_dir, scut.target).resolve().as_posix(), scut, cmd, executable, terminal)
+
+    return scut
+
+
+def _build_app_bundle(dest, scut, cmd, executable, terminal):
+    """Write a macOS .app bundle at dest."""
+    import hashlib
 
     if Path(dest).exists():
         shutil.rmtree(dest)
@@ -108,15 +127,6 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     os.mkdir(Path(dest, 'Contents'))
     os.mkdir(Path(dest, 'Contents', 'MacOS'))
     os.mkdir(Path(dest, 'Contents', 'Resources'))
-
-    opts = {'name': scut.name,
-            'desc': scut.description,
-            'script': full_script,
-            'workdir': scut.working_dir,
-            'args': scut.arguments,
-            'prefix': Path(sys.prefix).as_posix(),
-            'exe': executable,
-            'osascript': osascript}
 
     info = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
@@ -132,13 +142,6 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
 </plist>
 """
 
-    # Build command string
-    if executable:
-        cmd = f"{executable} {full_script} {scut.arguments}"
-    else:
-        cmd = f"{full_script} {scut.arguments}"
-
-    # For GUI apps, create an Automator-style app that CrowdStrike trusts
     if not terminal:
         automator_dir = Path(dest, 'Contents', 'Resources')
 
@@ -276,6 +279,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
     else:
         # For terminal apps, use AppleScript to open Terminal
         with open(Path(dest, 'Contents', 'Info.plist'), 'w') as fout:
+            opts = {'name': scut.name, 'desc': scut.description}
             fout.write(info.format(**opts))
 
         # Create AppleScript launcher
@@ -308,4 +312,3 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
         except Exception:
             pass
 
-    return scut
