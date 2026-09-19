@@ -92,12 +92,15 @@ The arguments to the `make_shortcut` function are:
   * `name`        (str or None) name to use for shortcut [defaults to script name]
   * `description` (str or None) longer description of script [defaults to `name`]
   * `icon`        (str or None) path to icon file [defaults to python icon]
+  * `working_dir` (str on None) directory where to run the script [User's home]
   * `folder`      (str or None) folder on Desktop to put shortcut [defaults to Desktop]
   * `terminal`    (bool) whether to run in a Terminal [True]
   * `public``     (bool) whether to write to Public folder instead of User's Home [False]
   * `desktop`     (bool) whether to add shortcut to Desktop [True]
-  * `startmenu`   (bool) whether to add shortcut to Start Menu [True]
+  * `startmenu`   (bool) whether to add shortcut to Start Menu [True, except on MacOS]
+  * `macos_app`   (bool) whether to add shortcut to /Applications folder [False, macOS only]
   * `executable`  (str or None) name of executable to use [this Python]
+  * `noexe`       (bool) whether to use no executable, so that the script is entire command  [False]
 
 Note that the Start Menu does not exist for macOSX.
 

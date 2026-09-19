@@ -8,7 +8,7 @@ Shortcuts can be created from a Python script with::
     from pyshortcuts import make_shortcut
     make_shortcut('/home/user/bin/myapp.py', name='MyApp', icon='/home/user/icons/myicon.ico')
 
-.. function:: make_shortcut(script, name=None, description=None, icon=None, working_dir=None, folder=None, terminal=True, public=False, desktop=True,  startmenu=True, executable=None, noexe=False)
+.. function:: make_shortcut(script, name=None, description=None, icon=None, working_dir=None, folder=None, terminal=True, public=False, desktop=True,  startmenu=True, macos_app=False, executable=None, noexe=False)
 
    create a desktop shortcut
 
@@ -20,7 +20,7 @@ Shortcuts can be created from a Python script with::
    :type  description:   string or ``None``
    :param icon: filename for icon file [python icon]
    :type  icon:   string or ``None``
-   :param working_dir: directory where to run the script in
+   :param working_dir: directory where to run the script in [User's home]
    :type  working_dir:   string or ``None``
    :param folder: name of subfolder of Desktop for shortcut [None] (See Note 1)
    :type folder:   string or ``None``
@@ -32,6 +32,8 @@ Shortcuts can be created from a Python script with::
    :type desktop:   bool
    :param start_menu: whether to add shortcut to Start Menu [True, except on macOS]
    :type start_menu:   bool
+   :param macos_app: whether to add shortcut to /Applications folder [False, macOS only]
+   :type macos_app:   bool
    :param executable: name of executable to use [this Python] (see Note 3)
    :type executable:   string or ``None``.
    :param noexe: whether to use no executable, so that the script is entire command  [False]
