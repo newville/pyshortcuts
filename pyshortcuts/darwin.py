@@ -76,7 +76,7 @@ def make_shortcut(script, name=None, description=None, icon=None, working_dir=No
 
     userfolders = get_folders(public=public)
     if working_dir is None:
-        working_dir = ''
+        working_dir = userfolders.home
 
     from .shortcut import shortcut
 
@@ -311,4 +311,3 @@ def _build_app_bundle(dest, scut, cmd, executable, terminal):
                           capture_output=True, check=False)
         except Exception:
             pass
-
