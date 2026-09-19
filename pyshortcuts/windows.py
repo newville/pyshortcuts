@@ -76,7 +76,7 @@ def get_folders(public=False):
 
 def make_shortcut(script, name=None, working_dir=None, description=None, icon=None,
                   folder=None, terminal=True, public=False, desktop=True,
-                  startmenu=True, executable=None, noexe=False):
+                  startmenu=True, macos_app=False, executable=None, noexe=False):
     """create shortcut
 
     Arguments:
@@ -91,6 +91,7 @@ def make_shortcut(script, name=None, working_dir=None, description=None, icon=No
     public      (bool) whether to use public folders [False]
     desktop     (bool) whether to add shortcut to Desktop [True]
     startmenu   (bool) whether to add shortcut to Start Menu [True] (See Note 2)
+    macos_app   (bool) ignored on Windows.
     executable  (str, None) name of executable to use [this Python] (see Note 3)
     noexe       (bool) whether to use no executable (script is entire command) [False]
 
