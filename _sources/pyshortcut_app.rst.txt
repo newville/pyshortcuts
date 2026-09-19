@@ -40,12 +40,13 @@ There are several optional arguments:
   * `-f FOLDER`, `--folder=Folder` subfolder on desktop to put icon
   * `-e EXE`, `--executable EXE`     name of executable to use (python)
 
-  * `-t`, `--terminal` run script in a Terminal Window [True]
-  * `-g`, `--gui`      run script as a GUI, with no Terminal Window [False]
-  * `-p`, `--public`          create shortcuts in Public Desktop folder [False]
-  * `-d`, `--desktop`         create desktop shortcut [True]
-  * `-s`, `--startmenu`       create Start Menu shortcut [True]
-  * `-w`, `--wxgui`    run GUI version of pyshortcut
+  * `-t`, `--terminal`    run script in a Terminal Window [True]
+  * `-g`, `--gui`         run script as a GUI, with no Terminal Window [False]
+  * `-p`, `--public`      create shortcuts in Public Desktop folder [False]
+  * `-d`, `--desktop`     create desktop shortcut [True]
+  * `-s`, `--startmenu`   create Start Menu shortcut [True, not on macOS]
+  * `-a`, `--macos_app`   create shortcut in /Applications [False,  macOS only]
+  * `-w`, `--wxgui`       run GUI version of pyshortcut
   * `-b`, `--bootstrap`   create a desktop shortcut to run GUI version of pyshortcut
 
 Note that running in the Terminal is ``True`` by default, which means that each
