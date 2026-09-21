@@ -18,7 +18,7 @@ can be installed with::
 
     pip install "pyshortcuts[gui]"
 
- For development versions, see  https://github.com/newville/pyshortcuts
+For development versions, see  https://github.com/newville/pyshortcuts
 
 Acknowledgments
 ~~~~~~~~~~~~~~~~~~~~~~~

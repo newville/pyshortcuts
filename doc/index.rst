@@ -3,13 +3,9 @@
 PyShortcuts: create desktop shortcuts
 ================================================
 
-.. _numpy: https://numpy.org/
-.. _numpy_financial: https://numpy.org/numpy-financial/
-
 
 :bdg-link-info:`GitHub <https://github.com/newville/pyshortcuts>`
 :bdg-link-info:`PyPI <https://pypi.org/project/pyshortcuts/>`
-
 
 The latest version of `pyshortcuts` is |release|.
 
