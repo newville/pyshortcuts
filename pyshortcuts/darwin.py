@@ -241,7 +241,7 @@ def _build_app_bundle(dest, scut, cmd, executable, terminal):
     <key>LSMinimumSystemVersion</key>
     <string>10.5</string>
     <key>LSUIElement</key>
-    <false/>
+    <true/>
     <key>NSMainNibFile</key>
     <string>ApplicationStub</string>
     <key>NSPrincipalClass</key>
