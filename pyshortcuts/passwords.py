@@ -87,8 +87,7 @@ def check_password_rules(pwtest, minlen=8, lowercase=1, uppercase=1,
 
     Notes
     ------
-    1. the default special characters include
-    ;~,`@!%$$&^?*#:"/|(){}[]<>\'
+    1. the default special characters include ```  ;~,`@!%$$&^?*#:"/|(){}[]<>\'\\  ```
 
     """
     reasons = []
