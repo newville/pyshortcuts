@@ -2,7 +2,7 @@
 
 
 Installation
-------------------
+=====================
 
 The latest version of `pyshortcuts` is |release|, which can be
 installed with::

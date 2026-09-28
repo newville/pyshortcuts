@@ -1,7 +1,7 @@
 .. _pyshortcut_app:
 
 The `pyshortcut` CLI
-----------------------------------------------
+==============================
 
 Pyshortcuts installs a command-line program `pyshortcut` to build shortcuts.
 If wxPython is installed, this can also be used to launch a Graphical User
@@ -58,7 +58,7 @@ applications, and can be disabled with the `-g` or `--gui` option.
 
 
 The `pyshortcut` GUI
----------------------------
+===========================
 
 In addition to the `pyshortcut` command-line program, there is a small GUI
 application that provides a simple form to help the user browse for script
@@ -100,27 +100,3 @@ the pyshortcut GUI.  This essentially runs::
 
 The ladder icon was made by Left Martinez, and downloaded from
 (https://www.iconfinder.com/iconsets/free-construction-tools)
-
-
-
-Note for running wxPython GUIs on macOS with Anaconda Python
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If your application uses wxPython and you are running with Anaconda Python on
-macOS, you may experience problems that your application does not start.  If
-you try to run your script from the command line, you may see the following
-error message::
-
-
-    ~> python my_wxpython_app.py
-    This program needs access to the screen. Please run with a
-    Framework build of python, and only when you are logged in
-    on the main display of your Mac.
-
-
-If you do see that, it can be fixed and your script run properly by adding::
-
-    import wx
-    wx.PyApp.IsDisplayAvailable = lambda _: True
-
-in your script before running your starting the `wxPython` `mainloop` event handler.
