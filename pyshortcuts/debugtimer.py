@@ -7,7 +7,21 @@ from time import perf_counter
 from datetime import datetime
 from tabulate import tabulate
 
-from .utils import isotime, sleep
+def isotime(dtime=None, timespec='seconds', sep=' '):
+    """
+    return ISO format of current timestamp: 2024-04-27 17:31:12
+    """
+    if dtime is None:
+        dtime = datetime.now()
+    elif isinstance(dtime, (float, int)):
+        dtime = datetime.fromtimestamp(dtime)
+    return datetime.isoformat(dtime, timespec=timespec, sep=sep)
+
+def sleep(duration):
+    "more accurate sleep()"
+    end = perf_counter() + duration
+    while perf_counter() < end:
+        pass
 
 class DebugTimer():
     '''

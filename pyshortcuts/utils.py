@@ -5,9 +5,8 @@ utilities for pyshortcuts
 import os
 import sys
 import io
-from time import perf_counter
+
 from pathlib import Path
-from datetime import datetime
 from string import ascii_letters
 from charset_normalizer import from_bytes
 import platformdirs
@@ -16,6 +15,10 @@ try:
     from pwd import getpwnam
 except ImportError:
     getpwnam = None
+
+from .gformat import gformat
+from .debugtimer import debugtimer, DebugTimer, isotime, sleep
+from .passwords import hash_password, test_password, check_password_rules
 
 uname = "unknown"
 scut_ext = "lnk"
@@ -100,23 +103,6 @@ def mkdir(name, mode=0o775):
             raise FileExistsError(f"'{name}' is an existing file")
     else:
         os.makedirs(name, mode=mode)
-
-
-def isotime(dtime=None, timespec='seconds', sep=' '):
-    """
-    return ISO format of current timestamp: 2024-04-27 17:31:12
-    """
-    if dtime is None:
-        dtime = datetime.now()
-    elif isinstance(dtime, (float, int)):
-        dtime = datetime.fromtimestamp(dtime)
-    return datetime.isoformat(dtime, timespec=timespec, sep=sep)
-
-def sleep(duration):
-    "more accurate sleep()"
-    end = perf_counter() + duration
-    while perf_counter() < end:
-        pass
 
 BAD_FILECHARS = ';~,`!%$@$&^?*#:"/|\'\\\t\r\n(){}[]<>'
 GOOD_FILECHARS = '_'*len(BAD_FILECHARS)
