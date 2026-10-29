@@ -1,7 +1,7 @@
 .. _python_section:
 
 `pyshortcuts` Python API
--------------------------------------
+===============================
 
 Shortcuts can be created from a Python script with::
 
@@ -48,7 +48,7 @@ Notes:
 
 
 Making a shortcut for a python command
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------
 
 
 A common request and simple use-case for `pyshortcuts` is to wrap a single

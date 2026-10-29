@@ -182,7 +182,7 @@ scripts, a command to create a shortcut might look like:</p>
 </pre></div>
 </div>
 <p>To include command-line options for the script, put them in double quotes:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">pyshortcut</span> <span class="o">-</span><span class="n">n</span> <span class="n">MyApp</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">icons</span><span class="o">/</span><span class="n">myicon</span><span class="o">.</span><span class="n">icns</span> <span class="s2">&quot;/home/user/bin/myapp.py  -t 10&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">pyshortcut</span> <span class="o">-</span><span class="n">n</span> <span class="n">MyApp</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">icons</span><span class="o">/</span><span class="n">myicon</span><span class="o">.</span><span class="n">icns</span> <span class="s2">"/home/user/bin/myapp.py  -t 10"</span>
 </pre></div>
 </div>
 <p>The <cite>pyshortcut</cite> command line program has a form of:</p>
@@ -247,32 +247,13 @@ the pyshortcut GUI.  This essentially runs:</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyshortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_shortcut</span><span class="p">,</span> <span class="n">platform</span>
 
-<span class="n">bindir</span> <span class="o">=</span> <span class="s1">&#39;Scripts&#39;</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;win&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;bin&#39;</span>
-<span class="n">pyshortcut</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">bindir</span><span class="p">,</span> <span class="s1">&#39;pyshortcut&#39;</span><span class="p">))</span>
-<span class="n">scut</span> <span class="o">=</span> <span class="n">make_shortcut</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pyshortcut</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2"> --wxgui&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;PyShortcut&#39;</span><span class="p">,</span> <span class="n">terminal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">bindir</span> <span class="o">=</span> <span class="s1">'Scripts'</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'win'</span><span class="p">)</span> <span class="k">else</span> <span class="s1">'bin'</span>
+<span class="n">pyshortcut</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">bindir</span><span class="p">,</span> <span class="s1">'pyshortcut'</span><span class="p">))</span>
+<span class="n">scut</span> <span class="o">=</span> <span class="n">make_shortcut</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pyshortcut</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2"> --wxgui"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'PyShortcut'</span><span class="p">,</span> <span class="n">terminal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The ladder icon was made by Left Martinez, and downloaded from
 (<a class="reference external" href="https://www.iconfinder.com/iconsets/free-construction-tools">https://www.iconfinder.com/iconsets/free-construction-tools</a>)</p>
-<section id="note-for-running-wxpython-guis-on-macos-with-anaconda-python">
-<h2>Note for running wxPython GUIs on macOS with Anaconda Python<a class="headerlink" href="#note-for-running-wxpython-guis-on-macos-with-anaconda-python" title="Link to this heading">#</a></h2>
-<p>If your application uses wxPython and you are running with Anaconda Python on
-macOS, you may experience problems that your application does not start.  If
-you try to run your script from the command line, you may see the following
-error message:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">~&gt;</span> <span class="n">python</span> <span class="n">my_wxpython_app</span><span class="o">.</span><span class="n">py</span>
-<span class="n">This</span> <span class="n">program</span> <span class="n">needs</span> <span class="n">access</span> <span class="n">to</span> <span class="n">the</span> <span class="n">screen</span><span class="o">.</span> <span class="n">Please</span> <span class="n">run</span> <span class="k">with</span> <span class="n">a</span>
-<span class="n">Framework</span> <span class="n">build</span> <span class="n">of</span> <span class="n">python</span><span class="p">,</span> <span class="ow">and</span> <span class="n">only</span> <span class="n">when</span> <span class="n">you</span> <span class="n">are</span> <span class="n">logged</span> <span class="ow">in</span>
-<span class="n">on</span> <span class="n">the</span> <span class="n">main</span> <span class="n">display</span> <span class="n">of</span> <span class="n">your</span> <span class="n">Mac</span><span class="o">.</span>
-</pre></div>
-</div>
-<p>If you do see that, it can be fixed and your script run properly by adding:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wx</span>
-<span class="n">wx</span><span class="o">.</span><span class="n">PyApp</span><span class="o">.</span><span class="n">IsDisplayAvailable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="kc">True</span>
-</pre></div>
-</div>
-<p>in your script before running your starting the <cite>wxPython</cite> <cite>mainloop</cite> event handler.</p>
-</section>
 </section>
 
 </article><footer class="bz-article-footer">
@@ -291,10 +272,7 @@ error message:</p>
     <nav class="bz-sidebar-toc" aria-label="Table of contents">
   <p>On this page</p><ul>
 <li><a class="reference internal" href="#">The <cite>pyshortcut</cite> CLI</a></li>
-<li><a class="reference internal" href="#the-pyshortcut-gui">The <cite>pyshortcut</cite> GUI</a><ul>
-<li><a class="reference internal" href="#note-for-running-wxpython-guis-on-macos-with-anaconda-python">Note for running wxPython GUIs on macOS with Anaconda Python</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#the-pyshortcut-gui">The <cite>pyshortcut</cite> GUI</a></li>
 </ul></nav>
   
     
@@ -337,5 +315,5 @@ error message:</p>
   <label class="bz-overlay bz-overlay-primary" for="bz-sidebar-primary"></label>
   <label class="bz-overlay bz-overlay-secondary" for="bz-sidebar-secondary"></label>
   <input type="checkbox" name="bz-sidebar-primary" id="bz-sidebar-primary" aria-label="Toggle section navigation">
-  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=17f12e63"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script></body>
+  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=2009a409"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script></body>
 </html>

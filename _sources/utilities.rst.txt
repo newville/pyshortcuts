@@ -1,9 +1,9 @@
 .. _utility_funcs:
 
-.. module:: pyshortcuts.utils
+.. module:: pyshortcuts
 
 Utility Functions
----------------------------
+=====================
 
 Pyshortcuts provides a number of utility functions, especially for working
 with text files.  These may seem like an assorted mix of functions.  The author
@@ -13,25 +13,8 @@ utilities here are small (adding no extra dependencies), but useful for many
 projects.
 
 
-:func:`isotime`: get time is ISO format
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autofunction:: isotime
-
-This is shorthand for::
-
-    from datetime import datetime
-    def isotime(dtime=None, timepec='seconds', sep=' '):
-        """return ISO format of current timestamp:
-              2024-04-27 17:31:12
-        """
-        if dtime is None:
-            dtime = datetime.now()
-        return datetime.isoformat(dtime, timespec=timespec, sep=sep)
-
-
-There isn't more to it than that, it's just shorter.
-
+Files and Folders
+---------------------
 
 
 :func:`get_homedir`: get home directory
@@ -96,10 +79,11 @@ unicode encodings by reading the file contents as bytes, and then using
 Line endings of `\\r` and `\\r\\n` are replaced by `\\n`.
 
 
+Formatting floating point numbers
+-------------------------------------
+
 :func:`gformat`: fixed formatting of floating point numbers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. module:: pyshortcuts.gformat
 
 .. autofunction:: gformat
 
@@ -132,6 +116,30 @@ An example::
     ' 7.5e-5'
 
 
+Time utilities
+-------------------------
+
+
+:func:`isotime`: get time is ISO format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: isotime
+
+This is shorthand for::
+
+    from datetime import datetime
+    def isotime(dtime=None, timepec='seconds', sep=' '):
+        """return ISO format of current timestamp:
+              2024-04-27 17:31:12
+        """
+        if dtime is None:
+            dtime = datetime.now()
+        return datetime.isoformat(dtime, timespec=timespec, sep=sep)
+
+
+There isn't more to it than that, it's just shorter.
+
+
 :func:`sleep`: a higher-precision sleep
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -147,10 +155,9 @@ version provided here is just::
             pass
 
 
-:func:`debugtimer`: debugging runtime of code in a function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Debugging runtime of code
+---------------------------------
 
-.. module:: pyshortcuts.debugtimer
 
 Debugging the run time for a function or section of code is a common
 need, and can be a painful process.  Using Python's `timeit` module is
@@ -158,6 +165,12 @@ really good at timing a single statement, but not good at answering
 "how long is each section of code taking to run".  Sometimes you just
 want to print out times to find where code is slow.  That gets
 cumbersome to manage.
+
+
+:func:`debugtimer`: debugging runtime of code in a function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 The :func:`debugtimer` helps with this process by creating a
 DebugTimer object, with a method :meth:`.add` to mark the time with a
@@ -219,3 +232,21 @@ The returned `debgugTimer` object will have several methods:
 .. automethod:: DebugTimer.get_report
 
 .. automethod:: DebugTimer.show
+
+
+Password handling
+-------------------------------------
+
+
+Some applications may wish to use passwords to secure or limit access
+to resources. While there are several tools to generating a hash for passwords,
+here there is a simple set of functions to generate a hash for
+storage, a function to check if a password matches, and to check if a
+string matches a configurable set of password rules.
+
+
+.. autofunction:: hash_password
+
+.. autofunction:: test_password
+
+.. autofunction:: check_password_rules

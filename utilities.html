@@ -172,39 +172,20 @@
       </li></ul>
   </div>
 </div><section id="utility-functions">
-<span id="module-pyshortcuts.utils"></span><span id="utility-funcs"></span><h1>Utility Functions<a class="headerlink" href="#utility-functions" title="Link to this heading">#</a></h1>
+<span id="module-pyshortcuts"></span><span id="utility-funcs"></span><h1>Utility Functions<a class="headerlink" href="#utility-functions" title="Link to this heading">#</a></h1>
 <p>Pyshortcuts provides a number of utility functions, especially for working
 with text files.  These may seem like an assorted mix of functions.  The author
 found many of these useful in multiple projects, and rather than having
 different versions in different packages, used this package to host those.  The
 utilities here are small (adding no extra dependencies), but useful for many
 projects.</p>
-<section id="isotime-get-time-is-iso-format">
-<h2><a class="reference internal" href="#pyshortcuts.utils.isotime" title="pyshortcuts.utils.isotime"><code class="xref py py-func docutils literal notranslate"><span class="pre">isotime()</span></code></a>: get time is ISO format<a class="headerlink" href="#isotime-get-time-is-iso-format" title="Link to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.utils.isotime">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.utils.</span></span><span class="sig-name descname"><span class="pre">isotime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timespec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'seconds'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.utils.isotime" title="Link to this definition">#</a></dt>
-<dd><p>return ISO format of current timestamp: 2024-04-27 17:31:12</p>
-</dd></dl>
-
-<p>This is shorthand for:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">isotime</span><span class="p">(</span><span class="n">dtime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timepec</span><span class="o">=</span><span class="s1">&#39;seconds&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;return ISO format of current timestamp:</span>
-<span class="sd">          2024-04-27 17:31:12</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">dtime</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">dtime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">dtime</span><span class="p">,</span> <span class="n">timespec</span><span class="o">=</span><span class="n">timespec</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>There isn’t more to it than that, it’s just shorter.</p>
-</section>
+<section id="files-and-folders">
+<h2>Files and Folders<a class="headerlink" href="#files-and-folders" title="Link to this heading">#</a></h2>
 <section id="get-homedir-get-home-directory">
-<h2><a class="reference internal" href="#pyshortcuts.utils.get_homedir" title="pyshortcuts.utils.get_homedir"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_homedir()</span></code></a>: get home directory<a class="headerlink" href="#get-homedir-get-home-directory" title="Link to this heading">#</a></h2>
+<h3><a class="reference internal" href="#pyshortcuts.get_homedir" title="pyshortcuts.get_homedir"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_homedir()</span></code></a>: get home directory<a class="headerlink" href="#get-homedir-get-home-directory" title="Link to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.utils.get_homedir">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.utils.</span></span><span class="sig-name descname"><span class="pre">get_homedir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.utils.get_homedir" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.get_homedir">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">get_homedir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.get_homedir" title="Link to this definition">#</a></dt>
 <dd><p>determine home directory
 with ‘public=True’, returns the Public Share folder</p>
 </dd></dl>
@@ -217,10 +198,10 @@ with ‘public=True’, returns the Public Share folder</p>
 <code class="docutils literal notranslate"><span class="pre">win32com</span></code> module on Windows.</p>
 </section>
 <section id="get-cwd-get-current-working-directory">
-<h2><a class="reference internal" href="#pyshortcuts.utils.get_cwd" title="pyshortcuts.utils.get_cwd"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_cwd()</span></code></a>: get current working directory<a class="headerlink" href="#get-cwd-get-current-working-directory" title="Link to this heading">#</a></h2>
+<h3><a class="reference internal" href="#pyshortcuts.get_cwd" title="pyshortcuts.get_cwd"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_cwd()</span></code></a>: get current working directory<a class="headerlink" href="#get-cwd-get-current-working-directory" title="Link to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.utils.get_cwd">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.utils.</span></span><span class="sig-name descname"><span class="pre">get_cwd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.utils.get_cwd" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.get_cwd">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">get_cwd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.get_cwd" title="Link to this definition">#</a></dt>
 <dd><p>get current working directory
 Note: os.getcwd() can fail with permission error.</p>
 <p>when that happens, this changes to the users <cite>HOME</cite> directory
@@ -229,36 +210,36 @@ and readable directory.</p>
 </dd></dl>
 
 <p>This mostly shorthand for:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">'.'</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="fix-filename-turn-a-string-into-a-valid-filename">
-<h2><a class="reference internal" href="#pyshortcuts.utils.fix_filename" title="pyshortcuts.utils.fix_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code></a>: turn a string into a valid filename<a class="headerlink" href="#fix-filename-turn-a-string-into-a-valid-filename" title="Link to this heading">#</a></h2>
+<h3><a class="reference internal" href="#pyshortcuts.fix_filename" title="pyshortcuts.fix_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code></a>: turn a string into a valid filename<a class="headerlink" href="#fix-filename-turn-a-string-into-a-valid-filename" title="Link to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.utils.fix_filename">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.utils.</span></span><span class="sig-name descname"><span class="pre">fix_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_spaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.utils.fix_filename" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.fix_filename">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">fix_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_spaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.fix_filename" title="Link to this definition">#</a></dt>
 <dd><p>fix string to be a ‘good’ filename, with very few special
 characters and (optionally) no more than 1 ‘.’.</p>
 <p>More restrictive than most OSes, but avoids hard-to-deal with filenames</p>
 <p>argument <cite>allow_spaces</cite> [default is False] allows spaces in filenames.</p>
 </dd></dl>
 
-<p>Given a string, <a class="reference internal" href="#pyshortcuts.utils.fix_filename" title="pyshortcuts.utils.fix_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code></a> will return a “good” file name that
+<p>Given a string, <a class="reference internal" href="#pyshortcuts.fix_filename" title="pyshortcuts.fix_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code></a> will return a “good” file name that
 will work on any operating system.  Most of the disallowed or even
 “inconvenient” characters will be converted to ‘_’.   The filename will not
 have more than 1 ‘.’ character.</p>
 </section>
 <section id="new-filename-make-sure-a-filename-is-not-in-use">
-<h2><a class="reference internal" href="#pyshortcuts.utils.new_filename" title="pyshortcuts.utils.new_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_filename()</span></code></a>: make sure a filename is not in use<a class="headerlink" href="#new-filename-make-sure-a-filename-is-not-in-use" title="Link to this heading">#</a></h2>
+<h3><a class="reference internal" href="#pyshortcuts.new_filename" title="pyshortcuts.new_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_filename()</span></code></a>: make sure a filename is not in use<a class="headerlink" href="#new-filename-make-sure-a-filename-is-not-in-use" title="Link to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.utils.new_filename">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.utils.</span></span><span class="sig-name descname"><span class="pre">new_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.utils.new_filename" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.new_filename">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">new_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.new_filename" title="Link to this definition">#</a></dt>
 <dd><p>increment filename to be an unused filename</p>
 </dd></dl>
 
-<p>Given a string (perhaps first run through <a class="reference internal" href="#pyshortcuts.utils.fix_filename" title="pyshortcuts.utils.fix_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code></a>),
-<a class="reference internal" href="#pyshortcuts.utils.new_filename" title="pyshortcuts.utils.new_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_filename()</span></code></a> will return a file name that is not in use in the
+<p>Given a string (perhaps first run through <a class="reference internal" href="#pyshortcuts.fix_filename" title="pyshortcuts.fix_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_filename()</span></code></a>),
+<a class="reference internal" href="#pyshortcuts.new_filename" title="pyshortcuts.new_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_filename()</span></code></a> will return a file name that is not in use in the
 current working folder.  Generally, numbers will be incremented in order so
 that an input of <cite>file.001</cite> might become <cite>file.002</cite> or <cite>file.004</cite> if the
 interim files exist.   If a file named <cite>foo.dat</cite>  exists, the <cite>001</cite> will be
@@ -266,10 +247,10 @@ inserted before the dot: <cite>foo_001.dat</cite>.   The filenumbers are not lim
 1000.</p>
 </section>
 <section id="read-textfile-read-a-text-file-to-string">
-<h2><a class="reference internal" href="#pyshortcuts.utils.read_textfile" title="pyshortcuts.utils.read_textfile"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_textfile()</span></code></a>: read a text file to string<a class="headerlink" href="#read-textfile-read-a-text-file-to-string" title="Link to this heading">#</a></h2>
+<h3><a class="reference internal" href="#pyshortcuts.read_textfile" title="pyshortcuts.read_textfile"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_textfile()</span></code></a>: read a text file to string<a class="headerlink" href="#read-textfile-read-a-text-file-to-string" title="Link to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.utils.read_textfile">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.utils.</span></span><span class="sig-name descname"><span class="pre">read_textfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.utils.read_textfile" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.read_textfile">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">read_textfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.read_textfile" title="Link to this definition">#</a></dt>
 <dd><p>read text from a file as string</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -297,11 +278,14 @@ unicode encodings by reading the file contents as bytes, and then using
 <code class="docutils literal notranslate"><span class="pre">str(charset_normalizer.from_bytest(data).best())</span></code> to convert to a string.
 Line endings of <cite>\r</cite> and <cite>\r\n</cite> are replaced by <cite>\n</cite>.</p>
 </section>
-<section id="module-pyshortcuts.gformat">
-<span id="gformat-fixed-formatting-of-floating-point-numbers"></span><h2><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code>: fixed formatting of floating point numbers<a class="headerlink" href="#module-pyshortcuts.gformat" title="Link to this heading">#</a></h2>
+</section>
+<section id="formatting-floating-point-numbers">
+<h2>Formatting floating point numbers<a class="headerlink" href="#formatting-floating-point-numbers" title="Link to this heading">#</a></h2>
+<section id="gformat-fixed-formatting-of-floating-point-numbers">
+<h3><a class="reference internal" href="#pyshortcuts.gformat" title="pyshortcuts.gformat"><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code></a>: fixed formatting of floating point numbers<a class="headerlink" href="#gformat-fixed-formatting-of-floating-point-numbers" title="Link to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.gformat.gformat">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.gformat.</span></span><span class="sig-name descname"><span class="pre">gformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.gformat.gformat" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.gformat">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">gformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.gformat" title="Link to this definition">#</a></dt>
 <dd><p>Format a number with ‘%g’-like format.</p>
 <dl class="simple">
 <dt>Except that:</dt><dd><ol class="loweralpha simple">
@@ -316,22 +300,22 @@ Line endings of <cite>\r</cite> and <cite>\r\n</cite> are replaced by <cite>\n</
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Value to be formatted.</p></li>
-<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – Length of output string (default is 11).</p></li>
+<li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.15)"><em>float</em></a>) – Value to be formatted.</p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a><em>, </em><em>optional</em>) – Length of output string (default is 11).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>String of specified length.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)">str</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
 <p>Positive values will have leading blank.</p>
 </dd></dl>
 
-<p><a class="reference internal" href="#pyshortcuts.gformat.gformat" title="pyshortcuts.gformat.gformat"><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code></a> converts a floating point number to a string with a
+<p><a class="reference internal" href="#pyshortcuts.gformat" title="pyshortcuts.gformat"><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code></a> converts a floating point number to a string with a
 specified length, and maximizing the displayed precision for that
 length.  This is very useful for creating tables of floating point
 numbers.</p>
@@ -348,57 +332,84 @@ numbers.</p>
 <p>An example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;from pyshortcuts import gformat</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="mi">1023</span><span class="o">/</span><span class="mi">78</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
-<span class="go">&#39; 13.1153846&#39;</span>
+<span class="go">' 13.1153846'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="mf">10.2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
-<span class="go">&#39; 10.2000000&#39;</span>
+<span class="go">' 10.2000000'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">732023</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">11</span><span class="p">))</span>
-<span class="go">&#39;-1.36608e-6&#39;</span>
+<span class="go">'-1.36608e-6'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">732023</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="go">&#39;-0.000001366077&#39;</span>
+<span class="go">'-0.000001366077'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gformat</span><span class="p">(</span><span class="mi">6</span><span class="o">/</span><span class="mi">80030</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
-<span class="go">&#39; 7.5e-5&#39;</span>
+<span class="go">' 7.5e-5'</span>
 </pre></div>
 </div>
 </section>
+</section>
+<section id="time-utilities">
+<h2>Time utilities<a class="headerlink" href="#time-utilities" title="Link to this heading">#</a></h2>
+<section id="isotime-get-time-is-iso-format">
+<h3><a class="reference internal" href="#pyshortcuts.isotime" title="pyshortcuts.isotime"><code class="xref py py-func docutils literal notranslate"><span class="pre">isotime()</span></code></a>: get time is ISO format<a class="headerlink" href="#isotime-get-time-is-iso-format" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyshortcuts.isotime">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">isotime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timespec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'seconds'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.isotime" title="Link to this definition">#</a></dt>
+<dd><p>return ISO format of current timestamp: 2024-04-27 17:31:12</p>
+</dd></dl>
+
+<p>This is shorthand for:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">isotime</span><span class="p">(</span><span class="n">dtime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timepec</span><span class="o">=</span><span class="s1">'seconds'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""return ISO format of current timestamp:</span>
+<span class="sd">          2024-04-27 17:31:12</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">dtime</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">dtime</span><span class="p">,</span> <span class="n">timespec</span><span class="o">=</span><span class="n">timespec</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There isn’t more to it than that, it’s just shorter.</p>
+</section>
 <section id="sleep-a-higher-precision-sleep">
-<h2><code class="xref py py-func docutils literal notranslate"><span class="pre">sleep()</span></code>: a higher-precision sleep<a class="headerlink" href="#sleep-a-higher-precision-sleep" title="Link to this heading">#</a></h2>
+<h3><code class="xref py py-func docutils literal notranslate"><span class="pre">sleep()</span></code>: a higher-precision sleep<a class="headerlink" href="#sleep-a-higher-precision-sleep" title="Link to this heading">#</a></h3>
 <p>Python’s <cite>time.sleep</cite> function can be somewhat inaccurate, often
 sleeping 10 or more milliseconds more than requested. Some
 applications may want a higher-precision precision <cite>sleep</cite>.  The
 version provided here is just:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sleep</span><span class="p">(</span><span class="n">duration</span><span class="p">):</span>
-    <span class="s2">&quot;more accurate sleep()&quot;</span>
+    <span class="s2">"more accurate sleep()"</span>
     <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">+</span> <span class="n">duration</span>
     <span class="k">while</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
         <span class="k">pass</span>
 </pre></div>
 </div>
 </section>
-<section id="module-pyshortcuts.debugtimer">
-<span id="debugtimer-debugging-runtime-of-code-in-a-function"></span><h2><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code>: debugging runtime of code in a function<a class="headerlink" href="#module-pyshortcuts.debugtimer" title="Link to this heading">#</a></h2>
+</section>
+<section id="debugging-runtime-of-code">
+<h2>Debugging runtime of code<a class="headerlink" href="#debugging-runtime-of-code" title="Link to this heading">#</a></h2>
 <p>Debugging the run time for a function or section of code is a common
 need, and can be a painful process.  Using Python’s <cite>timeit</cite> module is
 really good at timing a single statement, but not good at answering
 “how long is each section of code taking to run”.  Sometimes you just
 want to print out times to find where code is slow.  That gets
 cumbersome to manage.</p>
-<p>The <a class="reference internal" href="#pyshortcuts.debugtimer.debugtimer" title="pyshortcuts.debugtimer.debugtimer"><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code></a> helps with this process by creating a
-DebugTimer object, with a method <a class="reference internal" href="#pyshortcuts.debugtimer.DebugTimer.add" title="pyshortcuts.debugtimer.DebugTimer.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> to mark the time with a
-message, and methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_report()</span></code> and <a class="reference internal" href="#pyshortcuts.debugtimer.DebugTimer.show" title="pyshortcuts.debugtimer.DebugTimer.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> methods to
+<section id="debugtimer-debugging-runtime-of-code-in-a-function">
+<h3><a class="reference internal" href="#pyshortcuts.debugtimer" title="pyshortcuts.debugtimer"><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code></a>: debugging runtime of code in a function<a class="headerlink" href="#debugtimer-debugging-runtime-of-code-in-a-function" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="#pyshortcuts.debugtimer" title="pyshortcuts.debugtimer"><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code></a> helps with this process by creating a
+DebugTimer object, with a method <a class="reference internal" href="#pyshortcuts.DebugTimer.add" title="pyshortcuts.DebugTimer.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> to mark the time with a
+message, and methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_report()</span></code> and <a class="reference internal" href="#pyshortcuts.DebugTimer.show" title="pyshortcuts.DebugTimer.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> methods to
 show a report of total and incremental run times for a section of
 code. An example usage would be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyshortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">debugtimer</span><span class="p">,</span> <span class="n">sleep</span>
 
 <span class="n">SHOW_TIMING</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">dtimer</span> <span class="o">=</span> <span class="n">debugtimer</span><span class="p">(</span><span class="s1">&#39;test timer&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">dtimer</span> <span class="o">=</span> <span class="n">debugtimer</span><span class="p">(</span><span class="s1">'test timer'</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">sleep</span><span class="p">(</span><span class="mf">0.502</span><span class="p">)</span>
-<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;slept for 0.500 seconds&#39;</span><span class="p">)</span>
+<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'slept for 0.500 seconds'</span><span class="p">)</span>
 <span class="n">nx</span> <span class="o">=</span> <span class="mi">10_000_000</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span>
-<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;created numpy array len=</span><span class="si">{</span><span class="n">nx</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'float64'</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span>
+<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s1">'created numpy array len=</span><span class="si">{</span><span class="n">nx</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;took sqrt&#39;</span><span class="p">)</span>
+<span class="n">dtimer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'took sqrt'</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">SHOW_TIMING</span><span class="p">:</span>
     <span class="n">dtimer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -425,8 +436,8 @@ be a high-precision time measurement.</p>
 <cite>use_mod_count</cite> option either when createing the <cite>debugtimer</cite> or when getting
 the output.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyshortcuts.debugtimer.debugtimer">
-<span class="sig-prename descclassname"><span class="pre">pyshortcuts.debugtimer.</span></span><span class="sig-name descname"><span class="pre">debugtimer</span></span><span class="sig-paren">(</span>
+<dt class="sig sig-object py" id="pyshortcuts.debugtimer">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">debugtimer</span></span><span class="sig-paren">(</span>
 
 <dl>
 <dd><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DebugTimer'</span></span></em>,</dd>
@@ -435,16 +446,16 @@ the output.</p>
 <dd><em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>,</dd>
 </dl>
 
-<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.debugtimer.debugtimer" title="Link to this definition">#</a></dt>
+<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.debugtimer" title="Link to this definition">#</a></dt>
 <dd><p>debugtimer returns a DebugTimer object to measure the runtime of
 portions of code, and then write a simple report of the results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional title message</em><em> [</em><em>'DebugTimer'</em><em>]</em>)</p></li>
-<li><p><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>precision for timing results</em><em> [</em><em>4</em><em>]</em>)</p></li>
-<li><p><strong>with_mod_count</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>whether to include number</em><em> of </em><em>imported modules</em><em> [</em><em>False</em><em>]</em>)</p></li>
-<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>whether to print</em><em>(</em><em>) </em><em>each message when entered</em><em> [</em><em>False</em><em>]</em>)</p></li>
+<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a><em>, </em><em>optional title message</em><em> [</em><em>'DebugTimer'</em><em>]</em>)</p></li>
+<li><p><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a><em>, </em><em>precision for timing results</em><em> [</em><em>4</em><em>]</em>)</p></li>
+<li><p><strong>with_mod_count</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><em>bool</em></a><em>, </em><em>whether to include number</em><em> of </em><em>imported modules</em><em> [</em><em>False</em><em>]</em>)</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><em>bool</em></a><em>, </em><em>whether to print</em><em>(</em><em>) </em><em>each message when entered</em><em> [</em><em>False</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -459,11 +470,11 @@ portions of code, and then write a simple report of the results.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span> <span class="o">=</span> <span class="n">debugtimer</span><span class="p">(</span><span class="s1">&#39;timer testing&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span> <span class="o">=</span> <span class="n">debugtimer</span><span class="p">(</span><span class="s1">'timer testing'</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;ran function foo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'ran function foo'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bar</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;ran bar&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">'ran bar'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">timer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -471,8 +482,8 @@ portions of code, and then write a simple report of the results.</p>
 
 <p>The returned <cite>debgugTimer</cite> object will have several methods:</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyshortcuts.debugtimer.DebugTimer">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pyshortcuts.debugtimer.</span></span><span class="sig-name descname"><span class="pre">DebugTimer</span></span><span class="sig-paren">(</span>
+<dt class="sig sig-object py" id="pyshortcuts.DebugTimer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">DebugTimer</span></span><span class="sig-paren">(</span>
 
 <dl>
 <dd><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
@@ -481,7 +492,7 @@ portions of code, and then write a simple report of the results.</p>
 <dd><em class="sig-param"><span class="n"><span class="pre">with_mod_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>,</dd>
 </dl>
 
-<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.debugtimer.DebugTimer" title="Link to this definition">#</a></dt>
+<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.DebugTimer" title="Link to this definition">#</a></dt>
 <dd><p>Measure run times for lines of code and summarize results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -496,20 +507,20 @@ portions of code, and then write a simple report of the results.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyshortcuts.debugtimer.DebugTimer.clear">
-<span class="sig-prename descclassname"><span class="pre">DebugTimer.</span></span><span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.debugtimer.DebugTimer.clear" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.DebugTimer.clear">
+<span class="sig-prename descclassname"><span class="pre">DebugTimer.</span></span><span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.DebugTimer.clear" title="Link to this definition">#</a></dt>
 <dd><p>clear/reset debugtimer, optionally setting
 the <cite>title</cite> for the next run.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyshortcuts.debugtimer.DebugTimer.add">
-<span class="sig-prename descclassname"><span class="pre">DebugTimer.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.debugtimer.DebugTimer.add" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyshortcuts.DebugTimer.add">
+<span class="sig-prename descclassname"><span class="pre">DebugTimer.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.DebugTimer.add" title="Link to this definition">#</a></dt>
 <dd><p>add message point to debugtimer</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyshortcuts.debugtimer.DebugTimer.get_report">
+<dt class="sig sig-object py" id="pyshortcuts.DebugTimer.get_report">
 <span class="sig-prename descclassname"><span class="pre">DebugTimer.</span></span><span class="sig-name descname"><span class="pre">get_report</span></span><span class="sig-paren">(</span>
 
 <dl>
@@ -518,13 +529,13 @@ the <cite>title</cite> for the next run.</p>
 <dd><em class="sig-param"><span class="n"><span class="pre">tablefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'simple_outline'</span></span></em>,</dd>
 </dl>
 
-<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.debugtimer.DebugTimer.get_report" title="Link to this definition">#</a></dt>
+<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.DebugTimer.get_report" title="Link to this definition">#</a></dt>
 <dd><p>get tabular report of results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>precision for timing results</em><em> [</em><em>4</em><em>]</em>)</p></li>
-<li><p><strong>with_mod_count</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>whether to include number</em><em> of </em><em>imported modules</em><em> [</em><em>False</em><em>]</em>)</p></li>
+<li><p><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><em>int</em></a><em>, </em><em>precision for timing results</em><em> [</em><em>4</em><em>]</em>)</p></li>
+<li><p><strong>with_mod_count</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><em>bool</em></a><em>, </em><em>whether to include number</em><em> of </em><em>imported modules</em><em> [</em><em>False</em><em>]</em>)</p></li>
 <li><p><strong>tablefmt</strong> (<em>tabular format style</em>)</p></li>
 </ul>
 </dd>
@@ -545,7 +556,7 @@ An incomplete list of options is:</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyshortcuts.debugtimer.DebugTimer.show">
+<dt class="sig sig-object py" id="pyshortcuts.DebugTimer.show">
 <span class="sig-prename descclassname"><span class="pre">DebugTimer.</span></span><span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span>
 
 <dl>
@@ -554,8 +565,115 @@ An incomplete list of options is:</p>
 <dd><em class="sig-param"><span class="n"><span class="pre">tablefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outline'</span></span></em>,</dd>
 </dl>
 
-<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.debugtimer.DebugTimer.show" title="Link to this definition">#</a></dt>
+<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.DebugTimer.show" title="Link to this definition">#</a></dt>
 <dd><p>print the table generated by <cite>get_report</cite></p>
+</dd></dl>
+
+</section>
+</section>
+<section id="password-handling">
+<h2>Password handling<a class="headerlink" href="#password-handling" title="Link to this heading">#</a></h2>
+<p>Some applications may wish to use passwords to secure or limit access
+to resources. While there are several tools to generating a hash for passwords,
+here there is a simple set of functions to generate a hash for
+storage, a function to check if a password matches, and to check if a
+string matches a configurable set of password rules.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyshortcuts.hash_password">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">hash_password</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">password</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">salt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">354703</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">salt_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">19</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">hash_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sha512'</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.hash_password" title="Link to this definition">#</a></dt>
+<dd><p>hash a password to a hashed string that can be safely stored
+and then later used with <cite>test_password()</cite> to test whether a
+provided password matches the stored one.</p>
+<section id="arguments">
+<h3>Arguments:<a class="headerlink" href="#arguments" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>password   str, password to store, required
+salt       str or None, salt to use        [None, generated]
+iterations int, number of iterations                [354703]
+salt_size  int, size (in bytest) of auto-generated salt [19]
+hash_name  str, name of hash algoritm ofo pbkdf2_hmac [sha512]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>used with <cite>test_password()</cite> to test a candidate password.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>string, strictly ASCII encoded that can be safely saved and later</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>the resulting string should be a strong hash that can be stored to
+disk without high risk of brute-force attack.  By default, it uses a
+randomly generated 19-character salt, minimizing the likliehood of
+existing rainbow tables.  The hashing uses <cite>pbdkf2_hmac()</cite> with
+‘sha512’ and the generated salt and a large number (default 354703)
+of iterations to deliberately slow down computation time.
+This function should take at least 100 ms to run.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyshortcuts.test_password">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">test_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwhash</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.test_password" title="Link to this definition">#</a></dt>
+<dd><p>test whether password matches a hash, as set with <cite>hash_password()</cite></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyshortcuts.check_password_rules">
+<span class="sig-prename descclassname"><span class="pre">pyshortcuts.</span></span><span class="sig-name descname"><span class="pre">check_password_rules</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">pwtest</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">minlen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">lowercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">uppercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">special</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">invalid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#pyshortcuts.check_password_rules" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>check password rules for minimum lenghth, number of lower, upper case letters,</dt><dd><p>digits, special characters and avoiding invalid characters</p>
+</dd>
+</dl>
+<section id="id1">
+<h3>Arguments:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>pwtest     str, password to test, required
+minlen     int, minimum length                       [8]
+lowercase  int, minimum number of lower case letters [1]
+uppercase  int, minimum number of upper case letters [1]
+digiits    int, minimum number of digits             [1]
+special    int, minimum number of special characters [1]
+invalid    str, string containing invalid special characters  [‘’]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>satisfies the rules, and <cite>reasons</cite> is tuple of</dt><dd><p>strings with reasons for failure.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>(valid, reasons) where <cite>valid</cite> is True for a test password that</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li><p>the default special characters include <code class="docutils literal notranslate"><span class="pre">`</span>&#160; <span class="pre">;~,`&#64;!%$$&amp;^?*#:&quot;/|(){}[]&lt;&gt;'\</span>&#160; <span class="pre">`</span></code></p></li>
+</ol>
+</section>
 </dd></dl>
 
 </section>
@@ -573,42 +691,60 @@ An incomplete list of options is:</p>
   
     <nav class="bz-sidebar-toc" aria-label="Table of contents">
   <p>On this page</p><ul>
-<li><a class="reference internal" href="#isotime-get-time-is-iso-format"><code class="xref py py-func docutils literal notranslate"><span class="pre">isotime()</span></code>:​ get time is ISO format</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.utils.isotime"><code class="docutils literal notranslate"><span class="pre">isotime()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#files-and-folders">Files and Folders</a><ul>
 <li><a class="reference internal" href="#get-homedir-get-home-directory"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_​homedir()</span></code>:​ get home directory</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.utils.get_homedir"><code class="docutils literal notranslate"><span class="pre">get_​homedir()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.get_homedir"><code class="docutils literal notranslate"><span class="pre">get_​homedir()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#get-cwd-get-current-working-directory"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_​cwd()</span></code>:​ get current working directory</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.utils.get_cwd"><code class="docutils literal notranslate"><span class="pre">get_​cwd()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.get_cwd"><code class="docutils literal notranslate"><span class="pre">get_​cwd()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fix-filename-turn-a-string-into-a-valid-filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">fix_​filename()</span></code>:​ turn a string into a valid filename</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.utils.fix_filename"><code class="docutils literal notranslate"><span class="pre">fix_​filename()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.fix_filename"><code class="docutils literal notranslate"><span class="pre">fix_​filename()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#new-filename-make-sure-a-filename-is-not-in-use"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_​filename()</span></code>:​ make sure a filename is not in use</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.utils.new_filename"><code class="docutils literal notranslate"><span class="pre">new_​filename()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.new_filename"><code class="docutils literal notranslate"><span class="pre">new_​filename()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#read-textfile-read-a-text-file-to-string"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_​textfile()</span></code>:​ read a text file to string</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.utils.read_textfile"><code class="docutils literal notranslate"><span class="pre">read_​textfile()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.read_textfile"><code class="docutils literal notranslate"><span class="pre">read_​textfile()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyshortcuts.gformat"><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code>:​ fixed formatting of floating point numbers</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.gformat.gformat"><code class="docutils literal notranslate"><span class="pre">gformat()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#formatting-floating-point-numbers">Formatting floating point numbers</a><ul>
+<li><a class="reference internal" href="#gformat-fixed-formatting-of-floating-point-numbers"><code class="xref py py-func docutils literal notranslate"><span class="pre">gformat()</span></code>:​ fixed formatting of floating point numbers</a><ul>
+<li><a class="reference internal" href="#pyshortcuts.gformat"><code class="docutils literal notranslate"><span class="pre">gformat()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#time-utilities">Time utilities</a><ul>
+<li><a class="reference internal" href="#isotime-get-time-is-iso-format"><code class="xref py py-func docutils literal notranslate"><span class="pre">isotime()</span></code>:​ get time is ISO format</a><ul>
+<li><a class="reference internal" href="#pyshortcuts.isotime"><code class="docutils literal notranslate"><span class="pre">isotime()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#sleep-a-higher-precision-sleep"><code class="xref py py-func docutils literal notranslate"><span class="pre">sleep()</span></code>:​ a higher-precision sleep</a></li>
-<li><a class="reference internal" href="#module-pyshortcuts.debugtimer"><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code>:​ debugging runtime of code in a function</a><ul>
-<li><a class="reference internal" href="#pyshortcuts.debugtimer.debugtimer"><code class="docutils literal notranslate"><span class="pre">debugtimer()</span></code></a></li>
-<li><a class="reference internal" href="#pyshortcuts.debugtimer.DebugTimer"><code class="docutils literal notranslate"><span class="pre">DebugTimer</span></code></a></li>
-<li><a class="reference internal" href="#pyshortcuts.debugtimer.DebugTimer.clear"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.clear()</span></code></a></li>
-<li><a class="reference internal" href="#pyshortcuts.debugtimer.DebugTimer.add"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.add()</span></code></a></li>
-<li><a class="reference internal" href="#pyshortcuts.debugtimer.DebugTimer.get_report"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.get_​report()</span></code></a></li>
-<li><a class="reference internal" href="#pyshortcuts.debugtimer.DebugTimer.show"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.show()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#debugging-runtime-of-code">Debugging runtime of code</a><ul>
+<li><a class="reference internal" href="#debugtimer-debugging-runtime-of-code-in-a-function"><code class="xref py py-func docutils literal notranslate"><span class="pre">debugtimer()</span></code>:​ debugging runtime of code in a function</a><ul>
+<li><a class="reference internal" href="#pyshortcuts.debugtimer"><code class="docutils literal notranslate"><span class="pre">debugtimer()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.DebugTimer"><code class="docutils literal notranslate"><span class="pre">DebugTimer</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.DebugTimer.clear"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.clear()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.DebugTimer.add"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.add()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.DebugTimer.get_report"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.get_​report()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.DebugTimer.show"><code class="docutils literal notranslate"><span class="pre">DebugTimer​.show()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#password-handling">Password handling</a><ul>
+<li><a class="reference internal" href="#pyshortcuts.hash_password"><code class="docutils literal notranslate"><span class="pre">hash_​password()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.test_password"><code class="docutils literal notranslate"><span class="pre">test_​password()</span></code></a></li>
+<li><a class="reference internal" href="#pyshortcuts.check_password_rules"><code class="docutils literal notranslate"><span class="pre">check_​password_​rules()</span></code></a></li>
 </ul>
 </li>
 </ul></nav>
@@ -653,5 +789,5 @@ An incomplete list of options is:</p>
   <label class="bz-overlay bz-overlay-primary" for="bz-sidebar-primary"></label>
   <label class="bz-overlay bz-overlay-secondary" for="bz-sidebar-secondary"></label>
   <input type="checkbox" name="bz-sidebar-primary" id="bz-sidebar-primary" aria-label="Toggle section navigation">
-  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=17f12e63"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script></body>
+  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=2009a409"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script></body>
 </html>

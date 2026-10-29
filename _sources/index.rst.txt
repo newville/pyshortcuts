@@ -1,5 +1,6 @@
 .. pyshortcuts documentation master file,
 
+================================================
 PyShortcuts: create desktop shortcuts
 ================================================
 
@@ -62,7 +63,7 @@ and filenames that may be of general use.
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    install
    pyshortcut_app
